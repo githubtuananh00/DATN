@@ -1,0 +1,113 @@
+# GET http://localhost:5000/auth
+### auth
+POST http://localhost:5000/auth/register
+Content-Type: application/json
+
+{
+    "username": "user3",
+    "password": "123456",
+    "name":"User",
+    "email":"user@gmail.com",
+    "phone":"0347785468",
+    "address":"An Phu Thuan An Binh Duong",
+    //"shopName":"Tuan",
+    "gt":"Nam",
+    "dateOfBirth":"02/01/2000"
+    //"role":"Admin"
+}
+
+###
+
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+
+{
+    "username":"admin",
+    //"username":"user",
+    "password":"123456"
+}
+
+###
+GET http://localhost:5000/auth
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NjAyMjM0OTksImV4cCI6MTY2MDIyMzc5OX0.7QgyC62k9y9BBq5zgfBSEuqhJUFRcobP8RmC3V42mD4
+###
+
+POST http://localhost:5000/auth/test
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NjEwMDMxNzMsImV4cCI6MTY2MTAwMzQ3M30.thi-LQtOAf6X0P1-ewIT70gU4R9cw_BE1KdzNjOMgDQ
+
+################################
+
+POST http://localhost:5000/auth/token
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NjEwMDM0MDcsImV4cCI6MTY2MTAwMzcwN30.9z4fwhsQ5qSV2sx7h6RjdqidN8rcSKvwEHFK5lUfdz4
+
+
+{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NjEwMDM0MDcsImV4cCI6MTY2MTAwNzAwN30.qjngc_Tg7tdgxeprh-C0lMKpIrXMg0-zY3fLfDpXZzY"
+}
+
+###
+DELETE http://localhost:5000/auth/delete
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTczNTg5NTMsImV4cCI6MTY1NzM1OTI1M30.ZZVkwfEQGhAAXknPX80PBVDSan2ufJIFEqjTqeT7GKI
+
+
+### category
+#get all categories
+GET http://localhost:5000/category
+
+
+### POST/createCategory
+POST http://localhost:5000/category/createCategory
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTc0MjI0NzMsImV4cCI6MTY1NzQyMjc3M30.hSqarGTLPRwsA8-NKYJ6rAB_MidjLXZOJEOCJDVG23A
+
+{
+    "nameCategory":"Thời trang Nam"
+}
+
+
+### delete category
+DELETE http://localhost:5000/category/62ca3e4bf71b220c1a06414e/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTc0MjIxMTYsImV4cCI6MTY1NzQyMjQxNn0.-80-2yl_fM92YA5Q7qPx_qTzJngmGr8XhF8xBfBwV6s
+
+### update category
+PUT http://localhost:5000/category/62ca429817360972d5881bf1/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTc0MjI0NzMsImV4cCI6MTY1NzQyMjc3M30.hSqarGTLPRwsA8-NKYJ6rAB_MidjLXZOJEOCJDVG23A
+
+{
+    "nameCategory":"Thời trang nữ"
+}
+
+### test upload
+POST http://localhost:5000/upload
+
+
+### product
+POST http://localhost:5000/product/createProduct
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTk1MzI0NjIsImV4cCI6MTY1OTUzMjc2Mn0.HZDc4dzj1OIiMF5oSroybHXclVcgURuIoSDSxvOk7hA
+
+{
+    "product_id":"SP006",
+    "title":"Test san pham 06",
+    "price":5000,
+    "description":"SP Test 6",
+    "content":"123456",
+    "image":{"url":"https://res.cloudinary.com/tuananhgmodev/image/upload/v1657422949/cld-sample-5.jpg"},
+    "category":"123456"
+}
+
+###
+GET http://localhost:5000/product?limit=5
+
+###
+DELETE http://localhost:5000/product/62cad87a428c7f7f7d171d95/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTc0NjEwNjAsImV4cCI6MTY1NzQ2MTM2MH0.ofnk1kSrgjksMh87qLPkcraZcTFJNtVXGhS64xpIgAo
+
+###
+
+GET http://localhost:5000/product/detail/62dfa74163b6677e14c22d88
