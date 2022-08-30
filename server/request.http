@@ -111,3 +111,31 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZ
 ###
 
 GET http://localhost:5000/product/detail/62dfa74163b6677e14c22d88
+
+###
+GET http://localhost:5000/cart
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2JiNjFiMDllYWIzMTJhNGZkZjMiLCJyb2xlIjp0cnVlLCJpYXQiOjE2NjE4NjcxOTYsImV4cCI6MTY2MTg2NzQ5Nn0.au_V9PcvHH1TrcBD7etsFYd-wr1lI3nDfEE__41mc-8
+
+###
+POST http://localhost:5000/cart/addCart
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2JiNjFiMDllYWIzMTJhNGZkZjMiLCJyb2xlIjp0cnVlLCJpYXQiOjE2NjE4NjcxOTYsImV4cCI6MTY2MTg2NzQ5Nn0.au_V9PcvHH1TrcBD7etsFYd-wr1lI3nDfEE__41mc-8
+
+{
+    "product_id":"SP001",
+    "quantity":"1"
+}
+
+###
+PUT http://localhost:5000/cart/630e14d04b28c77647ddaca1/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2JiNjFiMDllYWIzMTJhNGZkZjMiLCJyb2xlIjp0cnVlLCJpYXQiOjE2NjE4Njc3OTMsImV4cCI6MTY2MTg2ODA5M30.bXFrRjAUC16pAwB7526mVfRLk27O3UEWegBuRulrxcI
+
+{
+    
+    "quantity":"5"
+}
+
+###
+DELETE http://localhost:5000/cart/630e14d04b28c77647ddaca1/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2JiNjFiMDllYWIzMTJhNGZkZjMiLCJyb2xlIjp0cnVlLCJpYXQiOjE2NjE4Njc3OTMsImV4cCI6MTY2MTg2ODA5M30.bXFrRjAUC16pAwB7526mVfRLk27O3UEWegBuRulrxcI

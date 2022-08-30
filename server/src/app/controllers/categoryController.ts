@@ -33,7 +33,10 @@ class CategoryController {
 
 			const newCategory: ICategory = new Category({ nameCategory })
 			await newCategory.save()
-			res.json({ success: true, message: 'Create a Category' })
+			res.json({
+				success: true,
+				message: 'Create a Category successfully',
+			})
 		} catch (error) {
 			return res
 				.status(500)
@@ -45,7 +48,10 @@ class CategoryController {
 	deleteCategory(req: IGetUserAuthInfoRequest<null>, res: Response) {
 		Category.deleteOne({ _id: req.params.id })
 			.then(() =>
-				res.json({ success: true, message: 'Delete a category' })
+				res.json({
+					success: true,
+					message: 'Delete a category successfully',
+				})
 			)
 			.catch((err) =>
 				res.status(500).json({ success: false, message: err.message })
@@ -56,7 +62,10 @@ class CategoryController {
 	updateCategory(req: IGetUserAuthInfoRequest<ICategory>, res: Response) {
 		Category.updateOne({ _id: req.params.id }, req.body)
 			.then(() =>
-				res.json({ success: true, message: 'Update a Category' })
+				res.json({
+					success: true,
+					message: 'Update a Category successfully',
+				})
 			)
 			.catch((err) =>
 				res.status(500).json({ success: false, message: err.message })

@@ -24,7 +24,10 @@ class CategoryController {
                 });
             const newCategory = new CategoryModule_1.default({ nameCategory });
             await newCategory.save();
-            res.json({ success: true, message: 'Create a Category' });
+            res.json({
+                success: true,
+                message: 'Create a Category successfully',
+            });
         }
         catch (error) {
             return res
@@ -34,12 +37,18 @@ class CategoryController {
     }
     deleteCategory(req, res) {
         CategoryModule_1.default.deleteOne({ _id: req.params.id })
-            .then(() => res.json({ success: true, message: 'Delete a category' }))
+            .then(() => res.json({
+            success: true,
+            message: 'Delete a category successfully',
+        }))
             .catch((err) => res.status(500).json({ success: false, message: err.message }));
     }
     updateCategory(req, res) {
         CategoryModule_1.default.updateOne({ _id: req.params.id }, req.body)
-            .then(() => res.json({ success: true, message: 'Update a Category' }))
+            .then(() => res.json({
+            success: true,
+            message: 'Update a Category successfully',
+        }))
             .catch((err) => res.status(500).json({ success: false, message: err.message }));
     }
 }

@@ -130,7 +130,10 @@ class ProductController {
 				category,
 			})
 			await newProduct.save()
-			return res.json({ success: true, message: 'Create a Product' })
+			return res.json({
+				success: true,
+				message: 'Create a Product successfully',
+			})
 		} catch (error) {
 			return res
 				.status(500)
@@ -142,7 +145,10 @@ class ProductController {
 	deleteProduct(req: IGetUserAuthInfoRequest<null>, res: Response) {
 		Product.deleteOne({ _id: req.params.id })
 			.then(() =>
-				res.json({ success: true, message: 'Delete a Product' })
+				res.json({
+					success: true,
+					message: 'Delete a Product successfully',
+				})
 			)
 			.catch((err) =>
 				res.status(500).json({ success: false, message: err.message })
@@ -160,7 +166,10 @@ class ProductController {
 			{ ...req.body, title: title.toLowerCase() }
 		)
 			.then(() =>
-				res.json({ success: true, message: 'Update a Product' })
+				res.json({
+					success: true,
+					message: 'Update a Product successfully',
+				})
 			)
 			.catch((err) =>
 				res.status(500).json({ success: false, message: err.message })

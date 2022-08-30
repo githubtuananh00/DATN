@@ -76,7 +76,10 @@ class ProductController {
                 category,
             });
             await newProduct.save();
-            return res.json({ success: true, message: 'Create a Product' });
+            return res.json({
+                success: true,
+                message: 'Create a Product successfully',
+            });
         }
         catch (error) {
             return res
@@ -86,7 +89,10 @@ class ProductController {
     }
     deleteProduct(req, res) {
         ProductModule_1.default.deleteOne({ _id: req.params.id })
-            .then(() => res.json({ success: true, message: 'Delete a Product' }))
+            .then(() => res.json({
+            success: true,
+            message: 'Delete a Product successfully',
+        }))
             .catch((err) => res.status(500).json({ success: false, message: err.message }));
     }
     updateProduct(req, res) {
@@ -96,7 +102,10 @@ class ProductController {
                 .status(400)
                 .json({ success: false, message: 'No image upload' });
         ProductModule_1.default.updateOne({ _id: req.params.id }, Object.assign(Object.assign({}, req.body), { title: title.toLowerCase() }))
-            .then(() => res.json({ success: true, message: 'Update a Product' }))
+            .then(() => res.json({
+            success: true,
+            message: 'Update a Product successfully',
+        }))
             .catch((err) => res.status(500).json({ success: false, message: err.message }));
     }
 }
