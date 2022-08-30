@@ -37,9 +37,9 @@ export const getProductsInfo = async (): Promise<IProduct | undefined> => {
 			`${apiUrl}/product`
 		)
 		if (response.data.success) {
-			console.log(response)
+			
+			return response.data.products
 		}
-		return response.data.products
 	} catch (error) {
 		console.log(error)
 		return

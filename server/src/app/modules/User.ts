@@ -1,5 +1,5 @@
 import { Schema, model, Document } from 'mongoose'
-import { role } from '../resources/role'
+
 
 // 1. Create an interface representing a document in MongoDB.
 export interface IUser extends Document {
@@ -11,7 +11,7 @@ export interface IUser extends Document {
 	address: string
 	gt: string
 	dateOfBirth: string
-	role: string
+	role: boolean
 	refreshToken: string
 	cart: Array<string>
 }
@@ -62,9 +62,9 @@ const userSchema: Schema = new Schema<IUser>(
 			default: '01/01/1990',
 		},
 		role: {
-			type: String,
+			type: Boolean,
 			required: true,
-			default: role.USER,
+			default: false,
 		},
 		refreshToken: {
 			type: String,

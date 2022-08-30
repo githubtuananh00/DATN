@@ -30,7 +30,7 @@ const Register = () => {
 		gt: 'gt',
 		name: '',
 		phone: '',
-		role: 'User',
+		role: false,
 		refreshToken: null,
 	}
 	const [alert, setAlert] = useState<AlertInfo>({ type: null, message: '' })
@@ -70,7 +70,7 @@ const Register = () => {
 
 		try {
 			if (password !== confirmPassword) {
-				setDefault('Those passwords didn’t match. Try again')
+				setDefault('Those passwords didn\’t match. Try again')
 				return
 			}
 			const registerData: IResponseRegister = (await register(
@@ -181,7 +181,7 @@ const Register = () => {
 
 				<Form.Group className='mb-3'>
 					<Form.Control
-						type='text'
+						type='date'
 						placeholder='Birth Day'
 						name='dateOfBirth'
 						value={dateOfBirth}

@@ -22,6 +22,7 @@ const authDefault: AuthState = {
 	isAuthenticated: false,
 	user: null,
 	authLoading: false,
+	isAdmin: false,
 }
 
 export interface AuthStateDefault {
@@ -71,12 +72,14 @@ const AuthContextProvider = ({ children }: ContextStateProps) => {
 
 		try {
 			const response: IRes<IUser> = await axios.get(`${apiUrl}/auth`)
+
 			if (response.data.success) {
 				dispatch({
 					type: SET_AUTH,
 					payload: {
 						user: response.data.user,
 						isAuthenticated: true,
+						isAdmin: response.data.user!.role,
 					},
 				})
 			}
@@ -85,7 +88,7 @@ const AuthContextProvider = ({ children }: ContextStateProps) => {
 			setAuthToken(null)
 			dispatch({
 				type: SET_AUTH,
-				payload: { isAuthenticated: false, user: null },
+				payload: { isAuthenticated: false, user: null, isAdmin: false },
 			})
 		}
 	}
@@ -171,6 +174,7 @@ const AuthContextProvider = ({ children }: ContextStateProps) => {
 			payload: {
 				isAuthenticated: false,
 				user: null,
+				isAdmin: false,
 			},
 		})
 	}

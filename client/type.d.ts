@@ -15,11 +15,24 @@ export interface IProduct extends Document {
 	content: string
 }
 
+export interface IProductQty  {
+	quantity: number
+	product:IProduct
+}
+
 export interface IResponse<T> {
 	data: {
 		success: boolean
 		message: string
 		products: T
+		users: T
+	}
+}
+export interface IResponseProduct<T> {
+	data: {
+		success: boolean
+		message: string
+		product: T
 		users: T
 	}
 }
@@ -56,7 +69,7 @@ export interface IUser extends IUserLogin {
 	address: string
 	gt: string
 	dateOfBirth: string
-	role: string
+	role: boolean
 	refreshToken: string | null
 }
 export interface IResponseRegister {

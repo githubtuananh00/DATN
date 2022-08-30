@@ -4,6 +4,7 @@ import {
 	ChangeEvent,
 	FormEvent,
 	MutableRefObject,
+	useEffect,
 	useRef,
 	useState,
 } from 'react'
@@ -14,11 +15,25 @@ import { IResponseRefreshToken, IResponseToken, IUserLogin } from '../../type'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 
 const Login = () => {
-	const usernameRef = useRef() as MutableRefObject<HTMLInputElement>
 	const router = useRouter()
 
 	// context
-	const { loginUser } = useAuth()
+	const {
+		authInfo: { isAuthenticated, authLoading, isAdmin },
+		loginUser,
+	} = useAuth()
+
+	useEffect(() => {
+		if (authLoading) {
+			router.push('/dashboard/SpinnerInfo')
+		} else if (isAuthenticated) {
+			if (isAdmin) router.push('/admin')
+			else router.push('/dashboard')
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isAuthenticated, authLoading,isAdmin])
+
+	const usernameRef = useRef() as MutableRefObject<HTMLInputElement>
 
 	const loginFormDefault: IUserLogin = {
 		username: '',
@@ -56,7 +71,6 @@ const Login = () => {
 		}
 	}
 
-	// console.log(alert.type, alert.message)
 	return (
 		<Layout>
 			<Form className='my-4' onSubmit={loginSubmit}>

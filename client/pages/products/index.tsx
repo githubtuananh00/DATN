@@ -4,11 +4,12 @@ import Layout from '../../component/Layout'
 import { ProductStateDefault } from '../../context/ProductContext'
 import { useProduct } from '../../hooks'
 import { IProduct } from '../../type'
+
 import ProductItem from './ProductItem'
 
 const Products = () => {
 	const { getProducts, products }: ProductStateDefault = useProduct()
-	// const [products] = state.productApi.products
+
 	useEffect(() => {
 		getProducts()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -23,9 +24,10 @@ const Products = () => {
 						product={product}
 					/>
 				))}
-				<Spinner animation='border' role='status'>
-					<span className='visually-hidden'>Loading...</span>
-				</Spinner>
+
+				<div className='spinner-container'>
+					<Spinner animation='border' role='status' />
+				</div>
 			</Row>
 		</Layout>
 	)

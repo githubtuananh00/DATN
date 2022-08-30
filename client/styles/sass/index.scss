@@ -59,6 +59,11 @@ button {
 .close {
 	display: none;
 }
+.checkbox-product{
+	position: absolute !important;
+	width: 25px !important;
+	height: 25px !important;
+}
 @mixin btn {
 	align-items: center !important;
 	// border-radius: 2px;
@@ -540,6 +545,7 @@ svg {
 	font-weight: 700;
 	text-transform: uppercase;
 	padding: 5px 5px 5px 20px;
+	font-size: 20px !important;
 }
 
 .add-cart-btn:hover {

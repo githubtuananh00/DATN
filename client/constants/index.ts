@@ -3,6 +3,7 @@ import { ReactNode } from 'react'
 const apiUrl: string = 'http://localhost:5000'
 export enum ProductActionType {
 	GET_PRODUCTS = 'GET_PRODUCTS',
+	SET_ADD_CART = 'SET_ADD_CART',
 }
 export { apiUrl }
 

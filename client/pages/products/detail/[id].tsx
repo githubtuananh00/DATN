@@ -59,12 +59,7 @@ const DetailProduct = ({
 					<div className='product-presentation d-flex'>
 						<div className='product-display d-flex align-items-center position-relative'>
 							<div className='product-height d-flex align-items-center'>
-								{/* <p className='h-100'>74cm</p> */}
-								{/* <div className='line position-relative'>
-									<div className='line-top position-absolute'></div>
-									<div className='line-center'></div>
-									<div className='line-bottom position-absolute'></div>
-								</div> */}
+								
 							</div>
 							<img
 								src={product?.product.image.url}
@@ -128,7 +123,7 @@ const DetailProduct = ({
 					<div className='product-price d-flex align-items-center'>
 						<h1 className='price'>${product?.product.price}</h1>
 						<button className='add-cart-btn rounded-pill d-flex align-items-center justify-content-between'>
-							Add to cart
+							BUY NOW
 							<span className='features-btn rounded-circle d-flex align-items-center justify-content-center'>
 								<svg
 									className='rounded-circle'

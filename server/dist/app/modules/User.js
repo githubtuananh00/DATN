@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-const role_1 = require("../resources/role");
 const userSchema = new mongoose_1.Schema({
     username: {
         type: String,
@@ -46,9 +45,9 @@ const userSchema = new mongoose_1.Schema({
         default: '01/01/1990',
     },
     role: {
-        type: String,
+        type: Boolean,
         required: true,
-        default: role_1.role.USER,
+        default: false,
     },
     refreshToken: {
         type: String,

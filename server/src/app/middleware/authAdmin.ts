@@ -1,5 +1,5 @@
 import { Response, NextFunction } from 'express'
-import { role } from '../resources/role'
+// import { role } from '../resources/role'
 import { IGetUserAuthInfoRequest } from '../type'
 
 export const authAdmin = (
@@ -7,7 +7,7 @@ export const authAdmin = (
 	res: Response,
 	next: NextFunction
 ) => {
-	if (req.userRole !== role.ADMIN)
+	if (!req.userRole )
 		return res.status(401).json({
 			success: false,
 			message: 'Admin resources access denied',

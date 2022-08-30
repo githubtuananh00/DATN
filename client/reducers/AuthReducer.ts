@@ -6,6 +6,7 @@ const { SET_AUTH } = AuthActionType
 export interface IPayloadAuth {
 	user: IUser | null
 	isAuthenticated: boolean
+	isAdmin: boolean
 }
 
 export interface AuthState extends IPayloadAuth {
@@ -24,7 +25,8 @@ export const authReducer = (state: AuthState, action: AuthAction) => {
 				...state,
 				isAuthenticated: action.payload.isAuthenticated,
 				user: action.payload.user,
-				authLoading: !action.payload.isAuthenticated,
+				authLoading: false,
+				isAdmin:action.payload.isAdmin
 			}
 
 		default:

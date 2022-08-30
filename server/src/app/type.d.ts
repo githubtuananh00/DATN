@@ -4,7 +4,7 @@ import { NextFunction, Response, Request } from 'express'
 // userReq
 export interface IGetUserAuthInfoRequest<T> extends Request {
 	userId: string
-	userRole: string
+	userRole: boolean
 	body: T
 	params: {
 		id: string
