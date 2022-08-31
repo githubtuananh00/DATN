@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const CartModule_1 = __importDefault(require("../modules/CartModule"));
 const ProductModule_1 = __importDefault(require("../modules/ProductModule"));
+const User_1 = __importDefault(require("../modules/User"));
 class CartController {
     getCarts(req, res) {
         req.off;
@@ -16,19 +17,24 @@ class CartController {
             .catch((err) => res.status(500).json({ success: false, err: err.message }));
     }
     async addCart(req, res) {
-        const { product_id, quantity } = req.body;
+        const { product_id } = req.body;
         try {
             const product = await ProductModule_1.default.find({
                 product_id,
             });
+            const user = await User_1.default.findById(req.userId);
+            console.log({ user, id: req.userId });
             if (product.length === 0)
                 return res
                     .status(400)
                     .json({ success: false, message: 'Product not found' });
-            const newCart = new CartModule_1.default({
-                product_id,
-                quantity,
-            });
+            if (!user) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Please login before purchasing',
+                });
+            }
+            const newCart = new CartModule_1.default(Object.assign(Object.assign({}, req.body), { user_id: user._id }));
             await newCart.save();
             return res
                 .status(200)

@@ -1,6 +1,7 @@
 import { Response } from 'express'
 import Cart, { ICart } from '../modules/CartModule'
 import Product, { IProduct } from '../modules/ProductModule'
+import User, { IUser } from '../modules/User'
 import { IGetUserAuthInfoRequest } from '../type'
 
 class CartController {
@@ -21,19 +22,25 @@ class CartController {
 
 	// POST /cart/addCart
 	async addCart(req: IGetUserAuthInfoRequest<ICart>, res: Response) {
-		const { product_id, quantity }: ICart = req.body
+		const { product_id }: ICart = req.body
 		try {
 			const product: IProduct[] = await Product.find({
 				product_id,
 			})
+			const user: IUser | null = await User.findById(req.userId)
+			console.log({ user, id: req.userId })
+
 			if (product.length === 0)
 				return res
 					.status(400)
 					.json({ success: false, message: 'Product not found' })
-			const newCart: ICart = new Cart({
-				product_id,
-				quantity,
-			})
+			if (!user) {
+				return res.status(400).json({
+					success: false,
+					message: 'Please login before purchasing',
+				})
+			}
+			const newCart: ICart = new Cart({ ...req.body, user_id: user._id })
 			await newCart.save()
 			return res
 				.status(200)

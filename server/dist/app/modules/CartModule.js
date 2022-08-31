@@ -2,7 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const cartSchema = new mongoose_1.Schema({
-    product_id: {
+    product_id: [
+        {
+            type: String,
+            required: true,
+            trim: true,
+            unique: true,
+        },
+    ],
+    user_id: {
         type: String,
         required: true,
         trim: true,

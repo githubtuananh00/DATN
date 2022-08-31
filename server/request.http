@@ -23,7 +23,7 @@ Content-Type: application/json
 
 
 {
-    "username":"admin",
+    "username":"user1",
     //"username":"user",
     "password":"123456"
 }
@@ -114,16 +114,17 @@ GET http://localhost:5000/product/detail/62dfa74163b6677e14c22d88
 
 ###
 GET http://localhost:5000/cart
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2JiNjFiMDllYWIzMTJhNGZkZjMiLCJyb2xlIjp0cnVlLCJpYXQiOjE2NjE4NjcxOTYsImV4cCI6MTY2MTg2NzQ5Nn0.au_V9PcvHH1TrcBD7etsFYd-wr1lI3nDfEE__41mc-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2JiNjFiMDllYWIzMTJhNGZkZjMiLCJyb2xlIjp0cnVlLCJpYXQiOjE2NjE5NTM2NjMsImV4cCI6MTY2MTk1Mzk2M30.2gu8-XMkip0LFhItVY6SSsYKNjXk-3LZ9-zaqZ3PCUQ
 
 ###
 POST http://localhost:5000/cart/addCart
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2JiNjFiMDllYWIzMTJhNGZkZjMiLCJyb2xlIjp0cnVlLCJpYXQiOjE2NjE4NjcxOTYsImV4cCI6MTY2MTg2NzQ5Nn0.au_V9PcvHH1TrcBD7etsFYd-wr1lI3nDfEE__41mc-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2UwYjFiMDllYWIzMTJhNGZlMTMiLCJyb2xlIjpmYWxzZSwiaWF0IjoxNjYxOTU0ODcxLCJleHAiOjE2NjE5NTUxNzF9.u4hdXAnkVL9dZCCEuw-CNRWaAClmVuSME-WKp2wmQ7o
 
 {
-    "product_id":"SP001",
+    "product_id":["SP001","SP002","SP003"],
     "quantity":"1"
+    //"user_id":"6308cbb61b09eab312a4fdf3"
 }
 
 ###
