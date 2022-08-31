@@ -3,18 +3,20 @@ import { Schema, model, Document } from 'mongoose'
 // 1. Create an interface representing a document in MongoDB.
 export interface ICart extends Document {
 	quantity: number
-	product_id: string
+	product_id: string[]
 }
 
 // 2. Create a Schema corresponding to the document interface.
 const cartSchema: Schema = new Schema<ICart>(
 	{
-		product_id: {
-			type: String,
-			required: true,
-			trim: true,
-			unique: true,
-		},
+		product_id: [
+			{
+				type: String,
+				required: true,
+				trim: true,
+				unique: true,
+			},
+		],
 
 		quantity: {
 			type: Number,

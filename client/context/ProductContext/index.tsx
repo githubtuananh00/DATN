@@ -24,7 +24,6 @@ const ProductDefault: ProductStateDefault = {
 	getProducts: () => Promise.resolve(void 0),
 	addCart: () => Promise.resolve(void 0),
 	cart: [],
-	
 }
 
 export const ProductState = createContext<ProductStateDefault>(ProductDefault)
@@ -34,7 +33,6 @@ export const ProductState = createContext<ProductStateDefault>(ProductDefault)
 // 	isAddCart: false,
 // }
 const productDefault: IProduct[] = []
-
 
 const DataProvider = ({ children }: ContextStateProps) => {
 	// Token
@@ -66,12 +64,13 @@ const DataProvider = ({ children }: ContextStateProps) => {
 			(item) =>
 				(item.product._id as string) !== (product.product._id as string)
 		)
+		// Mai lam nha
 		if (check) {
 			setCart([...cart, product])
 			// dispatch({
 			// 	type: SET_ADD_CART,
 			// 	payload: {
-					
+
 			// 	}
 			// })
 		}
