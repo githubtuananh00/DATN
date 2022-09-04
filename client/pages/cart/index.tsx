@@ -1,108 +1,203 @@
-import React from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import Layout from '../../component/Layout'
-import { useProduct } from '../../hooks'
-
-
-import Plus from '../products/detail/icon/Plus.svg'
-import Stock from '../products/detail/icon/Stock.svg'
-import Truck from '../products/detail/icon/Truck.svg'
-import Dimensions from '../products/detail/icon/Dimensions.svg'
+import { useAuth, useCart } from '../../hooks'
+import { addCartAPI } from '../api/CartAPI'
+import PayPal from './PayPal'
 
 const Cart = () => {
-	const { addCart, cart } = useProduct()
+	const { cart, updateSetCart } = useCart()
+	const router = useRouter()
+	const {
+		authInfo: { isAuthenticated, authLoading },
+	} = useAuth()
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	useEffect(() => {
+		if (authLoading) {
+			router.push('/dashboard/SpinnerInfo')
+		} else if (!isAuthenticated) {
+			router.push('/auth/Login')
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isAuthenticated])
+
+	const [total, setTotal] = useState<number>(0)
+	useEffect(() => {
+		const getTotal = () => {
+			const total: number = cart.reduce(
+				(total: number, cur) =>
+					total + cur.product.price * cur.quantity,
+				0
+			)
+			setTotal(total)
+		}
+		getTotal()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [cart])
+	const increment = async (id: string) => {
+		cart.forEach((item) => {
+			if ((item.product._id as string) === id) item.quantity += 1
+		})
+		updateSetCart([...cart])
+		await addCartAPI([...cart])
+	}
+	const decrement = async (id: string) => {
+		cart.forEach((item) => {
+			if ((item.product._id as string) === id)
+				item.quantity === 1 ? (item.quantity = 1) : (item.quantity -= 1)
+		})
+		updateSetCart([...cart])
+		await addCartAPI([...cart])
+	}
+	const removeProductCart = async (id: string) => {
+		if (window.confirm('Do you want to delete this product?')) {
+			cart.forEach((item, index) => {
+				if ((item.product._id as string) === id) cart.splice(index, 1)
+			})
+			updateSetCart([...cart])
+			await addCartAPI([...cart])
+		}
+	}
+
+	const shipping: number = 5
+	const totalPayment: number = total + shipping
+
 	if (cart.length === 0)
-		return <h2 style={{textAlign: 'center', fontSize:'5rem'}}>Cart Empty</h2>
+		return (
+			<Layout>
+				<h2 style={{ textAlign: 'center', fontSize: '5rem' }}>
+					Cart Empty
+				</h2>
+			</Layout>
+		)
+
 	return (
 		<Layout>
-			{cart.map((product) => (
-				<section
-					className='product-selected w-100 d-flex'
-					key={product.product._id as string}
-				>
-					<div className='product-preview'>
-						<div className='product-presentation d-flex'>
-							<div className='product-display d-flex align-items-center position-relative'>
-								<div className='product-height d-flex align-items-center'></div>
-								<img
-									src={product?.product.image.url}
-									className='product-photo'
-									alt=''
-								/>
+			<div className='pageCart'>
+				{/* <h1>Cart</h1> */}
+				<div className='heading'>
+					<h1>
+						<span className='shopper'>H</span> Shopping Cart
+					</h1>
+				</div>
+				<div className='cart transition is-open'>
+					{/* <a href='#' className='btn btn-update'>
+							Update cart
+						</a> */}
 
-								<a
-									href='#'
-									className='features-btn rounded-circle d-flex align-items-center justify-content-center position-absolute'
-								>
-									<img src={Plus.src} alt='' />
+					<div className='table'>
+						<div className='layout-inline row th'>
+							<div className='col col-pro'>Product</div>
+							<div className='col col-price align-center'>
+								Price
+							</div>
+							<div className='col col-qty align-center'>QTY</div>
+							<div className='col'>Total</div>
+							<div className='col-close'></div>
+						</div>
+						{cart.map((products) => (
+							<div key={products.product._id as string}>
+								<div className='layout-inline row'>
+									<div className='col col-pro layout-inline'>
+										<img
+											src={products.product.image.url}
+											alt='kitten'
+										/>
+										<p>{products.product.title}</p>
+									</div>
 
-									<span className='ripple rounded-circle border-white'></span>
-									<span className='ripple rounded-circle border-white'></span>
-								</a>
+									<div className='col col-price col-numeric align-center'>
+										<p>$ {products.product.price}</p>
+									</div>
+
+									<div className='col col-qty layout-inline'>
+										<button
+											className='qty qty-minus'
+											onClick={() =>
+												decrement(
+													products.product
+														._id as string
+												)
+											}
+										>
+											-
+										</button>
+										<input
+											type='numeric'
+											value={products.quantity}
+											// onChange={(event) =>
+											// 	onChangQty(event, index)
+											// }
+											name='qty'
+										/>
+										<button
+											className='qty qty-plus'
+											onClick={() =>
+												increment(
+													products.product
+														._id as string
+												)
+											}
+										>
+											+
+										</button>
+									</div>
+
+									<div className='col col-total col-numeric'>
+										<p>
+											${' '}
+											{products.product.price *
+												products.quantity}
+										</p>
+									</div>
+									<div
+										className='col-close'
+										onClick={() =>
+											removeProductCart(
+												products.product._id as string
+											)
+										}
+									>
+										X
+									</div>
+								</div>
+							</div>
+						))}
+						<div className='tf'>
+							<div className='row layout-inline'>
+								<div className='col'>
+									<p>Merchandise Subtotal: $ {total}</p>
+								</div>
+							</div>
+							<div className='row layout-inline'>
+								<div className='col'>
+									<p>Shipping Total: $ {shipping}</p>
+								</div>
+							</div>
+							<div className='row layout-inline'>
+								<div className='col'>
+									<p>Total Payment: $ {totalPayment}</p>
+								</div>
+							</div>
+							<div className='row layout-inline'>
+								<div className='col-paypal'>
+									{totalPayment !== shipping && (
+										<PayPal
+											total={`${totalPayment}`}
+											carts={cart}
+											
+										/>
+									)}
+								</div>
 							</div>
 						</div>
 					</div>
-					{/* <!-- Info sp --> */}
-					<div className='product-description'>
-						<div className='product-summary-container'>
-							<h5 className='product-model'>
-								{product?.product.category}
-							</h5>
-							<h1 className='product-type'>
-								{product?.product.title}
-							</h1>
-							<p className='product-text-description'>
-								{product?.product.description}.
-								<a href='#'> View More</a>
-							</p>
-						</div>
-						<div className='product-options d-flex align-items-center'>
-							<a
-								href='#'
-								className='option-btn d-flex align-items-center border-light'
-							>
-								{/* <!-- Xe tải --> */}
-								<img src={Truck.src} alt='' />
-								Shipping
-							</a>
-							<a
-								href='#'
-								className='option-btn d-flex align-items-center border-light'
-							>
-								{/* <!-- Stock --> */}
-								<img src={Stock.src} alt='' />
-								Stock
-							</a>
-							<a
-								href='#'
-								className='option-btn d-flex align-items-center border-light'
-							>
-								{/* <!-- Kich thuoc --> */}
-								<img src={Dimensions.src} alt='' />
-								Dimensions
-							</a>
-						</div>
 
-						<div className='product-price d-flex align-items-center'>
-							<h1 className='price'>${product?.product.price}</h1>
-							<button className='add-cart-btn rounded-pill d-flex align-items-center justify-content-between'>
-								BUY NOW
-								<span className='features-btn rounded-circle d-flex align-items-center justify-content-center'>
-									<svg
-										className='rounded-circle'
-										xmlns='http://www.w3.org/2000/svg'
-										height='16'
-										viewBox='0 0 24 24'
-										width='16'
-									>
-										<path d='M0 0h24v24H0z' fill='none' />
-										<path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' />
-									</svg>
-								</span>
-							</button>
-						</div>
-					</div>
-				</section>
-			))}
+					{/* <a href='#' className='btn btn-update'>
+						Buy Now
+					</a> */}
+				</div>
+			</div>
 		</Layout>
 	)
 }

@@ -2,7 +2,7 @@
 import { ParsedUrlQuery } from 'querystring'
 
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
-import { IProduct } from '../../../type'
+import { IProduct, IProductQty } from '../../../type'
 import { getProductById, getProductIds } from '../lib/product'
 // import { Dropdown } from 'react-bootstrap'
 
@@ -19,11 +19,13 @@ import Left from './icon/Left.svg'
 import Right from './icon/Right.svg'
 
 import Layout from '../../../component/Layout'
-import { useProduct } from '../../../hooks'
-import { useEffect } from 'react'
+import { useAuth, useCart, useProduct } from '../../../hooks'
+import { useEffect, useState } from 'react'
 import ProductCategory from './ProductCategory'
 import { Col, Row } from 'react-bootstrap'
 import { ProductStateDefault } from '../../../context/ProductContext'
+import AlertMessage, { AlertInfo } from '../../layout/AlertMessage'
+import { useRouter } from 'next/router'
 
 export interface IParams extends ParsedUrlQuery {
 	id: string
@@ -42,27 +44,56 @@ interface IProps {
 const DetailProduct = ({
 	product,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+	const router = useRouter()
 	const { getProducts, products }: ProductStateDefault = useProduct()
+	const {
+		authInfo: { isAuthenticated },
+	} = useAuth()
+	const { addCart, cart } = useCart()
 	useEffect(() => {
-		console.log('re render')
-
 		getProducts()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+	const [alert, setAlert] = useState<AlertInfo>({ type: null, message: '' })
 
-	// console.log(products)
+	const handleBuy = () => {
+		if (isAuthenticated) {
+			const productQty: IProductQty = {
+				product: product!.product,
+				quantity: 1,
+			}
+			cart.filter(
+				(productInfo) =>
+					(productInfo.product._id as string) ===
+					(product!.product._id as string)
+			).map(() => {
+				setAlert({
+					type: 'danger',
+					message: 'This product has been added to Cart',
+				})
+				setTimeout(() => {
+					setAlert({ type: null, message: '' })
+				}, 3000)
+			})
+			// console.log(productCart)
+
+			return addCart(productQty)
+		} else {
+			router.push('/auth/Login')
+			return
+		}
+	}
 
 	return (
 		<Layout>
+			<AlertMessage type={alert.type} message={alert.message} />
 			<section className='product-selected w-100 d-flex'>
 				<div className='product-preview'>
 					<div className='product-presentation d-flex'>
 						<div className='product-display d-flex align-items-center position-relative'>
-							<div className='product-height d-flex align-items-center'>
-								
-							</div>
+							<div className='product-height d-flex align-items-center'></div>
 							<img
-								src={product?.product.image.url}
+								src={product!.product.image.url}
 								className='product-photo'
 								alt=''
 							/>
@@ -83,16 +114,17 @@ const DetailProduct = ({
 				<div className='product-description'>
 					<div className='product-summary-container'>
 						<h5 className='product-model'>
-							{product?.product.category}
+							{product!.product.category}
 						</h5>
 						<h1 className='product-type'>
-							{product?.product.title}
+							{product!.product.title}
 						</h1>
 						<p className='product-text-description'>
-							{product?.product.description}.
+							{product!.product.description}.
 							<a href='#'> View More</a>
 						</p>
 					</div>
+					<div>Sold: {product!.product.sold}</div>
 					<div className='product-options d-flex align-items-center'>
 						<a
 							href='#'
@@ -121,9 +153,12 @@ const DetailProduct = ({
 					</div>
 
 					<div className='product-price d-flex align-items-center'>
-						<h1 className='price'>${product?.product.price}</h1>
-						<button className='add-cart-btn rounded-pill d-flex align-items-center justify-content-between'>
-							BUY NOW
+						<h1 className='price'>${product!.product.price}</h1>
+						<button
+							className='add-cart-btn rounded-pill d-flex align-items-center justify-content-between'
+							onClick={handleBuy}
+						>
+							Add to cart
 							<span className='features-btn rounded-circle d-flex align-items-center justify-content-center'>
 								<svg
 									className='rounded-circle'
@@ -182,7 +217,10 @@ const DetailProduct = ({
 					<h1 className='price'>$1,481</h1>
 					<button className='add-cart-btn rounded-pill d-flex align-items-center justify-content-between'>
 						Add to cart
-						<span className='features-btn rounded-circle d-flex align-items-center justify-content-center'>
+						<span
+							className='features-btn rounded-circle d-flex align-items-center justify-content-center'
+							onClick={handleBuy}
+						>
 							<img src={Plus.src} alt='' />
 						</span>
 					</button>
@@ -256,12 +294,12 @@ const DetailProduct = ({
 						{products
 							.filter(
 								(DBproduct) =>
-									DBproduct._id !== product?.product._id
+									DBproduct._id !== product!.product._id
 							)
 							.slice(1, 4)
 							.map((DBproduct) => {
 								return DBproduct.category ===
-									product?.product.category ? (
+									product!.product.category ? (
 									<ProductCategory
 										key={DBproduct._id}
 										product={DBproduct}

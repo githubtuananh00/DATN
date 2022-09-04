@@ -32,6 +32,210 @@ button {
   height: 25px !important;
 }
 
+.pageCart {
+  /* 2 */
+}
+.pageCart .heading {
+  padding: 1em;
+  position: relative;
+  z-index: 1;
+  color: #ffc240;
+  background: #f8f9fa;
+}
+.pageCart * {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+@font-face {
+  .pageCart {
+    font-family: "Shopper";
+    src: url("http://www.shopperfont.com/font/Shopper-Std.ttf");
+  }
+}
+.pageCart .shopper {
+  font: 2em "Shopper", sans-serif;
+  line-height: 0.5em;
+  display: inline-block;
+}
+.pageCart h1 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 2.5em;
+}
+.pageCart p {
+  font-size: 1.5em;
+  color: #8a8a8a;
+}
+.pageCart input {
+  border: 0.3em solid #bbc3c6;
+  padding: 0.5em 0.3em;
+  font-size: 1.4em;
+  color: #8a8a8a;
+  text-align: center;
+}
+.pageCart img {
+  max-width: 9em;
+  width: 100%;
+  overflow: hidden;
+  margin-right: 1em;
+}
+.pageCart a {
+  text-decoration: none;
+}
+.pageCart .container {
+  max-width: 75em;
+  width: 95%;
+  margin: 40px auto;
+  overflow: hidden;
+  position: relative;
+  border-radius: 0.6em;
+  background: #ecf0f1;
+  box-shadow: 0 0.5em 0 rgba(138, 148, 152, 0.2);
+}
+.pageCart .cart {
+  margin: 2.5em;
+  overflow: hidden;
+}
+.pageCart .cart.is-closed {
+  height: 0;
+  margin-top: -2.5em;
+}
+.pageCart .table {
+  background: #ffffff;
+  border-radius: 0.6em;
+  overflow: hidden;
+  clear: both;
+  margin-bottom: 1.8em;
+}
+.pageCart .layout-inline > * {
+  display: inline-block;
+}
+.pageCart .align-center {
+  text-align: center;
+}
+.pageCart .th {
+  background: #34165f;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+.pageCart .tf {
+  background: #411a8e;
+  text-transform: uppercase;
+  text-align: right;
+  font-size: 1.2em;
+  padding-right: 100px;
+}
+.pageCart .tf p {
+  color: #fff;
+  font-weight: bold;
+}
+.pageCart .col {
+  padding: 1em;
+  width: 12%;
+}
+.pageCart .col-close {
+  padding-right: 10px;
+  width: 5%;
+  font-size: 30px;
+  color: #ee4d2d;
+  cursor: pointer;
+  font-weight: 900;
+}
+.pageCart .col-paypal {
+  padding-left: 50em;
+  width: 12%;
+}
+.pageCart .col-pro {
+  width: 44%;
+}
+.pageCart .col-pro > * {
+  vertical-align: middle;
+}
+.pageCart .col-qty {
+  text-align: center;
+  width: 17%;
+}
+.pageCart .col-numeric p {
+  font: bold 1.8em helvetica;
+}
+.pageCart .col-total p {
+  color: #12c8b1;
+}
+.pageCart .tf .col {
+  width: 20%;
+}
+.pageCart .row > div {
+  vertical-align: middle;
+}
+.pageCart .row-bg2 {
+  background: #f7f7f7;
+}
+.pageCart .visibility-cart {
+  position: absolute;
+  color: #fff;
+  top: 0.5em;
+  right: 0.5em;
+  font: bold 2em arial;
+  border: 0.16em solid #fff;
+  border-radius: 2.5em;
+  padding: 0 0.22em 0 0.25em;
+}
+.pageCart .col-qty > * {
+  vertical-align: middle;
+}
+.pageCart .col-qty > input {
+  max-width: 2.6em;
+}
+.pageCart button.qty {
+  width: 1em;
+  line-height: 1em;
+  border-radius: 2em;
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+  background: #43ace3;
+  color: #fff;
+}
+.pageCart a.qty:hover {
+  background: #3b9ac6;
+}
+.pageCart .btn {
+  padding: 10px 30px;
+  border-radius: 0.3em;
+  font-size: 1.4em;
+  font-weight: bold;
+  background: #ee4d2d;
+  color: #fff;
+  box-shadow: 0 3px 0 rgb(59, 154, 198);
+}
+.pageCart .btn:hover {
+  box-shadow: 0 3px 0 rgba(59, 154, 198, 0);
+}
+.pageCart .btn-update {
+  float: right;
+  margin: 0 0 1.5em 0;
+}
+.pageCart .transition {
+  transition: all 0.3s ease-in-out;
+}
+@media screen and (max-width: 755px) {
+  .pageCart .container {
+    width: 98%;
+  }
+  .pageCart .col-pro {
+    width: 35%;
+  }
+  .pageCart .col-qty {
+    width: 22%;
+  }
+  .pageCart img {
+    max-width: 100%;
+    margin-bottom: 1em;
+  }
+}
 .btn_buy {
   background-color: #ee4d2d !important;
   border-color: #ee4d2d;
@@ -536,7 +740,7 @@ svg {
 
 .add-cart-btn {
   background: var(--main-color);
-  width: 150px;
+  width: 190px;
   height: 42px;
   font-weight: 700;
   text-transform: uppercase;

@@ -6,7 +6,7 @@ const router = Router()
 
 import cartController from '../app/controllers/cartController'
 
-router.post('/addCart', verifyToken, cartController.addCart)
+router.patch('/addCart', verifyToken, cartController.addCart)
 router.put('/:id/update', verifyToken, cartController.updateCart)
 router.delete('/:id/delete', verifyToken, cartController.deleteCart)
 router.get('/', verifyToken, cartController.getCarts)

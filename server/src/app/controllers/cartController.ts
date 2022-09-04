@@ -1,18 +1,19 @@
 import { Response } from 'express'
 import Cart, { ICart } from '../modules/CartModule'
-import Product, { IProduct } from '../modules/ProductModule'
+import { IProduct } from '../modules/ProductModule'
 import User, { IUser } from '../modules/User'
-import { IGetUserAuthInfoRequest } from '../type'
+import { IGetUserAuthInfoRequest, IProductQty } from '../type'
 
 class CartController {
 	// GET /cart
 	getCarts(req: IGetUserAuthInfoRequest<null>, res: Response) {
 		req.off
-		Cart.find({})
-			.then((cart) =>
+		User.findById(req.userId)
+			.then((user: IUser | null) =>
 				res.status(200).json({
 					success: true,
-					cart,
+					carts: user!.cart,
+					message: 'Get all cart successfully',
 				})
 			)
 			.catch((err) =>
@@ -20,17 +21,15 @@ class CartController {
 			)
 	}
 
-	// POST /cart/addCart
-	async addCart(req: IGetUserAuthInfoRequest<ICart>, res: Response) {
-		const { product_id }: ICart = req.body
+	// PATCH /cart/addCart
+	async addCart(
+		req: IGetUserAuthInfoRequest<IProductQty<IProduct>>,
+		res: Response
+	) {
 		try {
-			const product: IProduct[] = await Product.find({
-				product_id,
-			})
 			const user: IUser | null = await User.findById(req.userId)
-			console.log({ user, id: req.userId })
 
-			if (product.length === 0)
+			if (!req.body)
 				return res
 					.status(400)
 					.json({ success: false, message: 'Product not found' })
@@ -40,8 +39,10 @@ class CartController {
 					message: 'Please login before purchasing',
 				})
 			}
-			const newCart: ICart = new Cart({ ...req.body, user_id: user._id })
-			await newCart.save()
+
+			await user.updateOne({
+				cart: req.body,
+			})
 			return res
 				.status(200)
 				.json({ success: true, message: 'added to cart successfully' })

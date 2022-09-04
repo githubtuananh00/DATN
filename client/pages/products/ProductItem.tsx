@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button, Card, Col } from 'react-bootstrap'
-import { useAuth, useProduct } from '../../hooks'
+import { useAuth, useCart } from '../../hooks'
 import { IProduct, IProductQty } from '../../type'
 import Form from 'react-bootstrap/Form'
 import { useRouter } from 'next/router'
@@ -15,12 +15,12 @@ const ProductItem = ({ product }: productItemProps) => {
 	const {
 		authInfo: { isAdmin, isAuthenticated },
 	} = useAuth()
-	const { addCart, cart } = useProduct()
+	const { addCart, cart } = useCart()
 	const [alert, setAlert] = useState<AlertInfo>({ type: null, message: '' })
 
 	const handleBuy = () => {
 		if (isAuthenticated) {
-			const productQty: IProductQty = {
+			const productCart: IProductQty = {
 				product,
 				quantity: 1,
 			}
@@ -38,13 +38,12 @@ const ProductItem = ({ product }: productItemProps) => {
 				}, 1000)
 			})
 
-			return addCart(productQty)
+			return addCart(productCart)
 		} else {
 			router.push('/auth/Login')
 			return
 		}
 	}
-	console.log(cart)
 
 	return (
 		<Col>
@@ -58,6 +57,7 @@ const ProductItem = ({ product }: productItemProps) => {
 					<Card.Title>{product.title}</Card.Title>
 					<span style={{ color: '#ee4d2d' }}>{product.price}</span>
 					<Card.Text>{product.description}</Card.Text>
+					<Card.Text>Sold: {product.sold}</Card.Text>
 					{isAdmin ? (
 						<>
 							<Link href='#!' passHref>

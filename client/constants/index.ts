@@ -16,5 +16,7 @@ export enum AuthActionType {
 	SET_AUTH = 'SET_AUTH',
 }
 
-export const LOCAL_STORAGE_TOKEN_NAME = 'shopDGD'
+export const paypalClient: string =
+	'Af2xI8Ot8JxdczngtBqQkiHOAMU36G2tbHbN_Yg1xuCes5gXJ-bWK3eL11385Lw7hD4DbMovGrtjqqDj'
 
+export const LOCAL_STORAGE_TOKEN_NAME = 'shopDGD'

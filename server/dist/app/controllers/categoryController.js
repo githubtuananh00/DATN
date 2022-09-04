@@ -24,7 +24,7 @@ class CategoryController {
                 });
             const newCategory = new CategoryModule_1.default({ nameCategory });
             await newCategory.save();
-            res.json({
+            return res.json({
                 success: true,
                 message: 'Create a Category successfully',
             });

@@ -15,17 +15,24 @@ export interface IProduct extends Document {
 	content: string
 }
 
-export interface IProductQty  {
+export interface ICart {
 	quantity: number
-	product:IProduct
+	product_id: string[]
+}
+
+export interface IProductQty {
+	quantity: number
+	product: IProduct
 }
 
 export interface IResponse<T> {
 	data: {
 		success: boolean
 		message: string
-		products: T
-		users: T
+		products: T | null
+		users: T | null
+		carts: T | null
+		payment: T | null
 	}
 }
 export interface IResponseProduct<T> {
@@ -91,3 +98,15 @@ export interface IResponseRefreshToken extends IResponseRegister {
 // 		users: T
 // 	}
 // }
+
+export interface IPayment {
+	paymentID: string
+	address: Object
+	cart: Object
+	status: boolean
+}
+export interface IPaymentResponse extends IPayment {
+	user_id: string
+	name: string
+	email: string
+}

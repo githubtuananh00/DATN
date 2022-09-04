@@ -13,6 +13,7 @@ const ProductCategory = ({ product }: productItemProps) => {
 					<img src={product.image.url} alt='' />
 					<h2>{product.title}</h2>
 					<h5>{product.content}</h5>
+					<h5>Sold: {product.sold}</h5>
 					<h3 className='price'>${product.price}</h3>
 
 					<button className='add-cart-btn rounded-pill d-flex align-items-center justify-content-between'>

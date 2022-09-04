@@ -1,6 +1,5 @@
 import { Schema, model, Document } from 'mongoose'
 
-
 // 1. Create an interface representing a document in MongoDB.
 export interface IUser extends Document {
 	username: string
@@ -13,7 +12,7 @@ export interface IUser extends Document {
 	dateOfBirth: string
 	role: boolean
 	refreshToken: string
-	cart: Array<string>
+	cart: Object
 }
 
 // 2. Create a Schema corresponding to the document interface.
@@ -71,7 +70,12 @@ const userSchema: Schema = new Schema<IUser>(
 			required: false,
 			default: null,
 		},
-		cart: [{ type: String, default: [] }],
+		cart: [
+			{
+				type: Object,
+				default: [],
+			},
+		],
 	},
 	{
 		timestamps: true,

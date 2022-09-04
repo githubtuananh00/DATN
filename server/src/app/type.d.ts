@@ -27,3 +27,8 @@ export interface IApi<T> {
 	res: Response
 	next: NextFunction
 }
+
+export interface IProductQty<T> {
+	quantity: number
+	product: T
+}

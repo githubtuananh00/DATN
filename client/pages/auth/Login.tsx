@@ -10,7 +10,7 @@ import {
 } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import Layout from '../../component/Layout'
-import { useAuth } from '../../hooks'
+import { useAuth, useCart } from '../../hooks'
 import { IResponseRefreshToken, IResponseToken, IUserLogin } from '../../type'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 
@@ -23,6 +23,8 @@ const Login = () => {
 		loginUser,
 	} = useAuth()
 
+	const { loginCart } = useCart()
+
 	useEffect(() => {
 		if (authLoading) {
 			router.push('/dashboard/SpinnerInfo')
@@ -31,7 +33,7 @@ const Login = () => {
 			else router.push('/dashboard')
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isAuthenticated, authLoading,isAdmin])
+	}, [isAuthenticated, authLoading, isAdmin])
 
 	const usernameRef = useRef() as MutableRefObject<HTMLInputElement>
 
@@ -53,9 +55,9 @@ const Login = () => {
 			const loginData: IResponseRefreshToken = (await loginUser(
 				loginForm
 			)) as IResponseRefreshToken
-			console.log(loginData)
 
-			if (loginData.success) router.push('/dashboard')
+			loginCart()
+			if (loginData.success) router.back()
 			else {
 				setLoginForm(loginFormDefault)
 				usernameRef.current.focus()

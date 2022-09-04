@@ -1,16 +1,30 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/sass/index.css'
 import type { AppProps } from 'next/app'
-import DataProvider from '../context/ProductContext'
+import ProductContextProvider from '../context/ProductContext'
 import AuthContextProvider from '../context/AuthContext'
+import CartContextProvider from '../context/CartContext'
+import { paypalClient } from '../constants'
+import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 
 function MyApp({ Component, pageProps }: AppProps) {
+	const initialOptions = {
+		'client-id': paypalClient,
+		currency: 'USD',
+		intent: 'capture',
+		// total: '1',
+		// 'data-client-token': 'abc123xyz==',
+	}
 	return (
-		<AuthContextProvider>
-			<DataProvider>
-				<Component {...pageProps} />
-			</DataProvider>
-		</AuthContextProvider>
+		<PayPalScriptProvider options={initialOptions}>
+			<AuthContextProvider>
+				<ProductContextProvider>
+					<CartContextProvider>
+						<Component {...pageProps} />
+					</CartContextProvider>
+				</ProductContextProvider>
+			</AuthContextProvider>
+		</PayPalScriptProvider>
 	)
 }
 

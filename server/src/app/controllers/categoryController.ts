@@ -33,7 +33,7 @@ class CategoryController {
 
 			const newCategory: ICategory = new Category({ nameCategory })
 			await newCategory.save()
-			res.json({
+			return res.json({
 				success: true,
 				message: 'Create a Category successfully',
 			})

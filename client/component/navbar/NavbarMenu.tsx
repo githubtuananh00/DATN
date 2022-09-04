@@ -16,19 +16,22 @@ import Shop from './icon/shop.svg'
 import Close from './icon/close.svg'
 import Cart from './icon/cart.svg'
 import Search from './icon/search.svg'
-import { useAuth, useProduct } from '../../hooks'
+import { useAuth, useCart } from '../../hooks'
 
 const NavbarMenu = () => {
 	// const value = useContext(GlobalState)
 	// console.log(Search)
 	// context
 	const {
-		authInfo: { isAuthenticated, isAdmin,user },
+		authInfo: { isAuthenticated, isAdmin, user },
 		logoutUser,
 	} = useAuth()
-	const {  cart } = useProduct()
+	const { cart, logoutCart } = useCart()
 
-	const logout = () => logoutUser()
+	const logout = () => {
+		logoutCart()
+		return logoutUser()
+	}
 
 	return (
 		<Navbar
@@ -68,33 +71,33 @@ const NavbarMenu = () => {
 					</Nav>
 					{isAdmin && (
 						<>
-						<Nav className='nav-item'>
-							<Link
-								href='/dashboard'
-								passHref
-								className='nav-link'
-							>
-								<Nav.Link>Create Product</Nav.Link>
-							</Link>
-						</Nav>
-						<Nav className='nav-item'>
-							<Link
-								href='/dashboard'
-								passHref
-								className='nav-link'
-							>
-								<Nav.Link>Categories</Nav.Link>
-							</Link>
-						</Nav>
-						<Nav className='nav-item'>
-							<Link
-								href='/dashboard'
-								passHref
-								className='nav-link'
-							>
-								<Nav.Link>History</Nav.Link>
-							</Link>
-						</Nav>
+							<Nav className='nav-item'>
+								<Link
+									href='/dashboard'
+									passHref
+									className='nav-link'
+								>
+									<Nav.Link>Create Product</Nav.Link>
+								</Link>
+							</Nav>
+							<Nav className='nav-item'>
+								<Link
+									href='/dashboard'
+									passHref
+									className='nav-link'
+								>
+									<Nav.Link>Categories</Nav.Link>
+								</Link>
+							</Nav>
+							<Nav className='nav-item'>
+								<Link
+									href='/dashboard'
+									passHref
+									className='nav-link'
+								>
+									<Nav.Link>History</Nav.Link>
+								</Link>
+							</Nav>
 						</>
 					)}
 				</Navbar.Collapse>
@@ -161,7 +164,6 @@ const NavbarMenu = () => {
 							<span className='item-quantity badge position-absolute rounded-circle d-flex align-items-center justify-content-center'>
 								{cart.length}
 							</span>
-							
 						</a>
 					</Link>
 				) : (
