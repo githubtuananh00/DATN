@@ -8,10 +8,24 @@ class CategoryController {
 		req.off
 		Category.find({})
 			.then((category) =>
-				res.status(200).json({ success: true, category })
+				res.status(200).json({ success: true, payload: category })
 			)
 			.catch((err) =>
 				res.status(500).json({ success: false, err: err.message })
+			)
+	}
+
+	// [GET] /category/:id
+	getCategoryById(req: IGetUserAuthInfoRequest<null>, res: Response) {
+		Category.findById(req.params.id)
+			.then((category) =>
+				res.status(200).json({
+					success: true,
+					payload: category,
+				})
+			)
+			.catch((error) =>
+				res.status(500).json({ success: false, err: error.message })
 			)
 	}
 

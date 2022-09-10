@@ -6,6 +6,8 @@ import AuthContextProvider from '../context/AuthContext'
 import CartContextProvider from '../context/CartContext'
 import { paypalClient } from '../constants'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
+import PaymentContextProvider from '../context/PaymentContext'
+import CategoryContextProvider from '../context/CategoryContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const initialOptions = {
@@ -20,7 +22,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<AuthContextProvider>
 				<ProductContextProvider>
 					<CartContextProvider>
-						<Component {...pageProps} />
+						<PaymentContextProvider>
+							<CategoryContextProvider>
+								<Component {...pageProps} />
+							</CategoryContextProvider>
+						</PaymentContextProvider>
 					</CartContextProvider>
 				</ProductContextProvider>
 			</AuthContextProvider>

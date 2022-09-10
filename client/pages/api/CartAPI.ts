@@ -7,7 +7,7 @@ export const getCarts = async () => {
 		const response: IResponse<IProductQty[]> = await axios.get(
 			`${apiUrl}/cart`
 		)
-		if (response.data.success) return response.data.carts!
+		if (response.data.success) return response.data.payload
 	} catch (error) {
 		console.log(error)
 		return {
@@ -29,7 +29,7 @@ export const addCartAPI = async (data: IProductQty[]) => {
 			`${apiUrl}/cart/addCart`,
 			data
 		)
-		if (response.data.success) return response.data.carts
+		if (response.data.success) return response.data.payload
 	} catch (error) {
 		console.log(error)
 		return {
@@ -51,7 +51,7 @@ export const updateCart = async (data: ICart, cart_id: string) => {
 			`${apiUrl}/cart/${cart_id}/update`,
 			data
 		)
-		if (response.data.success) response.data.carts
+		if (response.data.success) response.data.payload
 	} catch (error) {
 		console.log(error)
 		return {
@@ -66,7 +66,7 @@ export const deleteCart = async (cart_id: string) => {
 		const response: IResponse<ICart> = await axios.delete(
 			`${apiUrl}/cart/${cart_id}/delete`
 		)
-		if (response.data.success) response.data.carts
+		if (response.data.success) response.data.payload
 	} catch (error) {
 		console.log(error)
 		return {

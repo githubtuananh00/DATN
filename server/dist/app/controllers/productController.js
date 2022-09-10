@@ -30,7 +30,7 @@ class ProductController {
         try {
             const features = new APIfeatures(await ProductModule_1.default.find({}), req.query);
             const products = features.query;
-            return res.status(200).json({ success: true, products });
+            return res.status(200).json({ success: true, payload: products });
         }
         catch (error) {
             return res
@@ -43,7 +43,7 @@ class ProductController {
             const product = await ProductModule_1.default.findOne({
                 _id: req.params.id,
             });
-            return res.status(200).json({ success: true, product });
+            return res.status(200).json({ success: true, payload: product });
         }
         catch (error) {
             return res

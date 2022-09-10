@@ -8,8 +8,16 @@ class CategoryController {
     getCategories(req, res) {
         req.off;
         CategoryModule_1.default.find({})
-            .then((category) => res.status(200).json({ success: true, category }))
+            .then((category) => res.status(200).json({ success: true, payload: category }))
             .catch((err) => res.status(500).json({ success: false, err: err.message }));
+    }
+    getCategoryById(req, res) {
+        CategoryModule_1.default.findById(req.params.id)
+            .then((category) => res.status(200).json({
+            success: true,
+            payload: category,
+        }))
+            .catch((error) => res.status(500).json({ success: false, err: error.message }));
     }
     async createCategory(req, res) {
         const { nameCategory } = req.body;

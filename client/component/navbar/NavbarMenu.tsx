@@ -66,9 +66,20 @@ const NavbarMenu = () => {
 				>
 					<Nav className='nav-item'>
 						<Link href='/products' passHref className='nav-link'>
-							<Nav.Link>Product</Nav.Link>
+							<Nav.Link>SHOP</Nav.Link>
 						</Link>
 					</Nav>
+					{isAuthenticated && (
+						<Nav className='nav-item'>
+							<Link
+								href='/orderHistory'
+								passHref
+								className='nav-link'
+							>
+								<Nav.Link>HISTORY</Nav.Link>
+							</Link>
+						</Nav>
+					)}
 					{isAdmin && (
 						<>
 							<Nav className='nav-item'>
@@ -77,25 +88,16 @@ const NavbarMenu = () => {
 									passHref
 									className='nav-link'
 								>
-									<Nav.Link>Create Product</Nav.Link>
+									<Nav.Link>CREATE PRODUCT</Nav.Link>
 								</Link>
 							</Nav>
 							<Nav className='nav-item'>
 								<Link
-									href='/dashboard'
+									href='/category'
 									passHref
 									className='nav-link'
 								>
-									<Nav.Link>Categories</Nav.Link>
-								</Link>
-							</Nav>
-							<Nav className='nav-item'>
-								<Link
-									href='/dashboard'
-									passHref
-									className='nav-link'
-								>
-									<Nav.Link>History</Nav.Link>
+									<Nav.Link>CATEGORY</Nav.Link>
 								</Link>
 							</Nav>
 						</>

@@ -12,7 +12,7 @@ class CartController {
 			.then((user: IUser | null) =>
 				res.status(200).json({
 					success: true,
-					carts: user!.cart,
+					payload: user!.cart,
 					message: 'Get all cart successfully',
 				})
 			)

@@ -74,7 +74,7 @@ class ProductController {
 			// const limit: number = +req.query.limit
 			// console.log(products.length)
 
-			return res.status(200).json({ success: true, products })
+			return res.status(200).json({ success: true, payload: products })
 		} catch (error) {
 			return res
 				.status(500)
@@ -87,7 +87,7 @@ class ProductController {
 			const product: IProduct | null = await Product.findOne({
 				_id: req.params.id,
 			})
-			return res.status(200).json({ success: true, product })
+			return res.status(200).json({ success: true, payload: product })
 		} catch (error) {
 			return res
 				.status(500)

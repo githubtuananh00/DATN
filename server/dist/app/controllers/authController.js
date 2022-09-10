@@ -37,7 +37,7 @@ class AuthController {
                 return res
                     .status(400)
                     .json({ success: false, message: 'User not found' });
-            return res.json({ success: true, user });
+            return res.json({ success: true, payload: user });
         }
         catch (error) {
             return res
@@ -83,14 +83,14 @@ class AuthController {
                 role,
             });
             await newUser.save();
-            res.json({
+            return res.status(200).json({
                 success: true,
                 message: 'User created successfully',
             });
         }
         catch (error) {
             console.log(error);
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: 'Internal Server Error',
             });
@@ -121,7 +121,7 @@ class AuthController {
                 });
             const tokens = generateTokens(user);
             await User_1.default.updateOne({ _id: user._id }, { refreshToken: tokens.refreshToken });
-            res.json({
+            return res.status(200).json({
                 success: true,
                 message: 'User logged in successfully',
                 tokens,
@@ -129,7 +129,7 @@ class AuthController {
         }
         catch (error) {
             console.log(error);
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: 'Internal Server Error',
                 tokens: null,
@@ -165,7 +165,7 @@ class AuthController {
         }
         catch (error) {
             console.log(error);
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: 'Internal Server Error',
             });

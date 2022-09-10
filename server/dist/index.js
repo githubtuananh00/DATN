@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const routes_1 = __importDefault(require("./routes"));
 const cors_1 = __importDefault(require("cors"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
+const db_1 = __importDefault(require("./app/db"));
 require('dotenv').config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -22,7 +23,6 @@ app.get('/', (req, res) => {
     req.off;
 });
 (0, routes_1.default)(app);
-const db_1 = __importDefault(require("./app/db"));
 (0, db_1.default)();
 app.listen(PORT, () => {
     return console.log(`Express is listening at http://localhost:${PORT}`);

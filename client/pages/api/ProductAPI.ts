@@ -16,7 +16,7 @@ const ProductAPI = (): IProductApi => {
 				`${apiUrl}/product`
 			)
 			if (response.data.success) {
-				return response.data.products!
+				return response.data.payload
 			}
 		} catch (error) {
 			console.log(error)
@@ -36,7 +36,7 @@ export const getProductsInfo = async (): Promise<IProduct | undefined> => {
 			`${apiUrl}/product`
 		)
 		if (response.data.success) {
-			return response.data.products!
+			return response.data.payload
 		}
 	} catch (error) {
 		console.log(error)

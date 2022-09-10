@@ -26,7 +26,7 @@ const PayPal = ({ total, carts }: IPayPal) => {
 		console.log(data)
 		const dataReq: IPayment = {
 			paymentID: data.id,
-			address: data.payer.address!,
+			address: data.payer,
 			cart: carts,
 			status: false,
 		}

@@ -22,12 +22,10 @@ const paypalSchema = new mongoose_1.Schema({
         type: Object,
         required: true,
     },
-    cart: [
-        {
-            type: Array,
-            default: [],
-        },
-    ],
+    cart: {
+        type: Array,
+        default: [],
+    },
     status: {
         type: Boolean,
         default: false,

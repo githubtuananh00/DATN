@@ -48,7 +48,7 @@ export const AuthContext = createContext<AuthStateDefault>({
 				message: '',
 				product: null,
 				tokens: null,
-				user: null,
+				payload: null,
 			},
 		}),
 
@@ -77,9 +77,9 @@ const AuthContextProvider = ({ children }: ContextStateProps) => {
 				dispatch({
 					type: SET_AUTH,
 					payload: {
-						user: response.data.user,
+						user: response.data.payload,
 						isAuthenticated: true,
-						isAdmin: response.data.user!.role,
+						isAdmin: response.data.payload!.role,
 					},
 				})
 			}

@@ -1,4 +1,5 @@
 import { model, Schema, Document } from 'mongoose'
+import { IProduct } from './ProductModule'
 
 export interface IPayPal extends Document {
 	paymentID: string
@@ -6,8 +7,12 @@ export interface IPayPal extends Document {
 	name: string
 	email: string
 	address: Object
-	cart: Array<Object>
+	cart: Object
 	status: boolean
+}
+export interface ICart {
+	quantity: number
+	product: IProduct
 }
 
 const paypalSchema: Schema = new Schema<IPayPal>(
@@ -32,12 +37,11 @@ const paypalSchema: Schema = new Schema<IPayPal>(
 			type: Object,
 			required: true,
 		},
-		cart: [
-			{
-				type: Array,
-				default: [],
-			},
-		],
+		cart: {
+			type: Array,
+			default: [],
+		},
+
 		status: {
 			type: Boolean,
 			default: false,

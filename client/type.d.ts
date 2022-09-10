@@ -1,4 +1,5 @@
 import { Document } from 'mongoose'
+import { Payer } from '@paypal/paypal-js/types/apis/orders'
 
 export interface IProduct extends Document {
 	// success: boolean
@@ -29,10 +30,7 @@ export interface IResponse<T> {
 	data: {
 		success: boolean
 		message: string
-		products: T | null
-		users: T | null
-		carts: T | null
-		payment: T | null
+		payload: T
 	}
 }
 export interface IResponseProduct<T> {
@@ -49,7 +47,7 @@ export interface IRes<T> {
 		success: boolean
 		message: string
 		product: T | null
-		user: T | null
+		payload: T | null
 		tokens: T | null
 	}
 }
@@ -101,12 +99,31 @@ export interface IResponseRefreshToken extends IResponseRegister {
 
 export interface IPayment {
 	paymentID: string
-	address: Object
-	cart: Object
+	// address: {
+	// 	address: {
+	// 		country_code: string
+	// 	}
+	// 	email_address: string
+	// 	name: {
+	// 		given_name: string
+	// 		surname: string
+	// 	}
+	// 	payer_id: string
+	// }
+	address: Partial<Payer>
+	cart: Array<IProductQty>
 	status: boolean
 }
-export interface IPaymentResponse extends IPayment {
+export interface IPaymentResponse extends IPayment, Document {
 	user_id: string
 	name: string
 	email: string
+	createdAt: string
+}
+export interface ICategory extends Document {
+	nameCategory: string
+}
+
+export interface IReqCategory {
+	nameCategory: string
 }

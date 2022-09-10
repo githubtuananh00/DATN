@@ -11,6 +11,7 @@ const categoryController_1 = __importDefault(require("../app/controllers/categor
 router.post('/createCategory', verifyToken_1.verifyToken, authAdmin_1.authAdmin, categoryController_1.default.createCategory);
 router.delete('/:id/delete', verifyToken_1.verifyToken, authAdmin_1.authAdmin, categoryController_1.default.deleteCategory);
 router.put('/:id/update', verifyToken_1.verifyToken, authAdmin_1.authAdmin, categoryController_1.default.updateCategory);
+router.get('/:id', verifyToken_1.verifyToken, authAdmin_1.authAdmin, categoryController_1.default.getCategoryById);
 router.get('/', categoryController_1.default.getCategories);
 exports.default = router;
 //# sourceMappingURL=category.js.map

@@ -6,6 +6,7 @@ import paypalController from '../app/controllers/payPalController'
 
 const router = Router()
 router.post('/createPayment', verifyToken, paypalController.createPayment)
+router.get('/history', verifyToken, paypalController.history)
 router.get('/', verifyToken, authAdmin, paypalController.getPayments)
 
 export default router

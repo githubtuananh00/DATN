@@ -27,5 +27,7 @@ router.put(
 	categoryController.updateCategory
 )
 
+router.get('/:id', verifyToken, authAdmin, categoryController.getCategoryById)
+
 router.get('/', categoryController.getCategories)
 export default router

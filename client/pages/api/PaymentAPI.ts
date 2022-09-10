@@ -8,7 +8,38 @@ export const addPayment = async (data: IPayment) => {
 			`${apiUrl}/payment/createPayment`,
 			data
 		)
-		if (response.data.success) return response.data.payment
+		if (response.data.success) return response.data.payload
+	} catch (error) {
+		console.log(error)
+		return {
+			success: false,
+			message: error,
+		}
+	}
+}
+
+export const getHistoryAPI = async () => {
+	try {
+		const response: IResponse<IPaymentResponse[]> = await axios.get(
+			`${apiUrl}/payment/history`
+		)
+		if (response.data.success) return response.data.payload
+	} catch (error) {
+		console.log(error)
+		return {
+			success: false,
+			message: error,
+		}
+	}
+}
+
+export const getPaymentsAPI = async () => {
+	try {
+		const response: IResponse<IPaymentResponse[]> = await axios.get(
+			`${apiUrl}/payment`
+		)
+
+		if (response.data.success) return response.data.payload
 	} catch (error) {
 		console.log(error)
 		return {

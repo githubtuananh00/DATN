@@ -1,6 +1,6 @@
-import Payments, { IPayPal } from '../modules/paypalModule'
-import Product, { IProduct } from '../modules/ProductModule'
-import { IGetUserAuthInfoRequest, IProductQty } from '../type'
+import Payments, { ICart, IPayPal } from '../modules/paypalModule'
+import Product from '../modules/ProductModule'
+import { IGetUserAuthInfoRequest } from '../type'
 import { Response } from 'express'
 import User, { IUser } from '../modules/User'
 
@@ -13,7 +13,7 @@ class PayPalController {
 				res.status(200).json({
 					success: true,
 					message: 'Get all payments successfully',
-					payments,
+					payload: payments,
 				})
 			)
 			.catch((err) =>
@@ -39,26 +39,42 @@ class PayPalController {
 				email,
 			})
 			const { cart } = req.body
-			const cartArr: IProductQty<IProduct>[] =
-				cart as unknown as IProductQty<IProduct>[]
-			cartArr.map((item) =>
+			const cartPayment: ICart[] = cart as ICart[]
+			cartPayment.map((item) =>
 				updateSoldProduct(
 					item.product._id as string,
 					item.quantity,
 					item.product.sold
 				)
 			)
+			console.log(req.body)
+			console.log(newPayment)
+
 			await newPayment.save()
 			return res.status(200).json({
 				success: true,
 				message: 'Created payment successfully',
-				payment: newPayment,
+				payload: newPayment,
 			})
 		} catch (error) {
 			return res
 				.status(500)
 				.json({ success: false, message: error.message })
 		}
+	}
+	// [GET] /payment/history
+	history(req: IGetUserAuthInfoRequest<IPayPal>, res: Response) {
+		Payments.find({ user_id: req.userId })
+			.then((payments) =>
+				res.status(200).json({
+					success: true,
+					message: 'Get a payment history successfully',
+					payload: payments,
+				})
+			)
+			.catch((err) =>
+				res.status(500).json({ success: false, err: err.message })
+			)
 	}
 }
 const updateSoldProduct = async (

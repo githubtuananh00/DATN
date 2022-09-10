@@ -11,5 +11,5 @@ const categorySchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
-exports.default = (0, mongoose_1.model)('catagories', categorySchema);
+exports.default = (0, mongoose_1.model)('Categories', categorySchema);
 //# sourceMappingURL=CategoryModule.js.map

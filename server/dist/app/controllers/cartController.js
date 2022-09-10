@@ -11,7 +11,7 @@ class CartController {
         User_1.default.findById(req.userId)
             .then((user) => res.status(200).json({
             success: true,
-            carts: user.cart,
+            payload: user.cart,
             message: 'Get all cart successfully',
         }))
             .catch((err) => res.status(500).json({ success: false, err: err.message }));

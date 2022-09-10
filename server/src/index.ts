@@ -3,6 +3,8 @@ import routes from './routes'
 import cors from 'cors'
 import fileupload from 'express-fileupload'
 
+import connect from './app/db'
+
 require('dotenv').config()
 
 const app = express()
@@ -36,7 +38,6 @@ app.get('/', (req, res) => {
 // router app init
 routes(app)
 // Connect BD
-import connect from './app/db'
 connect()
 app.listen(PORT, () => {
 	return console.log(`Express is listening at http://localhost:${PORT}`)

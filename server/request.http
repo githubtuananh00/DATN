@@ -62,24 +62,24 @@ GET http://localhost:5000/category
 ### POST/createCategory
 POST http://localhost:5000/category/createCategory
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTc0MjI0NzMsImV4cCI6MTY1NzQyMjc3M30.hSqarGTLPRwsA8-NKYJ6rAB_MidjLXZOJEOCJDVG23A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2JiNjFiMDllYWIzMTJhNGZkZjMiLCJyb2xlIjp0cnVlLCJpYXQiOjE2NjI3NzYyNDYsImV4cCI6MTY2Mjc3NjU0Nn0.1W58UHQhExpsKavXTb1BGCpjf5v_dWOriA3FwJTu3n4
 
 {
-    "nameCategory":"Thời trang Nam"
+    "nameCategory":"Thời trang Nam1"
 }
 
 
 ### delete category
-DELETE http://localhost:5000/category/62ca3e4bf71b220c1a06414e/delete
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTc0MjIxMTYsImV4cCI6MTY1NzQyMjQxNn0.-80-2yl_fM92YA5Q7qPx_qTzJngmGr8XhF8xBfBwV6s
+DELETE http://localhost:5000/category/631bf6bfeafde8547a8afcbc/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2JiNjFiMDllYWIzMTJhNGZkZjMiLCJyb2xlIjp0cnVlLCJpYXQiOjE2NjI3NzgwOTAsImV4cCI6MTY2Mjc3ODM5MH0.juUepeZwOZj7YOP6jZv5tyTI_w7jAgt2d6Leqzn36Og
 
 ### update category
-PUT http://localhost:5000/category/62ca429817360972d5881bf1/update
+PUT http://localhost:5000/category/631bf5e6eafde8547a8afca9/update
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTc0MjI0NzMsImV4cCI6MTY1NzQyMjc3M30.hSqarGTLPRwsA8-NKYJ6rAB_MidjLXZOJEOCJDVG23A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2JiNjFiMDllYWIzMTJhNGZkZjMiLCJyb2xlIjp0cnVlLCJpYXQiOjE2NjI3NzgwOTAsImV4cCI6MTY2Mjc3ODM5MH0.juUepeZwOZj7YOP6jZv5tyTI_w7jAgt2d6Leqzn36Og
 
 {
-    "nameCategory":"Thời trang nữ"
+    "nameCategory":"Quần"
 }
 
 ### test upload
@@ -167,22 +167,49 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2JiN
 ###
 POST http://localhost:5000/payment/createPayment
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2JiNjFiMDllYWIzMTJhNGZkZjMiLCJyb2xlIjp0cnVlLCJpYXQiOjE2NjIyNzkwMzYsImV4cCI6MTY2MjI3OTMzNn0.tsE-8zxEKwmq0ThX7nvwyehy67QWIJmVwJiUojI-3UY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzEwMGJjMjFhYmEzNmUzMTZkMDc0NWYiLCJyb2xlIjpmYWxzZSwiaWF0IjoxNjYyNTU4NjQxLCJleHAiOjE2NjI1NTg5NDF9.hIJVL4hqNwbR588JS9vqdKvX4NcEEA7x2HNPM36BRnw
 
 {
     "paymentID":"pay001",
     "address":{"country":"VN"},
-    "cart":{
-        "category":"123456",
-        "checked":false,
-        "content":"123456",
-        "description":"SP Test 2",
-        "image":{"url":"https://res.cloudinary.com/tuananhgmodev/image/upload/v1657422949/cld-sample-4.jpg"},
-        "price":2000,
-        "product_id":"SP002",
-        "sold":0,
-        "title":"test san pham 02",
-    "quantity":"1"
-    },
+    "cart":[
+
+        {
+            "product":{
+
+            "category":"123456",
+            "checked":false,
+            "content":"123456",
+            "description":"SP Test 2",
+            "image":{"url":"https://res.cloudinary.com/tuananhgmodev/image/upload/v1657422949/cld-sample-4.jpg"},
+            "price":2000,
+            "product_id":"SP002",
+            "sold":0
+            },
+            "quantity":"1"
+        },
+        {
+            "product":{
+
+            "category":"123456",
+            "checked":false,
+            "content":"123456",
+            "description":"SP Test 2",
+            "image":{"url":"https://res.cloudinary.com/tuananhgmodev/image/upload/v1657422949/cld-sample-4.jpg"},
+            "price":2000,
+            "product_id":"SP002",
+            "sold":0
+            },
+            "quantity":"1"
+        }
+        
+    ],
+        
+       
+    
     "status":true
 }
+
+###
+GET http://localhost:5000/payment/history
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzEwMGJjMjFhYmEzNmUzMTZkMDc0NWYiLCJyb2xlIjpmYWxzZSwiaWF0IjoxNjYyNjQxNzQ4LCJleHAiOjE2NjI2NDIwNDh9.EQ0MrT2dQmHxz_pCGSYu0YjvFHGFTn3Zgchb9th27GU

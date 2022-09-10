@@ -9,6 +9,7 @@ const authAdmin_1 = require("../app/middleware/authAdmin");
 const payPalController_1 = __importDefault(require("../app/controllers/payPalController"));
 const router = (0, express_1.Router)();
 router.post('/createPayment', verifyToken_1.verifyToken, payPalController_1.default.createPayment);
+router.get('/history', verifyToken_1.verifyToken, payPalController_1.default.history);
 router.get('/', verifyToken_1.verifyToken, authAdmin_1.authAdmin, payPalController_1.default.getPayments);
 exports.default = router;
 //# sourceMappingURL=payment.js.map

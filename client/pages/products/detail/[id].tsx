@@ -1,4 +1,3 @@
-// import { GetStaticProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'

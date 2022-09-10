@@ -13,7 +13,7 @@ class PayPalController {
             .then((payments) => res.status(200).json({
             success: true,
             message: 'Get all payments successfully',
-            payments,
+            payload: payments,
         }))
             .catch((err) => res.status(500).json({ success: false, err: err.message }));
     }
@@ -29,13 +29,15 @@ class PayPalController {
             const newPayment = new paypalModule_1.default(Object.assign(Object.assign({}, req.body), { user_id: _id, name,
                 email }));
             const { cart } = req.body;
-            const cartArr = cart;
-            cartArr.map((item) => updateSoldProduct(item.product._id, item.quantity, item.product.sold));
+            const cartPayment = cart;
+            cartPayment.map((item) => updateSoldProduct(item.product._id, item.quantity, item.product.sold));
+            console.log(req.body);
+            console.log(newPayment);
             await newPayment.save();
             return res.status(200).json({
                 success: true,
                 message: 'Created payment successfully',
-                payment: newPayment,
+                payload: newPayment,
             });
         }
         catch (error) {
@@ -43,6 +45,15 @@ class PayPalController {
                 .status(500)
                 .json({ success: false, message: error.message });
         }
+    }
+    history(req, res) {
+        paypalModule_1.default.find({ user_id: req.userId })
+            .then((payments) => res.status(200).json({
+            success: true,
+            message: 'Get a payment history successfully',
+            payload: payments,
+        }))
+            .catch((err) => res.status(500).json({ success: false, err: err.message }));
     }
 }
 const updateSoldProduct = async (id, quantity, oldSold) => {

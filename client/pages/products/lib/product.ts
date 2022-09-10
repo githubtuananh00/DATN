@@ -5,7 +5,7 @@ import { IProduct, IResponse, IResponseProduct } from '../../../type'
 
 export const getProductIds = async (limit: number) => {
 	const response: IResponse<IProduct[]> = await axios.get(`${apiUrl}/product`)
-	const products: IProduct[] = response.data.products
+	const products: IProduct[] = response.data.products!
 	limit = products.length < limit ? products.length : limit
 	return products.slice(0, limit).map((product: IProduct) => ({
 		params: {
