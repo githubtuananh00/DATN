@@ -137,24 +137,15 @@ class AuthController {
         }
     }
     async token(req, res) {
-        const refreshToken = req.body.refreshToken;
         const userId = req.userId;
-        if (!refreshToken)
-            return res
-                .status(401)
-                .json({ success: false, message: 'Refresh token not found' });
         try {
             const user = await User_1.default.findOne({ _id: userId });
             if (!user)
                 return res
                     .status(403)
                     .json({ success: false, message: 'refreshToken not found' });
-            const refToken = user.refreshToken;
-            if (refToken !== refreshToken)
-                return res
-                    .status(403)
-                    .json({ success: false, message: 'refreshToken not found' });
-            jsonwebtoken_1.default.verify(refToken, process.env.REFRESH_TOKEN);
+            const refreshToken = user.refreshToken;
+            jsonwebtoken_1.default.verify(refreshToken, process.env.REFRESH_TOKEN);
             const tokens = generateTokens(user);
             await User_1.default.updateOne({ _id: user._id }, { refreshToken: tokens.refreshToken });
             return res.status(200).json({
@@ -194,7 +185,7 @@ class AuthController {
 }
 const generateTokens = (payload) => {
     const { _id, role } = payload;
-    const accessToken = (0, jsonwebtoken_1.sign)({ _id, role }, process.env.ACCESS_TOKEN, { expiresIn: '5m' });
+    const accessToken = (0, jsonwebtoken_1.sign)({ _id, role }, process.env.ACCESS_TOKEN, { expiresIn: '10m' });
     const refreshToken = (0, jsonwebtoken_1.sign)({ _id, role }, process.env.REFRESH_TOKEN, { expiresIn: '1h' });
     return { accessToken, refreshToken };
 };

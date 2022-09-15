@@ -23,7 +23,7 @@ Content-Type: application/json
 
 
 {
-    "username":"admin",
+    "username":"user1",
     //"username":"user",
     "password":"123456"
 }
@@ -39,14 +39,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZ
 
 ################################
 
-POST http://localhost:5000/auth/token
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NjEwMDM0MDcsImV4cCI6MTY2MTAwMzcwN30.9z4fwhsQ5qSV2sx7h6RjdqidN8rcSKvwEHFK5lUfdz4
+GET http://localhost:5000/auth/token
+// Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2UwYjFiMDllYWIzMTJhNGZlMTMiLCJyb2xlIjpmYWxzZSwiaWF0IjoxNjYyODE0MzAxLCJleHAiOjE2NjI4MTQ2MDF9.Up6GxOnqRxyPcoNdwe-3VnljMvuCq9dU_mZrccGdHQY
 
 
-{
-    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NjEwMDM0MDcsImV4cCI6MTY2MTAwNzAwN30.qjngc_Tg7tdgxeprh-C0lMKpIrXMg0-zY3fLfDpXZzY"
-}
+
 
 ###
 DELETE http://localhost:5000/auth/delete

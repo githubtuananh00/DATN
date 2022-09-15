@@ -8,13 +8,14 @@ import {
 } from '../../constants'
 import {
 	IRes,
-	IResponseRefreshToken,
+	// IResponseRefreshToken,
 	IToken,
 	IUser,
 	IUserLogin,
 } from '../../type'
 import { authReducer, AuthState } from '../../reducers/AuthReducer'
 import setAuthToken from '../../utils/setAuthToken'
+import { refreshToken } from '../../pages/api/AuthAPI'
 
 const { SET_AUTH } = AuthActionType
 
@@ -36,7 +37,7 @@ export interface AuthStateDefault {
 	authInfo: AuthState
 	logoutUser: () => void
 	register: (userFrom: IUser) => void
-	tokens: (refreshToken: string) => Promise<IResponseRefreshToken>
+	// tokens: (refreshToken: string) => Promise<IResponseRefreshToken>
 }
 
 export const AuthContext = createContext<AuthStateDefault>({
@@ -54,15 +55,18 @@ export const AuthContext = createContext<AuthStateDefault>({
 
 	logoutUser: () => null,
 	register: () => null,
-	tokens: () =>
-		Promise.resolve<IResponseRefreshToken>({
-			success: false,
-			message: '',
-			tokens: null,
-		}),
+	// tokens: () =>
+	// 	Promise.resolve<IResponseRefreshToken>({
+	// 		success: false,
+	// 		message: '',
+	// 		tokens: null,
+	// 	}),
 })
 
 const AuthContextProvider = ({ children }: ContextStateProps) => {
+	// useEffect(() => {
+	// 	console.log(refreshToken())
+	// }, [])
 	const [authInfo, dispatch] = useReducer(authReducer, authDefault)
 
 	const loadUser = async () => {
@@ -94,9 +98,18 @@ const AuthContextProvider = ({ children }: ContextStateProps) => {
 	}
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	useEffect(() => {
-		return () => {
-			loadUser()
-		}
+		loadUser()
+
+		const timerId = setInterval(() => {
+			;(refreshToken() as Promise<IToken>).then((tokens: IToken) => {
+				console.log(tokens.accessToken)
+				localStorage.setItem(
+					LOCAL_STORAGE_TOKEN_NAME,
+					tokens.accessToken
+				)
+			})
+		}, 9.5 * 60 * 1000)
+		return () => clearInterval(timerId)
 	}, [])
 
 	// Login
@@ -180,20 +193,20 @@ const AuthContextProvider = ({ children }: ContextStateProps) => {
 	}
 
 	// Tokens
-	const tokens = async (refreshToken: string) => {
-		const response: IResponseRefreshToken = await axios.post(
-			`${apiUrl}/auth/token`,
-			refreshToken
-		)
-		return response
-	}
+	// const tokens = async (refreshToken: string) => {
+	// 	const response: IResponseRefreshToken = await axios.post(
+	// 		`${apiUrl}/auth/token`,
+	// 		refreshToken
+	// 	)
+	// 	return response
+	// }
 
 	const authContextData = {
 		authInfo,
 		loginUser,
 		logoutUser,
 		register,
-		tokens,
+		// tokens,
 	}
 	return (
 		<AuthContext.Provider value={authContextData}>

@@ -156,14 +156,14 @@ class AuthController {
 	}
 
 	// [POST] /auth/token
-	async token(req: IGetUserAuthInfoRequest<IGenerateTokens>, res: Response) {
-		const refreshToken: string = req.body.refreshToken
+	async token(req: IGetUserAuthInfoRequest<null>, res: Response) {
+		// const refreshToken: string = req.body.refreshToken
 		const userId: string = req.userId
 
-		if (!refreshToken)
-			return res
-				.status(401)
-				.json({ success: false, message: 'Refresh token not found' })
+		// if (!refreshToken)
+		// 	return res
+		// 		.status(401)
+		// 		.json({ success: false, message: 'Refresh token not found' })
 		try {
 			const user: IUser | null = await User.findOne({ _id: userId })
 
@@ -171,14 +171,14 @@ class AuthController {
 				return res
 					.status(403)
 					.json({ success: false, message: 'refreshToken not found' })
-			const refToken: string = user.refreshToken
-			if (refToken !== refreshToken)
-				return res
-					.status(403)
-					.json({ success: false, message: 'refreshToken not found' })
+			const refreshToken: string = user.refreshToken
+			// if (refToken !== refreshToken)
+			// 	return res
+			// 		.status(403)
+			// 		.json({ success: false, message: 'refreshToken not found' })
 
 			// Verify token
-			jwt.verify(refToken, process.env.REFRESH_TOKEN as Secret)
+			jwt.verify(refreshToken, process.env.REFRESH_TOKEN as Secret)
 			// Create new token, newRefreshToken
 			const tokens: IGenerateTokens = generateTokens(user)
 
@@ -237,7 +237,7 @@ const generateTokens = (payload: IUser): IGenerateTokens => {
 	const accessToken: string = sign(
 		{ _id, role },
 		process.env.ACCESS_TOKEN as Secret,
-		{ expiresIn: '5m' }
+		{ expiresIn: '10m' }
 	)
 	// Refresh token
 	const refreshToken: string = sign(

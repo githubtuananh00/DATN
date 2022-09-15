@@ -84,7 +84,7 @@ const NavbarMenu = () => {
 						<>
 							<Nav className='nav-item'>
 								<Link
-									href='/dashboard'
+									href='/products/createProduct'
 									passHref
 									className='nav-link'
 								>

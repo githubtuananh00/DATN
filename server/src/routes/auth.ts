@@ -9,7 +9,7 @@ import authController from '../app/controllers/authController'
 router.post('/register', authController.register)
 router.post('/login', authController.login)
 // Update token
-router.post('/token', verifyToken, authController.token)
+router.get('/token', verifyToken, authController.token)
 // Bao ve rout
 router.post('/test', verifyToken, authController.test)
 // Phan quyen admin

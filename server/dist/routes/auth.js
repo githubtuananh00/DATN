@@ -9,7 +9,7 @@ const router = (0, express_1.Router)();
 const authController_1 = __importDefault(require("../app/controllers/authController"));
 router.post('/register', authController_1.default.register);
 router.post('/login', authController_1.default.login);
-router.post('/token', verifyToken_1.verifyToken, authController_1.default.token);
+router.get('/token', verifyToken_1.verifyToken, authController_1.default.token);
 router.post('/test', verifyToken_1.verifyToken, authController_1.default.test);
 router.delete('/delete', verifyToken_1.verifyToken, authController_1.default.deleteToken);
 router.get('/', verifyToken_1.verifyToken, authController_1.default.loadUser);
