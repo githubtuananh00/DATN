@@ -14,9 +14,9 @@ cloudinary.v2.config({
 })
 
 // Upload file
-router.post('upload', verifyToken, authAdmin, uploadController.uploadFile)
+router.post('/upload', verifyToken, authAdmin, uploadController.uploadFile)
 
 // Delete file
-router.post('delete', verifyToken, authAdmin, uploadController.deleteFile)
+router.post('/delete', verifyToken, authAdmin, uploadController.deleteFile)
 
 export default router

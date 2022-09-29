@@ -75,7 +75,11 @@ const Login = () => {
 
 	return (
 		<Layout>
-			<Form className='my-4' onSubmit={loginSubmit}>
+			<Form
+				className='my-4'
+				onSubmit={loginSubmit}
+				style={{ padding: '0 400px' }}
+			>
 				<AlertMessage type={alert.type} message={alert.message} />
 				<Form.Group className='mb-3' controlId='formBasicEmail'>
 					<Form.Control
@@ -97,15 +101,19 @@ const Login = () => {
 					/>
 				</Form.Group>
 
-				<Button variant='primary' type='submit'>
+				<Button
+					variant='primary'
+					type='submit'
+					style={{ margin: '0 120px' }}
+				>
 					Login
 				</Button>
+				<Link href='/auth/Register'>
+					<Button variant='warning' type='submit'>
+						Register
+					</Button>
+				</Link>
 			</Form>
-			<Link href='/auth/Register'>
-				<Button variant='primary' type='submit'>
-					Register
-				</Button>
-			</Link>
 		</Layout>
 	)
 }

@@ -32,3 +32,7 @@ export interface IProductQty<T> {
 	quantity: number
 	product: T
 }
+
+export interface IFile extends File {
+	path: string
+}

@@ -14,8 +14,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 		'client-id': paypalClient,
 		currency: 'USD',
 		intent: 'capture',
-		// total: '1',
-		// 'data-client-token': 'abc123xyz==',
 	}
 	return (
 		<PayPalScriptProvider options={initialOptions}>

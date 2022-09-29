@@ -4,11 +4,11 @@ POST http://localhost:5000/auth/register
 Content-Type: application/json
 
 {
-    "username": "user3",
+    "username": "admin",
     "password": "123456",
-    "name":"User",
-    "email":"user@gmail.com",
-    "phone":"0347785468",
+    "name":"Admin",
+    "email":"admin@gmail.com",
+    "phone":"0347785411",
     "address":"An Phu Thuan An Binh Duong",
     //"shopName":"Tuan",
     "gt":"Nam",
@@ -23,7 +23,7 @@ Content-Type: application/json
 
 
 {
-    "username":"user1",
+    "username":"admin",
     //"username":"user",
     "password":"123456"
 }
@@ -60,10 +60,10 @@ GET http://localhost:5000/category
 ### POST/createCategory
 POST http://localhost:5000/category/createCategory
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzA4Y2JiNjFiMDllYWIzMTJhNGZkZjMiLCJyb2xlIjp0cnVlLCJpYXQiOjE2NjI3NzYyNDYsImV4cCI6MTY2Mjc3NjU0Nn0.1W58UHQhExpsKavXTb1BGCpjf5v_dWOriA3FwJTu3n4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzIzMmJmNmFhZDRkMWFjOTU3MGJkZjIiLCJyb2xlIjp0cnVlLCJpYXQiOjE2NjMyNDk4MDcsImV4cCI6MTY2MzI1MDQwN30.DxSJMokL6mDL4t0U0bYXeYwARJUif3vqrGLV0TdWBFQ
 
 {
-    "nameCategory":"Thời trang Nam1"
+    "nameCategory":"Thời trang Nam"
 }
 
 
@@ -87,13 +87,13 @@ POST http://localhost:5000/upload
 ### product
 POST http://localhost:5000/product/createProduct
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM1OTFiZmMwNGZkZmRlYjhlODM4NWQiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE2NTk1MzI0NjIsImV4cCI6MTY1OTUzMjc2Mn0.HZDc4dzj1OIiMF5oSroybHXclVcgURuIoSDSxvOk7hA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzIzMmJmNmFhZDRkMWFjOTU3MGJkZjIiLCJyb2xlIjp0cnVlLCJpYXQiOjE2NjMyNDk4MDcsImV4cCI6MTY2MzI1MDQwN30.DxSJMokL6mDL4t0U0bYXeYwARJUif3vqrGLV0TdWBFQ
 
 {
-    "product_id":"SP006",
-    "title":"Test san pham 06",
-    "price":5000,
-    "description":"SP Test 6",
+    "product_id":"SP005",
+    "title":"Test san pham 05",
+    "price":2000,
+    "description":"SP Test 5",
     "content":"123456",
     "image":{"url":"https://res.cloudinary.com/tuananhgmodev/image/upload/v1657422949/cld-sample-5.jpg"},
     "category":"123456"

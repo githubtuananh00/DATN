@@ -10,6 +10,7 @@ import { IPayment, IProductQty } from '../../type'
 import { addPayment } from '../api/PaymentAPI'
 import { useCart } from '../../hooks'
 import { addCartAPI } from '../api/CartAPI'
+import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 
 // import { productItemProps } from '../products/ProductItem'
 interface IPayPal {
@@ -20,6 +21,7 @@ const PayPal = ({ total, carts }: IPayPal) => {
 	const { updateSetCart } = useCart()
 	const [paidFor, setPaidFor] = useState<boolean>(false)
 	const [error, setError] = useState<string>('')
+	const [alert, setAlert] = useState<AlertInfo>({ type: null, message: '' })
 	const handleApprove = async (data: OrderResponseBody) => {
 		// Call backend function to fulfill order
 		// console.log(data.paymentID)
@@ -43,12 +45,24 @@ const PayPal = ({ total, carts }: IPayPal) => {
 
 	if (paidFor) {
 		// Display success message, modal or redirect user to success page
-		alert('Thank you for your purchase!')
+		setAlert({
+			type: 'success',
+			message: 'Thank you for your purchase!',
+		})
+		setTimeout(() => {
+			setAlert({ type: null, message: '' })
+		}, 2000)
 	}
 
 	if (error) {
 		// Display success message, modal or redirect user to success page
-		alert(error)
+		setAlert({
+			type: 'danger',
+			message: error,
+		})
+		setTimeout(() => {
+			setAlert({ type: null, message: '' })
+		}, 2000)
 	}
 	const createOrder1 = (
 		data: CreateOrderData,
@@ -67,56 +81,43 @@ const PayPal = ({ total, carts }: IPayPal) => {
 	}
 
 	return (
-		<PayPalButtons
-			style={{
-				layout: 'horizontal',
-				color: 'gold',
-				shape: 'pill',
-				label: 'pay',
-			}}
-			onClick={(data, actions) => {
-				// Validate on button click, client or server side
-				const hasAlreadyBoughtCourse: boolean = false
-				if (hasAlreadyBoughtCourse) {
-					setError(
-						'You already bought this course. Go to your account to view your list of courses.'
-					)
-					return actions.reject()
-				} else {
-					return actions.resolve()
-				}
-			}}
-			createOrder={useCallback(
-				(data: CreateOrderData, actions: CreateOrderActions) =>
-					createOrder1(data, actions),
-				// eslint-disable-next-line react-hooks/exhaustive-deps
-				[total]
-			)}
-			// onApprove={(data, actions) => {
-			// 	return actions.order!.capture().then((details) => {
-			// 		const name = details.payer.name!.given_name
-			// 		console.log(data)
-
-			// 		alert(`Transaction completed by ${name}`)
-			// 	})
-			// }}
-			onApprove={async (data, actions) => {
-				const order = await actions.order!.capture()
-				// console.log(order)
-
-				// console.log(order.purchase_units[0].payments!.captures![0])
-				// console.log(data.orderID)
-
-				handleApprove(order)
-			}}
-			// // onChange={() => {
-			// //   // Display cancel message, modal or redirect user to cancel page or back to cart
-			// // }}
-			onError={(err) => {
-				setError(err as unknown as string)
-				console.log('PayPal Checkout Error', err)
-			}}
-		/>
+		<>
+			<AlertMessage type={alert.type} message={alert.message} />
+			<PayPalButtons
+				style={{
+					layout: 'horizontal',
+					color: 'gold',
+					shape: 'pill',
+					label: 'pay',
+				}}
+				onClick={(data, actions) => {
+					// Validate on button click, client or server side
+					const hasAlreadyBoughtCourse: boolean = false
+					if (hasAlreadyBoughtCourse) {
+						setError(
+							'You already bought this course. Go to your account to view your list of courses.'
+						)
+						return actions.reject()
+					} else {
+						return actions.resolve()
+					}
+				}}
+				createOrder={useCallback(
+					(data: CreateOrderData, actions: CreateOrderActions) =>
+						createOrder1(data, actions),
+					// eslint-disable-next-line react-hooks/exhaustive-deps
+					[total]
+				)}
+				onApprove={async (data, actions) => {
+					const order = await actions.order!.capture()
+					handleApprove(order)
+				}}
+				onError={(err) => {
+					setError(err as unknown as string)
+					console.log('PayPal Checkout Error', err)
+				}}
+			/>
+		</>
 	)
 }
 

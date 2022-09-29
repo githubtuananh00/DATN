@@ -1,49 +1,54 @@
 import { Request, Response } from 'express'
-import { UploadedFile } from 'express-fileupload'
 import cloudinary, { UploadApiResponse } from 'cloudinary'
 import fs from 'fs'
+import { IFile, IGetUserAuthInfoRequest } from '../type'
 
 class UploadController {
 	// [POST] /upload
-	uploadFile(req: Request, res: Response) {
+	uploadFile(req: IGetUserAuthInfoRequest<IFile>, res: Response) {
+		console.log(req.body)
 		try {
-			if (!req.files || Object.keys(req.files).length === 0)
+			if (!req.body)
 				return res
 					.status(400)
 					.json({ success: false, message: 'No files were uploaded' })
-			const file: UploadedFile = req.files.file as UploadedFile
+			const file: IFile = req.body as IFile
+			console.log(file)
+
 			if (file.size > 1024 * 1024) {
-				removeTmp(file.tempFilePath)
+				removeTmp(file.path)
 				return res
 					.status(400)
 					.json({ success: false, message: 'Size too large' })
 			}
 
-			if (
-				file.mimetype !== 'image/jpeg' &&
-				file.mimetype !== 'image/png'
-			) {
-				removeTmp(file.tempFilePath)
+			if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+				removeTmp(file.path)
 				return res.status(400).json({
 					success: false,
 					message: 'File format is incorrect',
 				})
 			}
 
-			cloudinary.v2.uploader
-				.upload(file.tempFilePath, { folder: 'test' })
-				.then((result) =>
-					res.json({
+			cloudinary.v2.uploader.upload(
+				file.path,
+				{ folder: 'test' },
+				async (err, result) => {
+					if (err)
+						return res.status(400).json({
+							success: false,
+							error: err.message,
+						})
+					removeTmp(file.path)
+					return res.json({
 						success: true,
-						public_id: result.public_id,
-						url: result.secure_url,
+						payload: {
+							url: (result as UploadApiResponse).secure_url,
+							public_id: (result as UploadApiResponse).public_id,
+						},
 					})
-				)
-				.catch((err) =>
-					res.status(400).json({ success: false, error: err.message })
-				)
-			removeTmp(file.tempFilePath)
-			res.json('test upload')
+				}
+			)
 		} catch (error) {
 			return res
 				.status(500)

@@ -26,7 +26,7 @@ export const authReducer = (state: AuthState, action: AuthAction) => {
 				isAuthenticated: action.payload.isAuthenticated,
 				user: action.payload.user,
 				authLoading: false,
-				isAdmin:action.payload.isAdmin
+				isAdmin: action.payload.isAdmin,
 			}
 
 		default:

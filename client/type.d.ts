@@ -2,14 +2,11 @@ import { Document } from 'mongoose'
 import { Payer } from '@paypal/paypal-js/types/apis/orders'
 
 export interface IProduct extends Document {
-	// success: boolean
-	// message: string
-
 	product_id: string
 	title: string
 	price: number
 	description: string
-	image: { url: string }
+	image: IResponseFile
 	category: string
 	sold: number
 	checked: boolean
@@ -99,17 +96,6 @@ export interface IResponseRefreshToken extends IResponseRegister {
 
 export interface IPayment {
 	paymentID: string
-	// address: {
-	// 	address: {
-	// 		country_code: string
-	// 	}
-	// 	email_address: string
-	// 	name: {
-	// 		given_name: string
-	// 		surname: string
-	// 	}
-	// 	payer_id: string
-	// }
 	address: Partial<Payer>
 	cart: Array<IProductQty>
 	status: boolean
@@ -126,4 +112,26 @@ export interface ICategory extends Document {
 
 export interface IReqCategory {
 	nameCategory: string
+}
+
+export interface IFile {
+	path: string
+	name: string
+	size: number
+	type: string
+}
+
+export interface IResponseFile {
+	url: string
+	public_id: string
+}
+
+export interface IUpLoadProduct {
+	product_id: string
+	title: string
+	price: number
+	description: string
+	content: string
+	category: string
+	image: IResponseFile
 }

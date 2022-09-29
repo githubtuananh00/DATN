@@ -1,8 +1,27 @@
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
-import { Button, Form } from 'react-bootstrap'
+import {
+	ChangeEvent,
+	FormEvent,
+	MutableRefObject,
+	useEffect,
+	useRef,
+	useState,
+} from 'react'
+import { Button, Col, Form, Row, Spinner } from 'react-bootstrap'
 import Layout from '../../../component/Layout'
-import { useAuth } from '../../../hooks'
+import { useAuth, useCategory } from '../../../hooks'
+import {
+	ICategory,
+	IFile,
+	IResponseFile,
+	IResponseRegister,
+	IUpLoadProduct,
+} from '../../../type'
+import { getCategoriesAPI } from '../../api/CategoryAPI'
+import { addProductAPI } from '../../api/ProductAPI'
+import { DestroyFileAPI, UploadedFileAPI } from '../../api/UploadAPI'
+import AlertMessage, { AlertInfo } from '../../layout/AlertMessage'
+import Upload from '../lib/svg/upload.svg'
 
 const CreateProduct = () => {
 	const router = useRouter()
@@ -17,61 +36,424 @@ const CreateProduct = () => {
 		} else if (!isAdmin) router.back()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isAuthenticated, isAdmin])
+
+	const { categories, updateSetCategories } = useCategory()
+	useEffect(() => {
+		const getCategories = async () => {
+			const response: ICategory[] =
+				(await getCategoriesAPI()) as ICategory[]
+			updateSetCategories(response)
+		}
+		getCategories()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
+
+	const upLoadFormDefault: IUpLoadProduct = {
+		product_id: '',
+		title: '',
+		price: 0,
+		description: '',
+		content: '',
+		category: '',
+		image: { url: '', public_id: '' },
+	}
+
+	const [displayImg, setDisplayImg] = useState<boolean>(false)
+	const [image, setImage] = useState<IResponseFile>()
+
+	const inputFileRef = useRef() as MutableRefObject<HTMLInputElement>
+	const productIdRef = useRef() as MutableRefObject<HTMLInputElement>
+	const [alert, setAlert] = useState<AlertInfo>({ type: null, message: '' })
+
+	const [upLoadForm, setUpLoadForm] =
+		useState<IUpLoadProduct>(upLoadFormDefault)
+	const { product_id, title, price, description, content, category } =
+		upLoadForm
+
+	const onChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
+		event.preventDefault()
+
+		try {
+			if (!isAdmin) {
+				setAlert({
+					type: 'danger',
+					message: 'You are not authorized',
+				})
+				handleCloseAlert()
+				return
+			}
+
+			const file =
+				event.currentTarget.files && event.currentTarget.files[0]
+			if (!file) {
+				setAlert({
+					type: 'danger',
+					message: 'File not exists',
+				})
+				handleCloseAlert()
+				return
+			}
+			if (file.size > 1024 * 1024) {
+				setAlert({
+					type: 'danger',
+					message: 'Size too large',
+				})
+				handleCloseAlert()
+				return
+			}
+			if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+				setAlert({
+					type: 'danger',
+					message: 'File format is incorrect',
+				})
+				handleCloseAlert()
+				return
+			}
+			const pathFake: string = event.currentTarget.value
+
+			const pathReal: string = pathFake.replace(
+				'C:\\fakepath',
+				'D:\\BaiTap\\DATN\\img'
+			)
+
+			const data: IFile = {
+				path: pathReal,
+				name: file.name,
+				size: file.size,
+				type: file.type,
+			}
+
+			const response = (await UploadedFileAPI(data)) as IResponseFile
+			setImage(response)
+			setDisplayImg(true)
+		} catch (error) {
+			setAlert({
+				type: 'danger',
+				message: error as string,
+			})
+			handleCloseAlert()
+			return
+		}
+	}
+
+	const onClickUploadFile = () => {
+		inputFileRef.current.click()
+	}
+	const onClickDestroy = async () => {
+		try {
+			if (!isAdmin) {
+				setAlert({
+					type: 'danger',
+					message: 'You are not authorized',
+				})
+				handleCloseAlert()
+				return
+			}
+			setDisplayImg(true)
+
+			await DestroyFileAPI(image!.public_id)
+
+			setDisplayImg(false)
+		} catch (error) {
+			setAlert({
+				type: 'danger',
+				message: error as string,
+			})
+			handleCloseAlert()
+			return
+		}
+	}
+	const handleCloseAlert = () => {
+		setTimeout(() => setAlert({ type: null, message: '' }), 2000)
+	}
+	// OnChange Input Form
+	const onChangeInputForm = (event: ChangeEvent<HTMLInputElement>) =>
+		setUpLoadForm({
+			...upLoadForm,
+			[event.target.name]: event.target.value,
+		})
+	// OnChange Category
+	const onChangeCategory = (event: ChangeEvent<HTMLSelectElement>) =>
+		setUpLoadForm({
+			...upLoadForm,
+			[event.target.name]: event.target.value,
+		})
+	// OnSubmit Form
+	const onSubmitForm = async (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault()
+		try {
+			if (!isAdmin) {
+				setAlert({
+					type: 'danger',
+					message: 'You are not authorized',
+				})
+				handleCloseAlert()
+				return
+			}
+			if (!image) {
+				setAlert({
+					type: 'danger',
+					message: 'No Image Upload',
+				})
+				handleCloseAlert()
+				return
+			}
+			const response: IResponseRegister = (await addProductAPI({
+				...upLoadForm,
+				image,
+			})) as IResponseRegister
+			setAlert({
+				type: 'info',
+				message: response.message,
+			})
+			handleCloseAlert()
+
+			setDisplayImg(false)
+			setUpLoadForm(upLoadFormDefault)
+			productIdRef.current.focus()
+		} catch (error) {
+			setAlert({
+				type: 'danger',
+				message: error as string,
+			})
+			handleCloseAlert()
+			return
+		}
+	}
+
 	return (
 		<Layout>
-			<div className='container tm-mt-big tm-mb-big'>
-				<div className='row'>
-					<div className='col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto'>
-						<div className='tm-bg-primary-dark tm-block tm-block-h-auto'>
-							<div className='row'>
-								<div className='col-12'>
+			<div className='upLoadProduct'>
+				<div className='container tm-mt-big tm-mb-big'>
+					<AlertMessage type={alert.type} message={alert.message} />
+					<Row>
+						<div className='col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto'>
+							<div className='tm-bg-primary-dark tm-block tm-block-h-auto'>
+								<Row>
+									<div className='col-12'></div>
+
 									<h2 className='tm-block-title d-inline-block'>
 										Add Product
 									</h2>
-								</div>
-							</div>
-							<div className='row tm-edit-product-row'>
-								<div className='col-xl-6 col-lg-6 col-md-12'>
-									<Form className='tm-edit-product-form'>
-										<Form.Group className='mb-3'>
-											<Form.Label>
-												Product Name
-											</Form.Label>
-											<Form.Control
-												type='text'
-												placeholder='Product Name'
-												className='form-control validate'
-												required
-											/>
-										</Form.Group>
+								</Row>
+								<Row className='tm-edit-product-row'>
+									<Form
+										className='tm-edit-product-form d-flex'
+										style={{ color: '#fff' }}
+										onSubmit={onSubmitForm}
+									>
+										<Row>
+											<Col
+												style={{ marginRight: '30px' }}
+											>
+												<Form.Group className='mb-3'>
+													<Form.Label>
+														Product ID
+													</Form.Label>
+													<Form.Control
+														type='text'
+														required
+														value={product_id}
+														onChange={
+															onChangeInputForm
+														}
+														name='product_id'
+														ref={productIdRef}
+													/>
+												</Form.Group>
+												<Form.Group className='mb-3'>
+													<Form.Label>
+														Title
+													</Form.Label>
+													<Form.Control
+														type='text'
+														required
+														value={title}
+														onChange={
+															onChangeInputForm
+														}
+														name='title'
+													/>
+												</Form.Group>
+												<Form.Group className='mb-3'>
+													<Form.Label>
+														Price
+													</Form.Label>
+													<Form.Control
+														type='text'
+														required
+														value={price}
+														onChange={
+															onChangeInputForm
+														}
+														name='price'
+													/>
+												</Form.Group>
 
-										<Form.Group className='mb-3'>
-											<Form.Label>Description</Form.Label>
-											<Form.Control
-												as='textarea'
-												placeholder='Description'
-												required
-											/>
-										</Form.Group>
-										<Form.Group className='mb-3'>
-											<Form.Label>Category</Form.Label>
-											<Form.Select>
-												<option>
-													Please select category
-												</option>
-												<option value='1'>One</option>
-												<option value='2'>Two</option>
-												<option value='3'>Three</option>
-											</Form.Select>
-										</Form.Group>
-										<Button variant='primary' type='submit'>
-											Submit
-										</Button>
+												<Form.Group className='mb-3'>
+													<Form.Label>
+														Description
+													</Form.Label>
+													<Form.Control
+														as='textarea'
+														required
+														style={{
+															height: '90px',
+														}}
+														value={description}
+														onChange={
+															onChangeInputForm
+														}
+														name='description'
+													/>
+												</Form.Group>
+												<Form.Group className='mb-3'>
+													<Form.Label>
+														Content
+													</Form.Label>
+													<Form.Control
+														as='textarea'
+														required
+														style={{
+															height: '90px',
+														}}
+														value={content}
+														onChange={
+															onChangeInputForm
+														}
+														name='content'
+													/>
+												</Form.Group>
+											</Col>
+											<Col>
+												<Form.Group className='mb-3'>
+													<Form.Label>
+														Category
+													</Form.Label>
+													<Form.Select
+														className='custom-select'
+														value={category}
+														name='category'
+														onChange={
+															onChangeCategory
+														}
+														required
+													>
+														<option value=''>
+															Please select
+															category
+														</option>
+
+														{categories.map(
+															(category) => (
+																<option
+																	key={
+																		category._id as string
+																	}
+																	value={
+																		category.nameCategory
+																	}
+																>
+																	{
+																		category.nameCategory
+																	}
+																</option>
+															)
+														)}
+													</Form.Select>
+												</Form.Group>
+												<div className='tm-product-img-dummy mx-auto'>
+													{!displayImg && (
+														<img
+															src={Upload.src}
+															alt='Upload'
+															width={40}
+														/>
+													)}
+
+													{displayImg && (
+														<>
+															{image ? (
+																<>
+																	<img
+																		src={
+																			image.url
+																		}
+																		alt=''
+																		style={{
+																			maxWidth:
+																				'100%',
+																			maxHeight:
+																				'100%',
+																		}}
+																	/>
+																	<span
+																		onClick={
+																			onClickDestroy
+																		}
+																	>
+																		X
+																	</span>
+																</>
+															) : (
+																<Spinner
+																	animation='border'
+																	variant='warning'
+																/>
+															)}
+														</>
+													)}
+												</div>
+
+												<div className='custom-file mt-3 mb-3'>
+													<input
+														id='fileInput'
+														type='file'
+														onChange={onChangeFile}
+														style={{
+															display: 'none',
+														}}
+														ref={inputFileRef}
+													/>
+
+													<input
+														type='button'
+														className='btn btn-primary btn-block mx-auto'
+														value='UPLOAD PRODUCT IMAGE'
+														style={{
+															width: '100%',
+														}}
+														onClick={
+															onClickUploadFile
+														}
+													/>
+												</div>
+											</Col>
+											<Row
+												style={{
+													width: '100%',
+													display: 'block',
+													marginLeft: '10px',
+													paddingRight: '150px',
+												}}
+											>
+												<Button
+													type='submit'
+													className='text-uppercase'
+													style={{
+														width: '100%',
+														marginLeft: '80px',
+													}}
+												>
+													Add Product Now
+												</Button>
+											</Row>
+										</Row>
 									</Form>
-								</div>
+								</Row>
 							</div>
 						</div>
-					</div>
+					</Row>
 				</div>
 			</div>
 		</Layout>
@@ -79,91 +461,3 @@ const CreateProduct = () => {
 }
 
 export default CreateProduct
-/*
-<form action="" className="tm-edit-product-form">
-                  <div className="form-group mb-3">
-                      <label>Product Name</label>
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      className="form-control validate"
-                      required
-                    />
-                  </div>
-                  <div className="form-group mb-3">
-                    <label
-                      
-                      >Description</label
-                      >
-                    <textarea
-                      className="form-control validate"
-                      rows={3}
-                      required
-                    ></textarea>
-                </div>
-                  <div className="form-group mb-3">
-                    <label
-                      >Category</label
-                    >
-                    <select
-                      className="custom-select tm-select-accounts"
-                      id="category"
-                    >
-                      <option selected>Select category</option>
-                      <option value="1">New Arrival</option>
-                      <option value="2">Most Popular</option>
-                      <option value="3">Trending</option>
-                    </select>
-                </div>
-                  <div className="row">
-                      <div className="form-group mb-3 col-xs-12 col-sm-6">
-                          <label
-                            >Expire Date
-                          </label>
-                          <input
-                            id="expire_date"
-                            name="expire_date"
-                            type="text"
-                            className="form-control validate"
-                            data-large-mode="true"
-                          />
-                        </div>
-                        <div className="form-group mb-3 col-xs-12 col-sm-6">
-                          <label
-                            >Units In Stock
-                          </label>
-                          <input
-                            id="stock"
-                            name="stock"
-                            type="text"
-                            className="form-control validate"
-                            required
-                          />
-                        </div>
-                  </div>
-                  
-              </div>
-              <div className="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
-                <div className="tm-product-img-dummy mx-auto">
-                  <i
-                  className="fas fa-cloud-upload-alt tm-upload-icon"
-                  onclick="document.getElementById('fileInput').click();"
-                  ></i>
-                </div>
-                <div className="custom-file mt-3 mb-3">
-									<input id="fileInput" type="file" style={{display: 'none'}} />
-                  
-                  <input
-                  type="button"
-                    className="btn btn-primary btn-block mx-auto"
-                    value="UPLOAD PRODUCT IMAGE"
-                    onclick="document.getElementById('fileInput').click();"
-                    />
-                </div>
-              </div>
-              <div className="col-12">
-                <button type="submit" className="btn btn-primary btn-block text-uppercase">Add Product Now</button>
-              </div>
-            </form>
-*/

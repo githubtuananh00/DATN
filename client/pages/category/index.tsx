@@ -42,7 +42,6 @@ const Category = () => {
 			const response: ICategory[] =
 				(await getCategoriesAPI()) as ICategory[]
 			updateSetCategories(response)
-			console.log(response)
 		}
 		getCategories()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -139,10 +138,6 @@ const Category = () => {
 										</Card.Text>
 										<>
 											<Link
-												// variant='secondary'
-												// style={{
-												// 	marginRight: '10px',
-												// }}
 												href={`/category/${
 													category._id as string
 												}`}

@@ -14,7 +14,7 @@ cloudinary_1.default.v2.config({
     api_key: process.env.CLOUD_API_KEY,
     api_secret: process.env.CLOUD_API_SECRET,
 });
-router.post('upload', verifyToken_1.verifyToken, authAdmin_1.authAdmin, uploadController_1.default.uploadFile);
-router.post('delete', verifyToken_1.verifyToken, authAdmin_1.authAdmin, uploadController_1.default.deleteFile);
+router.post('/upload', verifyToken_1.verifyToken, authAdmin_1.authAdmin, uploadController_1.default.uploadFile);
+router.post('/delete', verifyToken_1.verifyToken, authAdmin_1.authAdmin, uploadController_1.default.deleteFile);
 exports.default = router;
 //# sourceMappingURL=upload.js.map

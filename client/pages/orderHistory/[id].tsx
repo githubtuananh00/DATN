@@ -92,33 +92,4 @@ const DetailHistory = () => {
 	)
 }
 
-// export interface IProps {
-// 	payment: {
-// 		success: boolean
-// 		message: string
-// 		payment: IPaymentResponse
-// 	}
-// }
-
-// export interface IParams extends ParsedUrlQuery {
-// 	id: string
-// }
-
-// export const getStaticProps: GetStaticProps<IProps, IParams> = async (
-// 	context
-// ) => {
-// 	// const { id } = context.params
-// 	const params: IParams = context.params!
-// 	console.log(params.id)
-
-// 	// const product = await getProductById(params.id)
-// 	// return {
-// 	// 	props: {
-// 	// 		product,
-// 	// 	},
-// 	// 	revalidate: 1, // khi phía db thay đổi dữ liệu thì bên phía font-end cũng dc rerender lại
-// 	// 	// props
-// 	// }
-// }
-
 export default DetailHistory

@@ -70,7 +70,7 @@ const Register = () => {
 
 		try {
 			if (password !== confirmPassword) {
-				setDefault('Those passwords didn\’t match. Try again')
+				setDefault('Those passwords didn’t match. Try again')
 				return
 			}
 			const registerData: IResponseRegister = (await register(
@@ -105,7 +105,11 @@ const Register = () => {
 	// console.log(alert.type, alert.message)
 	return (
 		<Layout>
-			<Form className='my-4' onSubmit={loginSubmit}>
+			<Form
+				className='my-4'
+				onSubmit={loginSubmit}
+				style={{ padding: '0 200px' }}
+			>
 				<AlertMessage type={alert.type} message={alert.message} />
 				<Form.Group className='mb-3'>
 					<Form.Control
@@ -202,7 +206,11 @@ const Register = () => {
 				</Form.Select>
 				<br></br>
 				<Link href='/auth/Login'>
-					<Button variant='primary' type='submit'>
+					<Button
+						variant='warning'
+						type='submit'
+						style={{ margin: '0 200px' }}
+					>
 						Back
 					</Button>
 				</Link>
