@@ -3,12 +3,12 @@ import { createContext, useEffect, useReducer } from 'react'
 import {
 	apiUrl,
 	AuthActionType,
-	ContextStateProps,
 	LOCAL_STORAGE_TOKEN_NAME,
 } from '../../constants'
 import {
+	ContextStateProps,
 	IRes,
-	// IResponseRefreshToken,
+	IResponseRefreshToken,
 	IToken,
 	IUser,
 	IUserLogin,
@@ -37,7 +37,7 @@ export interface AuthStateDefault {
 	authInfo: AuthState
 	logoutUser: () => void
 	register: (userFrom: IUser) => void
-	// tokens: (refreshToken: string) => Promise<IResponseRefreshToken>
+	tokens: (refreshToken: string) => Promise<IResponseRefreshToken>
 }
 
 export const AuthContext = createContext<AuthStateDefault>({
@@ -55,12 +55,12 @@ export const AuthContext = createContext<AuthStateDefault>({
 
 	logoutUser: () => null,
 	register: () => null,
-	// tokens: () =>
-	// 	Promise.resolve<IResponseRefreshToken>({
-	// 		success: false,
-	// 		message: '',
-	// 		tokens: null,
-	// 	}),
+	tokens: () =>
+		Promise.resolve<IResponseRefreshToken>({
+			success: false,
+			message: '',
+			tokens: null,
+		}),
 })
 
 const AuthContextProvider = ({ children }: ContextStateProps) => {
@@ -163,11 +163,11 @@ const AuthContextProvider = ({ children }: ContextStateProps) => {
 				`${apiUrl}/auth/register`,
 				config.data.userForm
 			)
-			// if (response.data.success)
-			// 	localStorage.setItem(
-			// 		LOCAL_STORAGE_TOKEN_NAME,
-			// 		response.data.tokens!.accessToken
-			// 	)
+			if (response.data.success)
+				localStorage.setItem(
+					LOCAL_STORAGE_TOKEN_NAME,
+					response.data.tokens!.accessToken
+				)
 			await loadUser()
 			return response.data
 		} catch (error) {
@@ -193,20 +193,20 @@ const AuthContextProvider = ({ children }: ContextStateProps) => {
 	}
 
 	// Tokens
-	// const tokens = async (refreshToken: string) => {
-	// 	const response: IResponseRefreshToken = await axios.post(
-	// 		`${apiUrl}/auth/token`,
-	// 		refreshToken
-	// 	)
-	// 	return response
-	// }
+	const tokens = async (refreshToken: string) => {
+		const response: IResponseRefreshToken = await axios.post(
+			`${apiUrl}/auth/token`,
+			refreshToken
+		)
+		return response
+	}
 
 	const authContextData = {
 		authInfo,
 		loginUser,
 		logoutUser,
 		register,
-		// tokens,
+		tokens,
 	}
 	return (
 		<AuthContext.Provider value={authContextData}>

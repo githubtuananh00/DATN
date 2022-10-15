@@ -7,6 +7,9 @@ import { IProduct, IResponseRegister } from '../../type'
 import { deleteProductAPI } from '../api/ProductAPI'
 import { DestroyFileAPI } from '../api/UploadAPI'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
+import SpinnerInfo from '../layout/SpinnerInfo'
+import Filters from './Filters'
+import LoadMore from './LoadMore'
 
 import ProductItem from './ProductItem'
 
@@ -19,6 +22,12 @@ const Products = () => {
 		reload,
 		updateProducts,
 		reloadProduct,
+		updateResult,
+		result,
+		category,
+		sort,
+		search,
+		page,
 	}: ProductStateDefault = useProduct()
 	const {
 		authInfo: { isAdmin },
@@ -26,24 +35,31 @@ const Products = () => {
 
 	useEffect(() => {
 		getProducts()
+		updateResult(productsHandle.result)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [reload])
+	}, [reload, productsHandle.result, category, sort, search, page])
+
+	console.log(result)
 
 	const onChangeCheckBox = () => {
-		productsHandle.forEach((product) => {
+		productsHandle.products.forEach((product) => {
 			product.checked = checkBoxRef.current.checked
 		})
-		updateProducts([...productsHandle])
+		updateProducts({
+			result: productsHandle.result,
+			products: [...productsHandle.products],
+		})
 	}
 	const isCheckedBox = () => {
 		return (
-			productsHandle.filter((product) => product.checked === true)
-				.length === productsHandle.length
+			productsHandle.products.filter(
+				(product) => product.checked === true
+			).length === productsHandle.products.length
 		)
 	}
 
 	const deleteAll = () => {
-		productsHandle.forEach(async (product) => {
+		productsHandle.products.forEach(async (product) => {
 			if (product.checked) {
 				try {
 					await DestroyFileAPI(product.image.public_id)
@@ -75,6 +91,7 @@ const Products = () => {
 	return (
 		<Layout>
 			<AlertMessage type={alert.type} message={alert.message} />
+			<Filters />
 			{isAdmin && (
 				<div>
 					<span style={{ color: 'rgb(3, 165, 206)' }}>
@@ -93,13 +110,16 @@ const Products = () => {
 				</div>
 			)}
 			<Row className='row-cols-1 row-cols-md-4 g-4 mx-auto mt-3'>
-				{productsHandle.map((product: IProduct) => (
+				{productsHandle.products.map((payload: IProduct) => (
 					<ProductItem
-						key={product._id as string}
-						product={product}
+						key={payload._id as string}
+						product={payload}
+						result={productsHandle.result}
 					/>
 				))}
 			</Row>
+			<LoadMore />
+			{productsHandle.products.length === 0 && <SpinnerInfo />}
 		</Layout>
 	)
 }

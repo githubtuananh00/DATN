@@ -11,18 +11,3 @@ export const getPaymentByIds = async (limit: number) => {
 		},
 	}))
 }
-
-// Trả về 1 value 1 slug cụ thể
-// export const getPaymentById = async (
-// 	id: string
-// ) => {
-// 	try {
-// 		const product: IResponseProduct<IProduct> = await axios.get(
-// 			`${apiUrl}/product/detail/${id}`
-// 		)
-// 		return product.data
-// 	} catch (error) {
-// 		console.log(error)
-// 		return
-// 	}
-// }

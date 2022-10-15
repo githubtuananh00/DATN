@@ -3,7 +3,6 @@ import { ParsedUrlQuery } from 'querystring'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { IProduct, IProductQty } from '../../../type'
 import { getProductById, getProductIds } from '../lib/product'
-// import { Dropdown } from 'react-bootstrap'
 
 import Plus from './icon/Plus.svg'
 import Stock from './icon/Stock.svg'
@@ -44,7 +43,7 @@ const DetailProduct = ({
 	product,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const router = useRouter()
-	const { getProducts, products }: ProductStateDefault = useProduct()
+	const { getProducts, productsHandle }: ProductStateDefault = useProduct()
 	const {
 		authInfo: { isAuthenticated },
 	} = useAuth()
@@ -290,7 +289,7 @@ const DetailProduct = ({
 							</div>
 						</div>
 
-						{products
+						{productsHandle.products
 							.filter(
 								(DBproduct) =>
 									DBproduct._id !== product!.product._id

@@ -18,11 +18,7 @@ import {
 	IUpLoadProduct,
 } from '../../../type'
 import { getCategoriesAPI } from '../../api/CategoryAPI'
-import {
-	addProductAPI,
-	getProductById,
-	updateProductAPI,
-} from '../../api/ProductAPI'
+import { getProductById, updateProductAPI } from '../../api/ProductAPI'
 import { DestroyFileAPI, UploadedFileAPI } from '../../api/UploadAPI'
 import AlertMessage, { AlertInfo } from '../../layout/AlertMessage'
 import Upload from '../lib/svg/upload.svg'
@@ -34,7 +30,7 @@ const EditProduct = () => {
 	} = useAuth()
 	useEffect(() => {
 		if (authLoading) {
-			router.push('/dashboard/SpinnerInfo')
+			router.push('/SpinnerInfo')
 		} else if (!isAuthenticated) {
 			router.push('/auth/Login')
 		} else if (!isAdmin) router.back()

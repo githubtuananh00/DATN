@@ -12,8 +12,9 @@ import { ProductStateDefault } from '../../context/ProductContext'
 
 export interface productItemProps {
 	product: IProduct
+	result: number
 }
-const ProductItem = ({ product }: productItemProps) => {
+const ProductItem = ({ product, result }: productItemProps) => {
 	const router = useRouter()
 	const { reloadProduct, updateProduct }: ProductStateDefault = useProduct()
 	const {
@@ -79,7 +80,10 @@ const ProductItem = ({ product }: productItemProps) => {
 	// OnChange Checkbox
 	const onChangeCheckBox = () => {
 		product.checked = !product.checked
-		updateProduct({ ...product } as unknown as IProduct)
+		updateProduct({
+			products: { ...product } as unknown as IProduct,
+			result,
+		})
 	}
 
 	if (loading)
@@ -105,7 +109,7 @@ const ProductItem = ({ product }: productItemProps) => {
 				<Card.Img variant='top' src={product.image.url} />
 				<Card.Body>
 					<Card.Title>{product.title}</Card.Title>
-					<span style={{ color: '#ee4d2d' }}>{product.price}</span>
+					<span style={{ color: '#ee4d2d' }}>${product.price}</span>
 					<Card.Text>{product.description}</Card.Text>
 					<Card.Text>Sold: {product.sold}</Card.Text>
 					{isAdmin ? (

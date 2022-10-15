@@ -17,7 +17,7 @@ const DetailHistory = () => {
 
 	useEffect(() => {
 		if (authLoading) {
-			router.push('/dashboard/SpinnerInfo')
+			router.push('/SpinnerInfo')
 		} else if (!isAuthenticated) {
 			router.push('/auth/Login')
 		}

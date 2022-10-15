@@ -20,7 +20,7 @@ const EditCategory = () => {
 	} = useAuth()
 	useEffect(() => {
 		if (authLoading) {
-			router.push('/dashboard/SpinnerInfo')
+			router.push('/SpinnerInfo')
 		} else if (!isAuthenticated) {
 			router.push('/auth/Login')
 		} else if (!isAdmin) router.back()

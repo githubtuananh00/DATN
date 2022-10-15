@@ -1,6 +1,11 @@
+import { IResponse, IResponseProduct } from './type.d'
 import { Document } from 'mongoose'
 import { Payer } from '@paypal/paypal-js/types/apis/orders'
+import { ReactNode } from 'react'
 
+export interface ContextStateProps {
+	children: ReactNode
+}
 export interface IProduct extends Document {
 	product_id: string
 	title: string
@@ -16,6 +21,10 @@ export interface IProduct extends Document {
 export interface ICart {
 	quantity: number
 	product_id: string[]
+}
+export interface IResProduct {
+	result: number
+	products: IProduct[]
 }
 
 export interface IProductQty {
@@ -134,4 +143,8 @@ export interface IUpLoadProduct {
 	content: string
 	category: string
 	image: IResponseFile
+}
+export interface IPayLoad<T> {
+	result: number
+	products: T
 }

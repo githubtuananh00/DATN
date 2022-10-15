@@ -1,7 +1,6 @@
 import { createContext, useState } from 'react'
-import { ContextStateProps } from '../../constants'
 import { addCartAPI, getCarts } from '../../pages/api/CartAPI'
-import { IProductQty } from '../../type'
+import { ContextStateProps, IProductQty } from '../../type'
 
 export interface ICartStateDefault {
 	addCart: (product: IProductQty) => void

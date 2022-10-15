@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { apiUrl } from '../../../constants'
 import { IProduct, IResponse, IResponseProduct } from '../../../type'
-// import { IProduct, IResponseProduct, IResProduct } from '../../../type'
 
 export const getProductIds = async (limit: number) => {
 	const response: IResponse<IProduct[]> = await axios.get(`${apiUrl}/product`)

@@ -12,7 +12,6 @@ import { useCart } from '../../hooks'
 import { addCartAPI } from '../api/CartAPI'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 
-// import { productItemProps } from '../products/ProductItem'
 interface IPayPal {
 	total: string
 	carts: IProductQty[]

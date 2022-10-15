@@ -4,33 +4,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ProductModule_1 = __importDefault(require("../modules/ProductModule"));
-class APIfeatures {
-    constructor(query, queryString) {
-        this.query = query;
-        this.queryString = queryString;
-    }
-    filtering() {
-        const queryObj = Object.assign({}, this.queryString);
-        const excludedFields = ['page', 'sort', 'limit'];
-        excludedFields.forEach((el) => delete queryObj[el]);
-        let queryStr = JSON.stringify(queryObj);
-        queryStr = queryStr.replace(/\b(gte|gt|lt|lte|regex)\b/g, (match) => '$' + match);
-        this.query.find(JSON.parse(queryStr));
-        return this;
-    }
-    sorting() {
-        return this;
-    }
-    paginating() {
-        return this;
-    }
-}
 class ProductController {
     async getProducts(req, res) {
         try {
-            const features = new APIfeatures(await ProductModule_1.default.find({}), req.query);
-            const products = features.query;
-            return res.status(200).json({ success: true, payload: products });
+            const queryObj = Object.assign({}, req.query);
+            const excludedFields = ['page', 'sort', 'limit'];
+            excludedFields.forEach((el) => delete queryObj[el]);
+            let queryStr = JSON.stringify(queryObj);
+            queryStr = queryStr.replace(/\b(gte|gt|lt|lte|regex)\b/g, (match) => '$' + match);
+            let products = [];
+            const page = parseInt(req.query.page) * 1 || 1;
+            const limit = parseInt(req.query.limit) * 1 || 3;
+            const skip = (page - 1) * limit;
+            if (req.query.sort) {
+                const sortBy = req.query.sort.split(',').join(' ');
+                products = await ProductModule_1.default.find(JSON.parse(queryStr))
+                    .sort(sortBy)
+                    .skip(skip)
+                    .limit(limit);
+            }
+            else {
+                products = await ProductModule_1.default.find(JSON.parse(queryStr))
+                    .sort('-createdAt')
+                    .skip(skip)
+                    .limit(limit);
+            }
+            return res.status(200).json({
+                success: true,
+                payload: { result: products.length, products },
+            });
         }
         catch (error) {
             return res

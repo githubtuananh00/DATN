@@ -1,11 +1,11 @@
 import { ProductActionType } from '../constants'
-import { IProduct, IProductQty } from '../type'
+import { IPayLoad, IProduct, IProductQty } from '../type'
 
 const { GET_PRODUCTS } = ProductActionType
 
 type ProductAction = {
 	type: typeof GET_PRODUCTS
-	payload: IProduct[]
+	payload:  IPayLoad<IProduct[]>
 }
 
 export interface IProductPayload {
@@ -13,7 +13,10 @@ export interface IProductPayload {
 	isAddCart: boolean
 }
 
-export const productReducer = (state: IProduct[], action: ProductAction) => {
+export const productReducer = (
+	state: IPayLoad<IProduct[]>,
+	action: ProductAction
+) => {
 	switch (action.type) {
 		case GET_PRODUCTS:
 			return action.payload

@@ -1,6 +1,5 @@
 import { createContext, useState } from 'react'
-import { ContextStateProps } from '../../constants'
-import { IPaymentResponse } from '../../type'
+import { ContextStateProps, IPaymentResponse } from '../../type'
 
 export interface IPaymentStateDefault {
 	history: IPaymentResponse[]

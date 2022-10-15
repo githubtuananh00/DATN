@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { useState } from 'react'
 import { apiUrl } from '../../constants'
 import {
 	IProduct,
@@ -13,28 +12,21 @@ export interface IProductApi {
 	getProducts: () => Promise<IProduct | undefined>
 }
 
-const ProductAPI = (): IProductApi => {
-	const [products, setProducts] = useState<IProduct[]>([])
-	const getProducts = async (): Promise<IProduct | undefined> => {
-		try {
-			const response: IResponse<IProduct> = await axios.get(
-				`${apiUrl}/product`
-			)
-			if (response.data.success) {
-				return response.data.payload
-			}
-		} catch (error) {
-			console.log(error)
-			return
-		}
-	}
-	return { products: [products, setProducts], getProducts }
-}
-
-export const getProductsInfoAPI = async () => {
+export const getProductsInfoAPI = async (
+	page: number,
+	category: string,
+	sort: string,
+	search: string
+) => {
 	try {
+		console.log({ page })
+		console.log({ category })
+		console.log({ sort })
+		console.log({ search })
 		const response: IResponse<IProduct> = await axios.get(
-			`${apiUrl}/product`
+			`${apiUrl}/product?limit=${
+				page * 9
+			}&${category}&${sort}&title[regex]=${search}`
 		)
 		if (response.data.success) {
 			return response.data.payload
@@ -104,4 +96,4 @@ export const deleteProductAPI = async (id: string) => {
 	}
 }
 
-export default ProductAPI
+// export default ProductAPI

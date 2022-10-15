@@ -7,10 +7,6 @@ export enum ProductActionType {
 }
 export { apiUrl }
 
-export interface ContextStateProps {
-	children: ReactNode
-}
-
 export enum AuthActionType {
 	LOGIN_USER = 'LOGIN_USER',
 	SET_AUTH = 'SET_AUTH',

@@ -27,7 +27,7 @@ const Login = () => {
 
 	useEffect(() => {
 		if (authLoading) {
-			router.push('/dashboard/SpinnerInfo')
+			router.push('/SpinnerInfo')
 		} else if (isAuthenticated) {
 			if (isAdmin) router.push('/admin')
 			else router.push('/dashboard')

@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import { Container } from 'react-bootstrap'
+import { ContextStateProps } from '../type'
 import Footer from './footer/Footer'
 import NavbarMenu from './navbar/NavbarMenu'
-import { TChildren } from './type/ChildrenType'
 
-const Layout = ({ children }: TChildren) => {
+const Layout = ({ children }: ContextStateProps) => {
 	return (
 		<>
 			<Container>

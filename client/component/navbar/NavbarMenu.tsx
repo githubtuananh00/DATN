@@ -16,12 +16,15 @@ import Shop from './icon/shop.svg'
 import Close from './icon/close.svg'
 import Cart from './icon/cart.svg'
 import Search from './icon/search.svg'
-import { useAuth, useCart } from '../../hooks'
+import { useAuth, useCart, useProduct } from '../../hooks'
+import { ChangeEvent } from 'react'
+import { ProductStateDefault } from '../../context/ProductContext'
 
 const NavbarMenu = () => {
-	// const value = useContext(GlobalState)
-	// console.log(Search)
-	// context
+	const { search, updateSearch }: ProductStateDefault = useProduct()
+	const onCHangeSearchForm = (event: ChangeEvent<HTMLInputElement>) =>
+		updateSearch(event.target.value.toLowerCase())
+
 	const {
 		authInfo: { isAuthenticated, isAdmin, user },
 		logoutUser,
@@ -112,6 +115,9 @@ const NavbarMenu = () => {
 						<img src={Search.src} alt='' />
 					</Button>
 					<Form.Control
+						style={{ marginRight: '5px' }}
+						value={search}
+						onChange={onCHangeSearchForm}
 						type='search'
 						placeholder='Search products...'
 						className='search-input'

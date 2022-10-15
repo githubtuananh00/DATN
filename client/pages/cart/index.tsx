@@ -14,7 +14,7 @@ const Cart = () => {
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	useEffect(() => {
 		if (authLoading) {
-			router.push('/dashboard/SpinnerInfo')
+			router.push('/SpinnerInfo')
 		} else if (!isAuthenticated) {
 			router.push('/auth/Login')
 		}
@@ -185,7 +185,6 @@ const Cart = () => {
 										<PayPal
 											total={`${totalPayment}`}
 											carts={cart}
-											
 										/>
 									)}
 								</div>

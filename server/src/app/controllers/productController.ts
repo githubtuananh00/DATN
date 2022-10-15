@@ -3,78 +3,49 @@ import { Request, Response } from 'express'
 import Product, { IProduct } from '../modules/ProductModule'
 import { IGetUserAuthInfoRequest, Sort } from '../type'
 
-class APIfeatures {
-	constructor(
-		public query: Array<IProduct>,
-		public queryString: Sort // public data: Model<IProduct, {}, {}, {}, any>
-	) {
-		// Model<IProduct, {}, {}, {}, any>
-		// Array<Query<IProduct[], IProduct, {}, IProduct>>
-		/**
-		 * Query<(IProduct & {
-				_id: Types.ObjectId;
-			})[], IProduct & {
-				_id: Types.ObjectId;
-			}, {}, IProduct>
-		 */
-	}
-
-	// Filter
-	filtering(): APIfeatures {
-		const queryObj = { ...this.queryString }
-
-		const excludedFields: string[] = ['page', 'sort', 'limit']
-		excludedFields.forEach((el) => delete queryObj[el])
-
-		let queryStr: string = JSON.stringify(queryObj) // Convert obj to string
-		queryStr = queryStr.replace(
-			/\b(gte|gt|lt|lte|regex)\b/g,
-			(match) => '$' + match
-		)
-		// gte = greater than equals
-		// lte = least than equals
-		// lt = least equals
-		// gt = greater equals
-
-		this.query.find(JSON.parse(queryStr)) // Convert string to object
-		return this
-	}
-
-	sorting(): APIfeatures {
-		// if (this.queryString.sort) {
-		// 	const sortBy: string = this.queryString.sort.split(',').join(' ')
-		// 	this.query = this.data.find({}).sort(sortBy)
-		// } else {
-		// 	// this.query = this.data.find({}).sort('-createdAt')
-		// }
-		return this
-	}
-	paginating(): APIfeatures {
-		// const page: number = parseInt(this.queryString.page as any) * 1 || 1
-		// const limit: number = parseInt(this.queryString.limit as any) * 1 || 3
-		// const skip: number = (page - 1) * limit
-		// this.query = this.query.skip(skip).limit(limit)
-		// this.query
-		return this
-	}
-}
-
 class ProductController {
 	// [GET] /product
 	async getProducts(req: Request<{}, {}, {}, Sort>, res: Response) {
-		// console.log(req.query)
-		// a.skip()
-
 		try {
-			const features: APIfeatures = new APIfeatures(
-				await Product.find({}),
-				req.query
-			)
-			const products: IProduct[] = features.query
-			// const limit: number = +req.query.limit
-			// console.log(products.length)
+			// Filtering
+			const queryObj = { ...req.query }
+			const excludedFields: string[] = ['page', 'sort', 'limit']
+			excludedFields.forEach((el) => delete queryObj[el])
 
-			return res.status(200).json({ success: true, payload: products })
+			let queryStr: string = JSON.stringify(queryObj) // Convert obj to string
+			queryStr = queryStr.replace(
+				/\b(gte|gt|lt|lte|regex)\b/g,
+				(match) => '$' + match
+			)
+			// gte = greater than equals
+			// lte = least than equals
+			// lt = least equals
+			// gt = greater equals
+
+			let products: IProduct[] = []
+
+			// Paginating
+			const page: number = parseInt(req.query.page as string) * 1 || 1
+			const limit: number = parseInt(req.query.limit as any) * 1 || 3
+			const skip: number = (page - 1) * limit
+
+			// Sorting
+			if (req.query.sort) {
+				const sortBy: string = req.query.sort.split(',').join(' ')
+				products = await Product.find(JSON.parse(queryStr))
+					.sort(sortBy)
+					.skip(skip)
+					.limit(limit)
+			} else {
+				products = await Product.find(JSON.parse(queryStr))
+					.sort('-createdAt')
+					.skip(skip)
+					.limit(limit)
+			}
+			return res.status(200).json({
+				success: true,
+				payload: { result: products.length, products },
+			})
 		} catch (error) {
 			return res
 				.status(500)

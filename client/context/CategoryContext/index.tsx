@@ -1,6 +1,5 @@
 import { createContext, useState } from 'react'
-import { ContextStateProps } from '../../constants'
-import { ICategory } from '../../type'
+import { ContextStateProps, ICategory } from '../../type'
 
 export interface ICategoryStateDefault {
 	categories: ICategory[]
