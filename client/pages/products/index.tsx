@@ -7,7 +7,7 @@ import { IProduct, IResponseRegister } from '../../type'
 import { deleteProductAPI } from '../api/ProductAPI'
 import { DestroyFileAPI } from '../api/UploadAPI'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
-import SpinnerInfo from '../layout/SpinnerInfo'
+import SpinnerInfo from '../SpinnerInfo'
 import Filters from './Filters'
 import LoadMore from './LoadMore'
 
