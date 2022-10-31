@@ -5,7 +5,7 @@ import { useAuth, usePayment } from '../../hooks'
 import { IPaymentResponse } from '../../type'
 import Table from 'react-bootstrap/Table'
 import Link from 'next/link'
-import { getHistoryAPI, getPaymentsAPI } from '../api/PaymentAPI'
+import { getHistoryAPI, getPaymentsAPI } from '../../api/PaymentAPI'
 
 const OrderHistory = () => {
 	const router = useRouter()
@@ -28,11 +28,13 @@ const OrderHistory = () => {
 		const getHistory = async () => {
 			if (isAdmin) {
 				const payments: IPaymentResponse[] =
-					(await getPaymentsAPI()) as IPaymentResponse[]
+					(await getPaymentsAPI()) as unknown as IPaymentResponse[]
+				console.log(payments)
+
 				updateSetHistory(payments)
 			} else {
 				const history: IPaymentResponse[] =
-					(await getHistoryAPI()) as IPaymentResponse[]
+					(await getHistoryAPI()) as unknown as IPaymentResponse[]
 				updateSetHistory(history)
 			}
 		}

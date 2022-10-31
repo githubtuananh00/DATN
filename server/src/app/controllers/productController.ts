@@ -26,7 +26,7 @@ class ProductController {
 
 			// Paginating
 			const page: number = parseInt(req.query.page as string) * 1 || 1
-			const limit: number = parseInt(req.query.limit as any) * 1 || 3
+			const limit: number = parseInt(req.query.limit as any) * 1 || 9
 			const skip: number = (page - 1) * limit
 
 			// Sorting

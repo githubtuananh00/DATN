@@ -36,7 +36,7 @@ export interface IResponse<T> {
 	data: {
 		success: boolean
 		message: string
-		payload: T
+		payload: IPayLoad<T>
 	}
 }
 export interface IResponseProduct<T> {

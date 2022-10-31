@@ -11,7 +11,7 @@ import { Button, Form } from 'react-bootstrap'
 import Layout from '../../component/Layout'
 import { useAuth } from '../../hooks'
 import { IReqCategory } from '../../type'
-import { editCategoryAPI, getCategoryByIdAPI } from '../api/CategoryAPI'
+import { editCategoryAPI, getCategoryByIdAPI } from '../../api/CategoryAPI'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 
 const EditCategory = () => {

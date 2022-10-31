@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { apiUrl } from '../../constants'
-import { IPayment, IPaymentResponse, IResponse } from '../../type'
+import { apiUrl } from '../constants'
+import { IPayment, IPaymentResponse, IResponse } from '../type'
 
 export const addPayment = async (data: IPayment) => {
 	try {

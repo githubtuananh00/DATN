@@ -15,7 +15,7 @@ import {
 } from '../../type'
 import { authReducer, AuthState } from '../../reducers/AuthReducer'
 import setAuthToken from '../../utils/setAuthToken'
-import { refreshToken } from '../../pages/api/AuthAPI'
+import { refreshToken } from '../../api/AuthAPI'
 
 const { SET_AUTH } = AuthActionType
 

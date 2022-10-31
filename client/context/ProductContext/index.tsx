@@ -2,7 +2,7 @@ import { createContext, useEffect, useReducer, useState } from 'react'
 import { ContextStateProps, IPayLoad, IProduct, IResProduct } from '../../type'
 import { ProductActionType } from '../../constants'
 import { productReducer } from '../../reducers/ProductReducer'
-import { getProductsInfoAPI } from '../../pages/api/ProductAPI'
+import { getProductsInfoAPI } from '../../api/ProductAPI'
 
 const { GET_PRODUCTS } = ProductActionType
 

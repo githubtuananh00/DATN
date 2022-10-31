@@ -14,7 +14,7 @@ class ProductController {
             queryStr = queryStr.replace(/\b(gte|gt|lt|lte|regex)\b/g, (match) => '$' + match);
             let products = [];
             const page = parseInt(req.query.page) * 1 || 1;
-            const limit = parseInt(req.query.limit) * 1 || 3;
+            const limit = parseInt(req.query.limit) * 1 || 9;
             const skip = (page - 1) * limit;
             if (req.query.sort) {
                 const sortBy = req.query.sort.split(',').join(' ');

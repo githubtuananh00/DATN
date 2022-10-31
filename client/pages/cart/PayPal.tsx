@@ -7,9 +7,9 @@ import {
 import { OrderResponseBody } from '@paypal/paypal-js/types/apis/orders'
 import { useCallback, useState } from 'react'
 import { IPayment, IProductQty } from '../../type'
-import { addPayment } from '../api/PaymentAPI'
+import { addPayment } from '../../api/PaymentAPI'
 import { useCart } from '../../hooks'
-import { addCartAPI } from '../api/CartAPI'
+import { addCartAPI } from '../../api/CartAPI'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 
 interface IPayPal {

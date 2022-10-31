@@ -16,7 +16,7 @@ import {
 	addCategoryAPI,
 	deletedCategoryAPI,
 	getCategoriesAPI,
-} from '../api/CategoryAPI'
+} from '../../api/CategoryAPI'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 
 const Category = () => {

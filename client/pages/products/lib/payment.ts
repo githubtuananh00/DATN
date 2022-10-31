@@ -1,5 +1,5 @@
 import { IPaymentResponse } from '../../../type'
-import { getPaymentsAPI } from '../../api/PaymentAPI'
+import { getPaymentsAPI } from '../../../api/PaymentAPI'
 
 export const getPaymentByIds = async (limit: number) => {
 	const payments: IPaymentResponse[] =

@@ -6,7 +6,7 @@ import { useProduct } from '../../hooks'
 const LoadMore = () => {
 	const { result, page, updatePage }: ProductStateDefault = useProduct()
 	return (
-		<div>
+		<div className='load_more'>
 			{result < page * 9 ? null : (
 				<Button variant='light' onClick={() => updatePage(page + 1)}>
 					Load more

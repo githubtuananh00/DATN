@@ -695,17 +695,42 @@ svg {
 }
 
 .product-description {
-  max-width: 360px;
-  margin-right: 20px;
+  display: block !important;
+  width: 600px;
 }
 
 .product-type {
   margin-bottom: 40px;
 }
 
+.product-details {
+  background: #eeecec;
+  color: #000;
+  font-size: 20px;
+  line-height: 21.6px;
+  text-transform: capitalize;
+  padding: 14px;
+}
+
+.product-detail-header {
+  font-size: 14px;
+  line-height: 16.8px;
+  padding: 15px 0px 0px;
+}
+
+.product-text {
+  font-family: Helvetica Neue;
+  font-size: 18px;
+  line-height: 23.8px;
+}
+
 .product-text-description,
 .product-text-description a {
   color: var(--medium-gray);
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .product-text-description a:hover {
@@ -736,6 +761,7 @@ svg {
 .price {
   box-shadow: inset 0 -1rem 0 var(--main-color-rgba);
   margin-right: auto;
+  margin-right: 30px;
 }
 
 .add-cart-btn {
@@ -757,8 +783,7 @@ svg {
 }
 
 .vertical-container {
-  margin-right: 0rem !important;
-  margin-left: 25rem !important;
+  margin-right: 3rem !important;
   fill: var(--medium-gray) !important;
 }
 
@@ -780,6 +805,7 @@ svg {
 }
 
 .product-family {
+  margin-top: 30rem;
   background: url("https://i.ibb.co/dLNhcZ1/showcase.jpg") no-repeat center/cover;
   height: 520px;
 }
@@ -1209,6 +1235,15 @@ svg {
   text-align: center;
   padding-top: 15px;
   font-size: 22px;
+}
+.upLoadProduct .load_more {
+  text-align: center;
+  color: #fff !important;
+}
+.upLoadProduct .load_more button {
+  padding: 100px 205px !important;
+  border: 1px solid #555 !important;
+  text-transform: capitalize !important;
 }
 .upLoadProduct span {
   position: absolute;

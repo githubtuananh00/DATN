@@ -4,8 +4,8 @@ import Layout from '../../component/Layout'
 import { ProductStateDefault } from '../../context/ProductContext'
 import { useAuth, useProduct } from '../../hooks'
 import { IProduct, IResponseRegister } from '../../type'
-import { deleteProductAPI } from '../api/ProductAPI'
-import { DestroyFileAPI } from '../api/UploadAPI'
+import { deleteProductAPI } from '../../api/ProductAPI'
+import { DestroyFileAPI } from '../../api/UploadAPI'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 import SpinnerInfo from '../SpinnerInfo'
 import Filters from './Filters'
@@ -23,7 +23,6 @@ const Products = () => {
 		updateProducts,
 		reloadProduct,
 		updateResult,
-		result,
 		category,
 		sort,
 		search,
@@ -38,8 +37,6 @@ const Products = () => {
 		updateResult(productsHandle.result)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [reload, productsHandle.result, category, sort, search, page])
-
-	console.log(result)
 
 	const onChangeCheckBox = () => {
 		productsHandle.products.forEach((product) => {
@@ -93,7 +90,7 @@ const Products = () => {
 			<AlertMessage type={alert.type} message={alert.message} />
 			<Filters />
 			{isAdmin && (
-				<div>
+				<div style={{ paddingTop: '15px' }}>
 					<span style={{ color: 'rgb(3, 165, 206)' }}>
 						SELECT ALL
 					</span>

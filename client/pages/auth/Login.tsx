@@ -28,9 +28,6 @@ const Login = () => {
 	useEffect(() => {
 		if (authLoading) {
 			router.push('/SpinnerInfo')
-		} else if (isAuthenticated) {
-			if (isAdmin) router.push('/admin')
-			else router.push('/dashboard')
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isAuthenticated, authLoading, isAdmin])

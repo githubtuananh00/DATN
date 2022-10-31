@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { apiUrl } from '../../constants'
-import { IFile, IResponse, IResponseFile } from '../../type'
+import { apiUrl } from '../constants'
+import { IFile, IResponse, IResponseFile } from '../type'
 
 export const UploadedFileAPI = async (data: IFile) => {
 	try {

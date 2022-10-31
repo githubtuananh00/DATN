@@ -1,11 +1,6 @@
 import axios from 'axios'
-import { apiUrl } from '../../constants'
-import {
-	IProduct,
-	IResponse,
-	IResponseRegister,
-	IUpLoadProduct,
-} from '../../type'
+import { apiUrl } from '../constants'
+import { IProduct, IResponse, IResponseRegister, IUpLoadProduct } from '../type'
 
 export interface IProductApi {
 	products: [products: IProduct[], setProducts: (product: IProduct[]) => void]
@@ -13,17 +8,13 @@ export interface IProductApi {
 }
 
 export const getProductsInfoAPI = async (
-	page: number,
-	category: string,
-	sort: string,
-	search: string
+	page: number = 1,
+	category: string = '',
+	sort: string = '',
+	search: string = ''
 ) => {
 	try {
-		console.log({ page })
-		console.log({ category })
-		console.log({ sort })
-		console.log({ search })
-		const response: IResponse<IProduct> = await axios.get(
+		const response: IResponse<IProduct[]> = await axios.get(
 			`${apiUrl}/product?limit=${
 				page * 9
 			}&${category}&${sort}&title[regex]=${search}`
@@ -55,11 +46,12 @@ export const addProductAPI = async (data: IUpLoadProduct) => {
 	}
 }
 
-export const getProductById = async (id: string) => {
+export const getProductByIdAPI = async (id: string) => {
 	try {
-		const response: IResponse<IUpLoadProduct> = await axios.get(
+		const response: IResponse<IProduct> = await axios.get(
 			`${apiUrl}/product/detail/${id}`
 		)
+
 		if (response.data.success) return response.data.payload
 	} catch (error) {
 		return {

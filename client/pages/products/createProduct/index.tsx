@@ -17,9 +17,9 @@ import {
 	IResponseRegister,
 	IUpLoadProduct,
 } from '../../../type'
-import { getCategoriesAPI } from '../../api/CategoryAPI'
-import { addProductAPI } from '../../api/ProductAPI'
-import { DestroyFileAPI, UploadedFileAPI } from '../../api/UploadAPI'
+import { getCategoriesAPI } from '../../../api/CategoryAPI'
+import { addProductAPI } from '../../../api/ProductAPI'
+import { DestroyFileAPI, UploadedFileAPI } from '../../../api/UploadAPI'
 import AlertMessage, { AlertInfo } from '../../layout/AlertMessage'
 import Upload from '../lib/svg/upload.svg'
 
@@ -203,7 +203,7 @@ const CreateProduct = () => {
 				image,
 			})) as IResponseRegister
 			setAlert({
-				type: 'info',
+				type: 'success',
 				message: response.message,
 			})
 			handleCloseAlert()

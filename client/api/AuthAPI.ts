@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { apiUrl } from '../../constants'
-import { IRes, IToken } from '../../type'
+import { apiUrl } from '../constants'
+import { IRes, IToken } from '../type'
 
 export const refreshToken = async () => {
 	try {

@@ -13,13 +13,15 @@ import { useAuth, useCategory } from '../../../hooks'
 import {
 	ICategory,
 	IFile,
+	IPayLoad,
+	IProduct,
 	IResponseFile,
 	IResponseRegister,
 	IUpLoadProduct,
 } from '../../../type'
-import { getCategoriesAPI } from '../../api/CategoryAPI'
-import { getProductById, updateProductAPI } from '../../api/ProductAPI'
-import { DestroyFileAPI, UploadedFileAPI } from '../../api/UploadAPI'
+import { getCategoriesAPI } from '../../../api/CategoryAPI'
+import { getProductByIdAPI, updateProductAPI } from '../../../api/ProductAPI'
+import { DestroyFileAPI, UploadedFileAPI } from '../../../api/UploadAPI'
 import AlertMessage, { AlertInfo } from '../../layout/AlertMessage'
 import Upload from '../lib/svg/upload.svg'
 
@@ -41,13 +43,13 @@ const EditProduct = () => {
 
 	useEffect(() => {
 		if (id) {
-			;(getProductById(id as string) as Promise<IUpLoadProduct>).then(
-				(product: IUpLoadProduct) => {
-					setUpLoadForm(product)
-					setDisplayImg(true)
-					setImage(product.image)
-				}
-			)
+			;(
+				getProductByIdAPI(id as string) as unknown as Promise<IProduct>
+			).then((product: IProduct) => {
+				setUpLoadForm(product)
+				setDisplayImg(true)
+				setImage(product.image)
+			})
 		}
 	}, [id])
 
@@ -55,7 +57,9 @@ const EditProduct = () => {
 	useEffect(() => {
 		const getCategories = async () => {
 			const response: ICategory[] =
-				(await getCategoriesAPI()) as ICategory[]
+				(await getCategoriesAPI()) as unknown as ICategory[]
+			console.log(response)
+
 			updateSetCategories(response)
 		}
 		getCategories()
@@ -136,8 +140,10 @@ const EditProduct = () => {
 				type: file.type,
 			}
 
-			const response = (await UploadedFileAPI(data)) as IResponseFile
-			setImage(response)
+			const response = (await UploadedFileAPI(
+				data
+			)) as IPayLoad<IResponseFile>
+			setImage(response.products)
 			setDisplayImg(true)
 		} catch (error) {
 			setAlert({
@@ -219,7 +225,7 @@ const EditProduct = () => {
 				}
 			)) as IResponseRegister
 			setAlert({
-				type: 'info',
+				type: 'success',
 				message: response.message,
 			})
 			handleCloseAlert()

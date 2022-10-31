@@ -6,8 +6,8 @@ import Form from 'react-bootstrap/Form'
 import { useRouter } from 'next/router'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 import { useState } from 'react'
-import { DestroyFileAPI } from '../api/UploadAPI'
-import { deleteProductAPI } from '../api/ProductAPI'
+import { DestroyFileAPI } from '../../api/UploadAPI'
+import { deleteProductAPI } from '../../api/ProductAPI'
 import { ProductStateDefault } from '../../context/ProductContext'
 
 export interface productItemProps {
@@ -60,7 +60,7 @@ const ProductItem = ({ product, result }: productItemProps) => {
 			setLoading(false)
 			reloadProduct()
 			setAlert({
-				type: 'info',
+				type: 'success',
 				message: deleteProduct.message,
 			})
 			setTimeout(() => {
@@ -109,8 +109,8 @@ const ProductItem = ({ product, result }: productItemProps) => {
 				<Card.Img variant='top' src={product.image.url} />
 				<Card.Body>
 					<Card.Title>{product.title}</Card.Title>
-					<span style={{ color: '#ee4d2d' }}>${product.price}</span>
-					<Card.Text>{product.description}</Card.Text>
+					<span style={{ color: '#ee4d2d' }}>$ {product.price}</span>
+					{/* <Card.Text>{product.description}</Card.Text> */}
 					<Card.Text>Sold: {product.sold}</Card.Text>
 					{isAdmin ? (
 						<>

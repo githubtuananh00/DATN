@@ -18,7 +18,7 @@ import Right from './icon/Right.svg'
 
 import Layout from '../../../component/Layout'
 import { useAuth, useCart, useProduct } from '../../../hooks'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import ProductCategory from './ProductCategory'
 import { Col, Row } from 'react-bootstrap'
 import { ProductStateDefault } from '../../../context/ProductContext'
@@ -30,40 +30,31 @@ export interface IParams extends ParsedUrlQuery {
 }
 
 interface IProps {
-	product:
-		| {
-				success: boolean
-				message: string
-				product: IProduct
-		  }
-		| undefined
+	product: IProduct
 }
-
 const DetailProduct = ({
 	product,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const router = useRouter()
-	const { getProducts, productsHandle }: ProductStateDefault = useProduct()
+	const { productsHandle }: ProductStateDefault = useProduct()
 	const {
 		authInfo: { isAuthenticated },
 	} = useAuth()
 	const { addCart, cart } = useCart()
-	useEffect(() => {
-		getProducts()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+
 	const [alert, setAlert] = useState<AlertInfo>({ type: null, message: '' })
 
+	console.log(productsHandle)
 	const handleBuy = () => {
 		if (isAuthenticated) {
 			const productQty: IProductQty = {
-				product: product!.product,
+				product: product!,
 				quantity: 1,
 			}
 			cart.filter(
 				(productInfo) =>
 					(productInfo.product._id as string) ===
-					(product!.product._id as string)
+					(product!._id as string)
 			).map(() => {
 				setAlert({
 					type: 'danger',
@@ -91,7 +82,7 @@ const DetailProduct = ({
 						<div className='product-display d-flex align-items-center position-relative'>
 							<div className='product-height d-flex align-items-center'></div>
 							<img
-								src={product!.product.image.url}
+								src={product.image.url}
 								className='product-photo'
 								alt=''
 							/>
@@ -109,20 +100,14 @@ const DetailProduct = ({
 					</div>
 				</div>
 				{/* <!-- Info sp --> */}
-				<div className='product-description'>
+				<div className='w-100'>
 					<div className='product-summary-container'>
-						<h5 className='product-model'>
-							{product!.product.category}
-						</h5>
-						<h1 className='product-type'>
-							{product!.product.title}
-						</h1>
+						<h1 className='product-type'>{product.title}</h1>
 						<p className='product-text-description'>
-							{product!.product.description}.
-							<a href='#'> View More</a>
+							{product.description}.<a href='#'> View More</a>
 						</p>
 					</div>
-					<div>Sold: {product!.product.sold}</div>
+					<div>Sold: {product.sold}</div>
 					<div className='product-options d-flex align-items-center'>
 						<a
 							href='#'
@@ -151,7 +136,7 @@ const DetailProduct = ({
 					</div>
 
 					<div className='product-price d-flex align-items-center'>
-						<h1 className='price'>${product!.product.price}</h1>
+						<h1 className='price'>$ {product!.price}</h1>
 						<button
 							className='add-cart-btn rounded-pill d-flex align-items-center justify-content-between'
 							onClick={handleBuy}
@@ -173,10 +158,7 @@ const DetailProduct = ({
 					</div>
 				</div>
 
-				<div
-					className='product-features-small vertical-container d-flex justify-content-between position-relative w-100'
-					style={{ marginLeft: '0px' }}
-				>
+				<div className='vertical-container d-flex justify-content-between position-relative'>
 					<div className='feature-icons'>
 						<img
 							src={Gift.src}
@@ -208,6 +190,16 @@ const DetailProduct = ({
 					</h5>
 				</div>
 			</section>
+			<div>
+				<div className='product-detail-header'>
+					<div className='product-details'>PRODUCT DETAILS</div>
+					<h5 className='product-model'>{product.category}</h5>
+				</div>
+				<div className='product-detail-header'>
+					<div className='product-details'>PRODUCT DESCRIPTION</div>
+					<p className='product-text'>{product.description}</p>
+				</div>
+			</div>
 
 			<section className='product-family w-100 position-relative'>
 				<div className='product-family__full-price position-absolute bg-light d-flex column justify-content-between'>
@@ -291,13 +283,12 @@ const DetailProduct = ({
 
 						{productsHandle.products
 							.filter(
-								(DBproduct) =>
-									DBproduct._id !== product!.product._id
+								(DBproduct) => DBproduct._id !== product!._id
 							)
 							.slice(1, 4)
 							.map((DBproduct) => {
 								return DBproduct.category ===
-									product!.product.category ? (
+									product!.category ? (
 									<ProductCategory
 										key={DBproduct._id}
 										product={DBproduct}
@@ -313,7 +304,6 @@ const DetailProduct = ({
 
 export const getStaticPaths: GetStaticPaths = async () => {
 	const paths = await getProductIds(5)
-
 	return {
 		paths,
 		// fallback: false, // bất kì path nào k return bởi getStaticPaths sẽ tới trang 404
@@ -327,7 +317,9 @@ export const getStaticProps: GetStaticProps<IProps, IParams> = async (
 ) => {
 	// const { id } = context.params
 	const params: IParams = context.params!
-	const product = await getProductById(params.id)
+	console.log({ params })
+
+	const product: IProduct = (await getProductById(params.id)) as IProduct
 	return {
 		props: {
 			product,

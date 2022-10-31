@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Layout from '../../component/Layout'
 import { useAuth, useCart } from '../../hooks'
-import { addCartAPI } from '../api/CartAPI'
+import { addCartAPI } from '../../api/CartAPI'
 import PayPal from './PayPal'
 
 const Cart = () => {

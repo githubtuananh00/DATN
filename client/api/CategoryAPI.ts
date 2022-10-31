@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { apiUrl } from '../../constants'
-import { ICategory, IReqCategory, IResponse } from '../../type'
+import { apiUrl } from '../constants'
+import { ICategory, IReqCategory, IResponse } from '../type'
 
 export const getCategoriesAPI = async () => {
 	try {

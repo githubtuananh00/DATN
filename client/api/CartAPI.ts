@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { apiUrl } from '../../constants'
-import { ICart, IProductQty, IResponse } from '../../type'
+import { apiUrl } from '../constants'
+import { ICart, IProductQty, IResponse } from '../type'
 
 export const getCarts = async () => {
 	try {
