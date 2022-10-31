@@ -64,18 +64,5 @@ const ProdIProductSchema: Schema = new Schema<IProduct>(
 		timestamps: true,
 	}
 )
-// (IProduct & { _id: ObjectId; })[]
-// (ICategory & {
-//     _id: Types.ObjectId;
-// })[]
-
-/**
- * 
- * Query<(IProduct & {
-    _id: Types.ObjectId;
-})[], IProduct & {
-    _id: Types.ObjectId;
-}, {}, IProduct>
- */
 
 export default model<IProduct>('products', ProdIProductSchema)
