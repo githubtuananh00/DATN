@@ -76,7 +76,6 @@ const Register = () => {
 			const registerData: IResponseRegister = (await register(
 				registerForm
 			)) as unknown as IResponseRegister
-			console.log(registerData)
 
 			if (registerData.success) {
 				router.push('/auth/Login')
@@ -87,9 +86,7 @@ const Register = () => {
 						.data.message
 				)
 			}
-		} catch (error: unknown) {
-			console.log(error)
-		}
+		} catch (error: unknown) {}
 	}
 	const setDefault = (message: string) => {
 		setRegisterForm(registerFormDefault)
@@ -102,7 +99,6 @@ const Register = () => {
 		setTimeout(() => setAlert({ type: null, message: '' }), 3000)
 	}
 
-	// console.log(alert.type, alert.message)
 	return (
 		<Layout>
 			<Form

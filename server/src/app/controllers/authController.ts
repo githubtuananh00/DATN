@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import User, { IUser } from '../modules/User'
 import { hash, verify } from 'argon2'
 import jwt, { Secret, sign } from 'jsonwebtoken'
@@ -92,7 +92,6 @@ class AuthController {
 				// tokens,
 			})
 		} catch (error) {
-			console.log(error)
 			return res.status(500).json({
 				success: false,
 				message: 'Internal Server Error',
@@ -146,7 +145,6 @@ class AuthController {
 				tokens,
 			})
 		} catch (error) {
-			console.log(error)
 			return res.status(500).json({
 				success: false,
 				message: 'Internal Server Error',
@@ -192,7 +190,6 @@ class AuthController {
 				tokens,
 			})
 		} catch (error) {
-			console.log(error)
 			return res.status(500).json({
 				success: false,
 				message: 'Internal Server Error',
@@ -210,25 +207,10 @@ class AuthController {
 				message: 'Logout Successfully',
 			})
 		} catch (error) {
-			console.log(error)
 			return res
 				.status(500)
 				.json({ success: false, message: 'Internal Server Error' })
 		}
-	}
-
-	// [POST] /auth/test
-	test(
-		req: IGetUserAuthInfoRequest<null>,
-		res: Response,
-		next: NextFunction
-	) {
-		// console.log(typeof req)
-		res.send(req.userId)
-		// res.send('ok')
-
-		next()
-		// (parameter) req: IGetUserAuthInfoRequest<IProduct>
 	}
 }
 // Create Token

@@ -47,7 +47,6 @@ class CartController {
 				.status(200)
 				.json({ success: true, message: 'added to cart successfully' })
 		} catch (error) {
-			console.log(error)
 			res.status(500).json({
 				success: false,
 				message: 'Internal Server Error',

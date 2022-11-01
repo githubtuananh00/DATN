@@ -34,8 +34,6 @@ const DetailHistory = () => {
 
 	if (!orderDetails) return null
 	const { cart } = orderDetails
-	// const cartPayment: IProductQty[] = cart
-	console.log(cart)
 
 	return (
 		<Layout>

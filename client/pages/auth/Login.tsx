@@ -65,9 +65,7 @@ const Login = () => {
 				})
 				setTimeout(() => setAlert({ type: null, message: '' }), 2000)
 			}
-		} catch (error) {
-			console.log(error)
-		}
+		} catch (error) {}
 	}
 
 	return (

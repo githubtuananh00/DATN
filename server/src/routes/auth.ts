@@ -10,8 +10,7 @@ router.post('/register', authController.register)
 router.post('/login', authController.login)
 // Update token
 router.get('/token', verifyToken, authController.token)
-// Bao ve rout
-router.post('/test', verifyToken, authController.test)
+
 // Phan quyen admin
 // router.post('/test', verifyToken, authRole(role.USER), authController.test)
 // Logout

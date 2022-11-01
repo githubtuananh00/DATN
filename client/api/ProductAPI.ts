@@ -23,7 +23,6 @@ export const getProductsInfoAPI = async (
 			return response.data.payload
 		}
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,

@@ -6,14 +6,12 @@ import { IFile, IGetUserAuthInfoRequest } from '../type'
 class UploadController {
 	// [POST] /upload
 	uploadFile(req: IGetUserAuthInfoRequest<IFile>, res: Response) {
-		console.log(req.body)
 		try {
 			if (!req.body)
 				return res
 					.status(400)
 					.json({ success: false, message: 'No files were uploaded' })
 			const file: IFile = req.body as IFile
-			console.log(file)
 
 			if (file.size > 1024 * 1024) {
 				removeTmp(file.path)

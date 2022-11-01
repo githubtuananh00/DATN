@@ -29,7 +29,6 @@ const OrderHistory = () => {
 			if (isAdmin) {
 				const payments: IPaymentResponse[] =
 					(await getPaymentsAPI()) as unknown as IPaymentResponse[]
-				console.log(payments)
 
 				updateSetHistory(payments)
 			} else {

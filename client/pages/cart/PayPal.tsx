@@ -23,8 +23,6 @@ const PayPal = ({ total, carts }: IPayPal) => {
 	const [alert, setAlert] = useState<AlertInfo>({ type: null, message: '' })
 	const handleApprove = async (data: OrderResponseBody) => {
 		// Call backend function to fulfill order
-		// console.log(data.paymentID)
-		console.log(data)
 		const dataReq: IPayment = {
 			paymentID: data.id,
 			address: data.payer,

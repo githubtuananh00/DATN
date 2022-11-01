@@ -47,8 +47,6 @@ class PayPalController {
 					item.product.sold
 				)
 			)
-			console.log(req.body)
-			console.log(newPayment)
 
 			await newPayment.save()
 			return res.status(200).json({

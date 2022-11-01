@@ -89,7 +89,6 @@ class AuthController {
             });
         }
         catch (error) {
-            console.log(error);
             return res.status(500).json({
                 success: false,
                 message: 'Internal Server Error',
@@ -128,7 +127,6 @@ class AuthController {
             });
         }
         catch (error) {
-            console.log(error);
             return res.status(500).json({
                 success: false,
                 message: 'Internal Server Error',
@@ -155,7 +153,6 @@ class AuthController {
             });
         }
         catch (error) {
-            console.log(error);
             return res.status(500).json({
                 success: false,
                 message: 'Internal Server Error',
@@ -172,15 +169,10 @@ class AuthController {
             });
         }
         catch (error) {
-            console.log(error);
             return res
                 .status(500)
                 .json({ success: false, message: 'Internal Server Error' });
         }
-    }
-    test(req, res, next) {
-        res.send(req.userId);
-        next();
     }
 }
 const generateTokens = (payload) => {

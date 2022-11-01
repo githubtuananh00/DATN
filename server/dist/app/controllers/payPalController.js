@@ -31,8 +31,6 @@ class PayPalController {
             const { cart } = req.body;
             const cartPayment = cart;
             cartPayment.map((item) => updateSoldProduct(item.product._id, item.quantity, item.product.sold));
-            console.log(req.body);
-            console.log(newPayment);
             await newPayment.save();
             return res.status(200).json({
                 success: true,

@@ -7,14 +7,12 @@ const cloudinary_1 = __importDefault(require("cloudinary"));
 const fs_1 = __importDefault(require("fs"));
 class UploadController {
     uploadFile(req, res) {
-        console.log(req.body);
         try {
             if (!req.body)
                 return res
                     .status(400)
                     .json({ success: false, message: 'No files were uploaded' });
             const file = req.body;
-            console.log(file);
             if (file.size > 1024 * 1024) {
                 removeTmp(file.path);
                 return res

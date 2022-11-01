@@ -44,7 +44,6 @@ const DetailProduct = ({
 
 	const [alert, setAlert] = useState<AlertInfo>({ type: null, message: '' })
 
-	console.log(productsHandle)
 	const handleBuy = () => {
 		if (isAuthenticated) {
 			const productQty: IProductQty = {
@@ -64,7 +63,6 @@ const DetailProduct = ({
 					setAlert({ type: null, message: '' })
 				}, 3000)
 			})
-			// console.log(productCart)
 
 			return addCart(productQty)
 		} else {
@@ -317,7 +315,7 @@ export const getStaticProps: GetStaticProps<IProps, IParams> = async (
 ) => {
 	// const { id } = context.params
 	const params: IParams = context.params!
-	console.log({ params })
+
 
 	const product: IProduct = (await getProductById(params.id)) as IProduct
 	return {

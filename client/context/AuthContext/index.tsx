@@ -64,9 +64,6 @@ export const AuthContext = createContext<AuthStateDefault>({
 })
 
 const AuthContextProvider = ({ children }: ContextStateProps) => {
-	// useEffect(() => {
-	// 	console.log(refreshToken())
-	// }, [])
 	const [authInfo, dispatch] = useReducer(authReducer, authDefault)
 
 	const loadUser = async () => {
@@ -102,7 +99,6 @@ const AuthContextProvider = ({ children }: ContextStateProps) => {
 
 		const timerId = setInterval(() => {
 			;(refreshToken() as Promise<IToken>).then((tokens: IToken) => {
-				console.log(tokens.accessToken)
 				localStorage.setItem(
 					LOCAL_STORAGE_TOKEN_NAME,
 					tokens.accessToken
@@ -142,8 +138,6 @@ const AuthContextProvider = ({ children }: ContextStateProps) => {
 			await loadUser()
 			return response.data
 		} catch (error) {
-			console.log(error)
-
 			return {
 				success: false,
 				message: error,

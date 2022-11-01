@@ -58,7 +58,6 @@ const EditProduct = () => {
 		const getCategories = async () => {
 			const response: ICategory[] =
 				(await getCategoriesAPI()) as unknown as ICategory[]
-			console.log(response)
 
 			updateSetCategories(response)
 		}

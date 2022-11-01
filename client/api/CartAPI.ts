@@ -9,7 +9,6 @@ export const getCarts = async () => {
 		)
 		if (response.data.success) return response.data.payload
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,
@@ -31,7 +30,6 @@ export const addCartAPI = async (data: IProductQty[]) => {
 		)
 		if (response.data.success) return response.data.payload
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,
@@ -53,7 +51,6 @@ export const updateCart = async (data: ICart, cart_id: string) => {
 		)
 		if (response.data.success) response.data.payload
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,
@@ -68,7 +65,6 @@ export const deleteCart = async (cart_id: string) => {
 		)
 		if (response.data.success) response.data.payload
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,

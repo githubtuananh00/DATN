@@ -10,7 +10,6 @@ export const addPayment = async (data: IPayment) => {
 		)
 		if (response.data.success) return response.data.payload
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,
@@ -25,7 +24,6 @@ export const getHistoryAPI = async () => {
 		)
 		if (response.data.success) return response.data.payload
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,
@@ -41,7 +39,6 @@ export const getPaymentsAPI = async () => {
 
 		if (response.data.success) return response.data.payload
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,

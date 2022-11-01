@@ -10,7 +10,6 @@ export const UploadedFileAPI = async (data: IFile) => {
 		)
 		if (response.data.success) return response.data.payload
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,
@@ -26,7 +25,6 @@ export const DestroyFileAPI = async (data: string) => {
 		)
 		if (response.data.success) return response.data
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,

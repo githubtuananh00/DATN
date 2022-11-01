@@ -9,7 +9,6 @@ export const getCategoriesAPI = async () => {
 		)
 		if (response.data.success) return response.data.payload
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,
@@ -24,7 +23,6 @@ export const getCategoryByIdAPI = async (categoryId: string) => {
 		)
 		if (response.data.success) return response.data.payload
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,
@@ -40,7 +38,6 @@ export const addCategoryAPI = async (data: IReqCategory) => {
 		)
 		if (response.data.success) return response.data
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,
@@ -59,7 +56,6 @@ export const editCategoryAPI = async (
 		)
 		if (response.data.success) return response.data
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,
@@ -74,7 +70,6 @@ export const deletedCategoryAPI = async (categoryId: string) => {
 		)
 		if (response.data.success) return response.data
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,

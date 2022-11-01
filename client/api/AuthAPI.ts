@@ -7,7 +7,6 @@ export const refreshToken = async () => {
 		const response: IRes<IToken> = await axios.get(`${apiUrl}/auth/token`)
 		if (response.data.success) return response.data.tokens
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			message: error,
