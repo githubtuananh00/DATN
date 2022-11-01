@@ -26,7 +26,7 @@ class UploadController {
                     message: 'File format is incorrect',
                 });
             }
-            cloudinary_1.default.v2.uploader.upload(file.path, { folder: 'test' }, async (err, result) => {
+            cloudinary_1.default.v2.uploader.upload(file.path, { folder: 'HouseWare' }, async (err, result) => {
                 if (err)
                     return res.status(400).json({
                         success: false,
