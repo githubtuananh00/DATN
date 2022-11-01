@@ -91,18 +91,6 @@ export interface IResponseRefreshToken extends IResponseRegister {
 	tokens: IToken | null
 }
 
-// export interface IUserRegister extends IUser {
-// 	confirmPassword: string
-// }
-
-// export interface IResponseUser<T> {
-// 	data: {
-// 		success: boolean
-// 		message: string
-// 		users: T
-// 	}
-// }
-
 export interface IPayment {
 	paymentID: string
 	address: Partial<Payer>

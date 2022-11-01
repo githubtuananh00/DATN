@@ -39,9 +39,9 @@ const Category = () => {
 	}, [isAuthenticated, isAdmin])
 	useEffect(() => {
 		const getCategories = async () => {
-			const response: ICategory[] =
-				(await getCategoriesAPI()) as ICategory[]
-			updateSetCategories(response)
+			const products: ICategory[] =
+				(await getCategoriesAPI()) as unknown as ICategory[]
+			updateSetCategories(products)
 		}
 		getCategories()
 		// eslint-disable-next-line react-hooks/exhaustive-deps

@@ -86,5 +86,3 @@ export const deleteProductAPI = async (id: string) => {
 		}
 	}
 }
-
-// export default ProductAPI

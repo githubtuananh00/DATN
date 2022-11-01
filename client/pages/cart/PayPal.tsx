@@ -35,9 +35,6 @@ const PayPal = ({ total, carts }: IPayPal) => {
 		// if response is success
 		setPaidFor(true)
 		// Refresh user's account or subscription status
-
-		// if the response is error
-		// alert("You payment was process successfully. However, we are unable to fulfill your purchase. Please contact us at support@designcode.io for assistance.")
 	}
 
 	if (paidFor) {

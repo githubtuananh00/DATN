@@ -8,6 +8,8 @@ export const UploadedFileAPI = async (data: IFile) => {
 			`${apiUrl}/upload`,
 			data
 		)
+		console.log(response)
+
 		if (response.data.success) return response.data.payload
 	} catch (error) {
 		return {

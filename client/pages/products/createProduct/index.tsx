@@ -40,9 +40,10 @@ const CreateProduct = () => {
 	const { categories, updateSetCategories } = useCategory()
 	useEffect(() => {
 		const getCategories = async () => {
-			const response: ICategory[] =
-				(await getCategoriesAPI()) as ICategory[]
-			updateSetCategories(response)
+			const products =
+				(await getCategoriesAPI()) as unknown as ICategory[]
+
+			updateSetCategories(products)
 		}
 		getCategories()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,7 +124,9 @@ const CreateProduct = () => {
 				type: file.type,
 			}
 
-			const response = (await UploadedFileAPI(data)) as IResponseFile
+			const response = (await UploadedFileAPI(
+				data
+			)) as unknown as IResponseFile
 			setImage(response)
 			setDisplayImg(true)
 		} catch (error) {

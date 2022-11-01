@@ -4,6 +4,7 @@ import Layout from '../../component/Layout'
 import { useAuth, useCart } from '../../hooks'
 import { addCartAPI } from '../../api/CartAPI'
 import PayPal from './PayPal'
+import Link from 'next/link'
 
 const Cart = () => {
 	const { cart, updateSetCart } = useCart()
@@ -74,16 +75,15 @@ const Cart = () => {
 	return (
 		<Layout>
 			<div className='pageCart'>
-				{/* <h1>Cart</h1> */}
 				<div className='heading'>
 					<h1>
 						<span className='shopper'>H</span> Shopping Cart
 					</h1>
 				</div>
 				<div className='cart transition is-open'>
-					{/* <a href='#' className='btn btn-update'>
-							Update cart
-						</a> */}
+					<Link href='/' passHref className='nav-link'>
+						<a className='btn btn-update'>Back to the shop</a>
+					</Link>
 
 					<div className='table'>
 						<div className='layout-inline row th'>
@@ -125,9 +125,6 @@ const Cart = () => {
 										<input
 											type='numeric'
 											value={products.quantity}
-											// onChange={(event) =>
-											// 	onChangQty(event, index)
-											// }
 											name='qty'
 										/>
 										<button
@@ -191,10 +188,6 @@ const Cart = () => {
 							</div>
 						</div>
 					</div>
-
-					{/* <a href='#' className='btn btn-update'>
-						Buy Now
-					</a> */}
 				</div>
 			</div>
 		</Layout>

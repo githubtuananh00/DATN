@@ -29,19 +29,14 @@ const CartContextProvider = ({ children }: ContextStateProps) => {
 		if (check) {
 			setCart([...cart, product])
 			await addCartAPI([...cart, product])
-			// dispatch({
-			// 	type: SET_ADD_CART,
-			// 	payload: {
-
-			// 	}
-			// })
 		}
 	}
 	const logoutCart = () => {
 		setCart([])
 	}
 	const loginCart = async () => {
-		const carts: IProductQty[] = (await getCarts()) as IProductQty[]
+		const carts: IProductQty[] =
+			(await getCarts()) as unknown as IProductQty[]
 		setCart(carts)
 	}
 	const updateSetCart = (data: IProductQty[]) => setCart(data)

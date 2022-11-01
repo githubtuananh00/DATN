@@ -1,6 +1,4 @@
 import Link from 'next/link'
-// import Image from 'next/image'
-// // import { useContext } from 'react'
 import {
 	Button,
 	Container,
@@ -9,9 +7,8 @@ import {
 	Navbar,
 	NavDropdown,
 } from 'react-bootstrap'
-// // import { GlobalState } from '../../pages/GlobalState'
 
-// // Svg
+// Svg
 import Shop from './icon/shop.svg'
 import Close from './icon/close.svg'
 import Cart from './icon/cart.svg'

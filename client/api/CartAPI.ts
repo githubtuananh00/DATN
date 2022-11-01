@@ -17,12 +17,6 @@ export const getCarts = async () => {
 }
 
 export const addCartAPI = async (data: IProductQty[]) => {
-	// const { product, quantity } = data
-	// if (data.length === 0)
-	// 	return {
-	// 		success: false,
-	// 		message: 'please add product or enter quantity greater than 0',
-	// 	}
 	try {
 		const response: IResponse<IProductQty> = await axios.patch(
 			`${apiUrl}/cart/addCart`,

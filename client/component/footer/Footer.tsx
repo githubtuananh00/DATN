@@ -11,7 +11,6 @@ const Footer = () => {
 		<Container>
 			<Navbar bg='light' expand='lg'>
 				<Container style={{ paddingLeft: '80px' }}>
-					{/* <Navbar.Brand href='#home'></Navbar.Brand> */}
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />
 					<Navbar.Collapse
 						id='basic-navbar-nav'

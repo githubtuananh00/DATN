@@ -1,5 +1,3 @@
-import { ReactNode } from 'react'
-
 const apiUrl: string = 'http://localhost:5000'
 export enum ProductActionType {
 	GET_PRODUCTS = 'GET_PRODUCTS',

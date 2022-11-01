@@ -10,7 +10,7 @@ import React, {
 import { Button, Form } from 'react-bootstrap'
 import Layout from '../../component/Layout'
 import { useAuth } from '../../hooks'
-import { IReqCategory } from '../../type'
+import { IPayLoad, IReqCategory } from '../../type'
 import { editCategoryAPI, getCategoryByIdAPI } from '../../api/CategoryAPI'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 
@@ -47,11 +47,11 @@ const EditCategory = () => {
 		}
 	}
 	useEffect(() => {
-		;(getCategoryByIdAPI(id as string) as Promise<IReqCategory>).then(
-			(category: IReqCategory) => {
-				setNameCategory(category.nameCategory)
-			}
-		)
+		;(
+			getCategoryByIdAPI(id as string) as Promise<IPayLoad<IReqCategory>>
+		).then((response) => {
+			setNameCategory(response.products.nameCategory)
+		})
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 	const defaultForm = (typeAlert: string, message: string) => {
