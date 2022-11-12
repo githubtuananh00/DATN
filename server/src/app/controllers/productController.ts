@@ -3,6 +3,9 @@ import { Request, Response } from 'express'
 import Product, { IProduct } from '../modules/ProductModule'
 import { IGetUserAuthInfoRequest, Sort } from '../type'
 
+/**
+ * Product Controller
+ */
 class ProductController {
 	// [GET] /product
 	async getProducts(req: Request<{}, {}, {}, Sort>, res: Response) {
@@ -47,9 +50,10 @@ class ProductController {
 				payload: { result: products.length, products },
 			})
 		} catch (error) {
-			return res
-				.status(500)
-				.json({ success: false, message: error.message })
+			return res.status(500).json({
+				success: false,
+				message: process.env.MSG_INTERNAL_SERVER_ERROR,
+			})
 		}
 	}
 	// [GET] /product/detail/:id
@@ -60,9 +64,10 @@ class ProductController {
 			})
 			return res.status(200).json({ success: true, payload: product })
 		} catch (error) {
-			return res
-				.status(500)
-				.json({ success: false, message: error.message })
+			return res.status(500).json({
+				success: false,
+				message: process.env.MSG_INTERNAL_SERVER_ERROR,
+			})
 		}
 	}
 
@@ -78,9 +83,10 @@ class ProductController {
 			category,
 		}: IProduct = req.body
 		if (!image)
-			return res
-				.status(400)
-				.json({ success: false, message: 'No image upload' })
+			return res.status(400).json({
+				success: false,
+				message: process.env.MSG_NO_IMG_UPLOAD,
+			})
 		try {
 			const product: IProduct | null = await Product.findOne({
 				product_id,
@@ -88,7 +94,7 @@ class ProductController {
 			if (product)
 				return res.status(400).json({
 					success: false,
-					message: 'This product already exists',
+					message: process.env.MSG_PRODUCT_EXISTS,
 				})
 
 			const newProduct: IProduct = new Product({
@@ -101,14 +107,15 @@ class ProductController {
 				category,
 			})
 			await newProduct.save()
-			return res.json({
+			return res.status(200).json({
 				success: true,
-				message: 'Create a Product successfully',
+				message: process.env.MSG_CREATE_PRODUCT_SUCCESS,
 			})
 		} catch (error) {
-			return res
-				.status(500)
-				.json({ success: false, message: error.message })
+			return res.status(500).json({
+				success: false,
+				message: process.env.MSG_INTERNAL_SERVER_ERROR,
+			})
 		}
 	}
 
@@ -116,9 +123,9 @@ class ProductController {
 	deleteProduct(req: IGetUserAuthInfoRequest<null>, res: Response) {
 		Product.deleteOne({ _id: req.params.id })
 			.then(() =>
-				res.json({
+				res.status(200).json({
 					success: true,
-					message: 'Delete a Product successfully',
+					message: process.env.MSG_DELETE_PRODUCT_SUCCESS,
 				})
 			)
 			.catch((err) =>
@@ -129,17 +136,18 @@ class ProductController {
 	updateProduct(req: IGetUserAuthInfoRequest<IProduct>, res: Response) {
 		const { image, title }: IProduct = req.body
 		if (!image)
-			return res
-				.status(400)
-				.json({ success: false, message: 'No image upload' })
+			return res.status(400).json({
+				success: false,
+				message: process.env.MSG_NO_IMG_UPLOAD,
+			})
 		Product.updateOne(
 			{ _id: req.params.id },
 			{ ...req.body, title: title.toLowerCase() }
 		)
 			.then(() =>
-				res.json({
+				res.status(200).json({
 					success: true,
-					message: 'Update a Product successfully',
+					message: process.env.MSG_UPDATE_PRODUCT_SUCCESS,
 				})
 			)
 			.catch((err) =>

@@ -4,6 +4,9 @@ import { IProduct } from '../modules/ProductModule'
 import User, { IUser } from '../modules/User'
 import { IGetUserAuthInfoRequest, IProductQty } from '../type'
 
+/**
+ * Cart Controller
+ */
 class CartController {
 	// GET /cart
 	getCarts(req: IGetUserAuthInfoRequest<null>, res: Response) {
@@ -13,7 +16,7 @@ class CartController {
 				res.status(200).json({
 					success: true,
 					payload: user!.cart,
-					message: 'Get all cart successfully',
+					message: process.env.MSG_GET_ALL_CART_SUCCESS,
 				})
 			)
 			.catch((err) =>
@@ -29,27 +32,34 @@ class CartController {
 		try {
 			const user: IUser | null = await User.findById(req.userId)
 
+			// if can't find request body return 400
 			if (!req.body)
-				return res
-					.status(400)
-					.json({ success: false, message: 'Product not found' })
+				return res.status(400).json({
+					success: false,
+					message: process.env.MSG_PRODUCT_NOT_FOUND,
+				})
+			// If can't find user return 400
 			if (!user) {
 				return res.status(400).json({
 					success: false,
-					message: 'Please login before purchasing',
+					message: process.env.MSG_LOGIN_BEFORE_PURCHASING,
 				})
 			}
 
+			// Update user
 			await user.updateOne({
 				cart: req.body,
 			})
-			return res
-				.status(200)
-				.json({ success: true, message: 'added to cart successfully' })
+
+			// Return HTTP status
+			return res.status(200).json({
+				success: true,
+				message: process.env.MSG_ADD_CART_SUCCESS,
+			})
 		} catch (error) {
 			res.status(500).json({
 				success: false,
-				message: 'Internal Server Error',
+				message: process.env.MSG_INTERNAL_SERVER_ERROR,
 			})
 		}
 	}
@@ -58,9 +68,9 @@ class CartController {
 	updateCart(req: IGetUserAuthInfoRequest<ICart>, res: Response) {
 		Cart.updateOne({ _id: req.params.id }, req.body)
 			.then(() =>
-				res.json({
+				res.status(200).json({
 					success: true,
-					message: 'Update a Cart successfully',
+					message: process.env.MSG_UPDATE_CART_SUCCESS,
 				})
 			)
 			.catch((err) =>
@@ -72,9 +82,9 @@ class CartController {
 	deleteCart(req: IGetUserAuthInfoRequest<null>, res: Response) {
 		Cart.deleteOne({ _id: req.params.id })
 			.then(() =>
-				res.json({
+				res.status(200).json({
 					success: true,
-					message: 'Delete a Cart successfully',
+					message: process.env.MSG_DELETE_CART_SUCCESS,
 				})
 			)
 			.catch((err) =>

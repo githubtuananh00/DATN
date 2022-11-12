@@ -5,6 +5,11 @@ export interface AlertInfo {
 	message: string
 }
 
+/**
+ *
+ * @param { type, message }: AlertInfo
+ * @returns JSX.Element | null
+ */
 const AlertMessage = ({ type, message }: AlertInfo) => {
 	return type === null ? null : <Alert variant={type}>{message}</Alert>
 }

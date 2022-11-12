@@ -17,6 +17,7 @@ const CartDefault: ICartStateDefault = {
 	cart: [],
 	updateSetCart: () => {},
 }
+
 export const CartContext = createContext<ICartStateDefault>(CartDefault)
 const CartContextProvider = ({ children }: ContextStateProps) => {
 	const [cart, setCart] = useState<IProductQty[]>([])

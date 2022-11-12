@@ -3,6 +3,10 @@ import { Button } from 'react-bootstrap'
 import { ProductStateDefault } from '../../context/ProductContext'
 import { useProduct } from '../../hooks'
 
+/**
+ * Components Load More
+ * @returns JSX.Element
+ */
 const LoadMore = () => {
 	const { result, page, updatePage }: ProductStateDefault = useProduct()
 	return (

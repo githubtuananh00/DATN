@@ -32,6 +32,12 @@ export interface IParams extends ParsedUrlQuery {
 interface IProps {
 	product: IProduct
 }
+
+/**
+ * Page Detail Product
+ * @param product InferGetStaticPropsType<typeof getStaticProps>
+ * @returns JSX.Element
+ */
 const DetailProduct = ({
 	product,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -300,6 +306,10 @@ const DetailProduct = ({
 	)
 }
 
+/**
+ * getStaticPaths
+ * @returns GetStaticPaths<ParsedUrlQuery>
+ */
 export const getStaticPaths: GetStaticPaths = async () => {
 	const paths = await getProductIds(5)
 	return {
@@ -310,6 +320,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 	}
 }
 
+/**
+ * getStaticProps
+ * @param context GetStaticPropsContext<IParams, PreviewData>
+ * @returns GetStaticProps<IProps, IParams, PreviewData>
+ */
 export const getStaticProps: GetStaticProps<IProps, IParams> = async (
 	context
 ) => {

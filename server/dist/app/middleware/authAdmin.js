@@ -5,7 +5,7 @@ const authAdmin = (req, res, next) => {
     if (!req.userRole)
         return res.status(401).json({
             success: false,
-            message: 'Admin resources access denied',
+            message: process.env.MSG_HTTP_UNAUTHORIZED,
         });
     next();
 };

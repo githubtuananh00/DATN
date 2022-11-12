@@ -2,6 +2,9 @@ import { Response } from 'express'
 import Category, { ICategory } from '../modules/CategoryModule'
 import { IGetUserAuthInfoRequest } from '../type'
 
+/**
+ * Category Controller
+ */
 class CategoryController {
 	// [GET] /category
 	getCategories(req: IGetUserAuthInfoRequest<null>, res: Response) {
@@ -42,19 +45,20 @@ class CategoryController {
 			if (category)
 				return res.status(400).json({
 					success: false,
-					message: 'This category already exists',
+					message: process.env.MSG_CATEGORY_EXISTS,
 				})
 
 			const newCategory: ICategory = new Category({ nameCategory })
 			await newCategory.save()
-			return res.json({
+			return res.status(200).json({
 				success: true,
-				message: 'Create a Category successfully',
+				message: process.env.MSG_CREATE_CATEGORY_SUCCESS,
 			})
 		} catch (error) {
-			return res
-				.status(500)
-				.json({ success: false, message: error.message })
+			return res.status(500).json({
+				success: false,
+				message: process.env.MSG_INTERNAL_SERVER_ERROR,
+			})
 		}
 	}
 
@@ -62,9 +66,9 @@ class CategoryController {
 	deleteCategory(req: IGetUserAuthInfoRequest<null>, res: Response) {
 		Category.deleteOne({ _id: req.params.id })
 			.then(() =>
-				res.json({
+				res.status(200).json({
 					success: true,
-					message: 'Delete a category successfully',
+					message: process.env.MSG_DELETE_CATEGORY_SUCCESS,
 				})
 			)
 			.catch((err) =>
@@ -76,9 +80,9 @@ class CategoryController {
 	updateCategory(req: IGetUserAuthInfoRequest<ICategory>, res: Response) {
 		Category.updateOne({ _id: req.params.id }, req.body)
 			.then(() =>
-				res.json({
+				res.status(200).json({
 					success: true,
-					message: 'Update a Category successfully',
+					message: process.env.MSG_UPDATE_CATEGORY_SUCCESS,
 				})
 			)
 			.catch((err) =>

@@ -6,6 +6,10 @@ import Mail from './icon/Mail.svg'
 import Map from './icon/Map.svg'
 import Phone from './icon/Phone.svg'
 
+/**
+ * Footer Page
+ * @returns JSX.Element
+ */
 const Footer = () => {
 	return (
 		<Container>

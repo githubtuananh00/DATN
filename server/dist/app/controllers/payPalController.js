@@ -12,7 +12,7 @@ class PayPalController {
         paypalModule_1.default.find({})
             .then((payments) => res.status(200).json({
             success: true,
-            message: 'Get all payments successfully',
+            message: process.env.MSG_GET_ALL_PAYPAL,
             payload: payments,
         }))
             .catch((err) => res.status(500).json({ success: false, err: err.message }));
@@ -23,7 +23,7 @@ class PayPalController {
             if (!user)
                 return res.status(400).json({
                     success: false,
-                    message: 'Cannot find user',
+                    message: process.env.MSG_USER_NOT_FOUND,
                 });
             const { _id, name, email } = user;
             const newPayment = new paypalModule_1.default(Object.assign(Object.assign({}, req.body), { user_id: _id, name,
@@ -34,21 +34,22 @@ class PayPalController {
             await newPayment.save();
             return res.status(200).json({
                 success: true,
-                message: 'Created payment successfully',
+                message: process.env.MSG_CREATE_PAYMENT_SUCCESS,
                 payload: newPayment,
             });
         }
         catch (error) {
-            return res
-                .status(500)
-                .json({ success: false, message: error.message });
+            return res.status(500).json({
+                success: false,
+                message: process.env.MSG_INTERNAL_SERVER_ERROR,
+            });
         }
     }
     history(req, res) {
         paypalModule_1.default.find({ user_id: req.userId })
             .then((payments) => res.status(200).json({
             success: true,
-            message: 'Get a payment history successfully',
+            message: process.env.MSG_GET_PAYMENT_HISTORY_SUCCESS,
             payload: payments,
         }))
             .catch((err) => res.status(500).json({ success: false, err: err.message }));

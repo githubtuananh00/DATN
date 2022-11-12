@@ -5,6 +5,10 @@ import Layout from '../../component/Layout'
 import { useAuth, usePayment } from '../../hooks'
 import { IPaymentResponse } from '../../type'
 
+/**
+ * Page Detail History
+ * @returns JSX.Element | null
+ */
 const DetailHistory = () => {
 	// context
 	const {

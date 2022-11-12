@@ -35,9 +35,10 @@ class ProductController {
             });
         }
         catch (error) {
-            return res
-                .status(500)
-                .json({ success: false, message: error.message });
+            return res.status(500).json({
+                success: false,
+                message: process.env.MSG_INTERNAL_SERVER_ERROR,
+            });
         }
     }
     async getProductId(req, res) {
@@ -48,17 +49,19 @@ class ProductController {
             return res.status(200).json({ success: true, payload: product });
         }
         catch (error) {
-            return res
-                .status(500)
-                .json({ success: false, message: error.message });
+            return res.status(500).json({
+                success: false,
+                message: process.env.MSG_INTERNAL_SERVER_ERROR,
+            });
         }
     }
     async createProduct(req, res) {
         const { product_id, title, price, description, content, image, category, } = req.body;
         if (!image)
-            return res
-                .status(400)
-                .json({ success: false, message: 'No image upload' });
+            return res.status(400).json({
+                success: false,
+                message: process.env.MSG_NO_IMG_UPLOAD,
+            });
         try {
             const product = await ProductModule_1.default.findOne({
                 product_id,
@@ -66,7 +69,7 @@ class ProductController {
             if (product)
                 return res.status(400).json({
                     success: false,
-                    message: 'This product already exists',
+                    message: process.env.MSG_PRODUCT_EXISTS,
                 });
             const newProduct = new ProductModule_1.default({
                 product_id,
@@ -78,35 +81,37 @@ class ProductController {
                 category,
             });
             await newProduct.save();
-            return res.json({
+            return res.status(200).json({
                 success: true,
-                message: 'Create a Product successfully',
+                message: process.env.MSG_CREATE_PRODUCT_SUCCESS,
             });
         }
         catch (error) {
-            return res
-                .status(500)
-                .json({ success: false, message: error.message });
+            return res.status(500).json({
+                success: false,
+                message: process.env.MSG_INTERNAL_SERVER_ERROR,
+            });
         }
     }
     deleteProduct(req, res) {
         ProductModule_1.default.deleteOne({ _id: req.params.id })
-            .then(() => res.json({
+            .then(() => res.status(200).json({
             success: true,
-            message: 'Delete a Product successfully',
+            message: process.env.MSG_DELETE_PRODUCT_SUCCESS,
         }))
             .catch((err) => res.status(500).json({ success: false, message: err.message }));
     }
     updateProduct(req, res) {
         const { image, title } = req.body;
         if (!image)
-            return res
-                .status(400)
-                .json({ success: false, message: 'No image upload' });
+            return res.status(400).json({
+                success: false,
+                message: process.env.MSG_NO_IMG_UPLOAD,
+            });
         ProductModule_1.default.updateOne({ _id: req.params.id }, Object.assign(Object.assign({}, req.body), { title: title.toLowerCase() }))
-            .then(() => res.json({
+            .then(() => res.status(200).json({
             success: true,
-            message: 'Update a Product successfully',
+            message: process.env.MSG_UPDATE_PRODUCT_SUCCESS,
         }))
             .catch((err) => res.status(500).json({ success: false, message: err.message }));
     }

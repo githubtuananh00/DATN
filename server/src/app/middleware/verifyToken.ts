@@ -3,6 +3,14 @@ import { JwtPayload, Secret, verify } from 'jsonwebtoken'
 import { IUser } from '../modules/User'
 import { IGetUserAuthInfoRequest } from '../type'
 
+/**
+ *
+ * Verify Token
+ * @param req Request
+ * @param res Response
+ * @param next Next Function
+ * @returns HTTP Response
+ */
 export const verifyToken = (
 	req: IGetUserAuthInfoRequest<any>,
 	res: Response,
@@ -13,9 +21,10 @@ export const verifyToken = (
 	const accessToken = authHeader && authHeader.split(' ')[1]
 
 	if (!accessToken)
-		return res
-			.status(401)
-			.json({ success: false, message: 'Access token not found' })
+		return res.status(401).json({
+			success: false,
+			message: process.env.MSG_HTTP_TOKEN_NOT_FOUND,
+		})
 	try {
 		const decoded = verify(
 			accessToken,
@@ -27,6 +36,6 @@ export const verifyToken = (
 	} catch (error) {
 		return res
 			.status(403)
-			.json({ success: false, message: 'Invalid token' })
+			.json({ success: false, message: process.env.MSG_INVALID_TOKEN })
 	}
 }

@@ -14,6 +14,10 @@ import { IPayLoad, IReqCategory } from '../../type'
 import { editCategoryAPI, getCategoryByIdAPI } from '../../api/CategoryAPI'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 
+/**
+ * Page edit Category
+ * @returns JSX.Element
+ */
 const EditCategory = () => {
 	const {
 		authInfo: { isAuthenticated, authLoading, isAdmin },

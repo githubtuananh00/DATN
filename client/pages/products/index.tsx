@@ -13,6 +13,10 @@ import LoadMore from './LoadMore'
 
 import ProductItem from './ProductItem'
 
+/**
+ * Page Product
+ * @returns JSX.Element
+ */
 const Products = () => {
 	const checkBoxRef = useRef() as MutableRefObject<HTMLInputElement>
 	const [alert, setAlert] = useState<AlertInfo>({ type: null, message: '' })

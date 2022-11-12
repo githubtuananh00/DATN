@@ -6,6 +6,10 @@ import { addCartAPI } from '../../api/CartAPI'
 import PayPal from './PayPal'
 import Link from 'next/link'
 
+/**
+ * Page Cart
+ * @returns JSX.Element
+ */
 const Cart = () => {
 	const { cart, updateSetCart } = useCart()
 	const router = useRouter()

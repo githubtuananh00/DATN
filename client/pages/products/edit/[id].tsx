@@ -25,6 +25,10 @@ import { DestroyFileAPI, UploadedFileAPI } from '../../../api/UploadAPI'
 import AlertMessage, { AlertInfo } from '../../layout/AlertMessage'
 import Upload from '../lib/svg/upload.svg'
 
+/**
+ * Page Edit Product
+ * @returns JSX.Element
+ */
 const EditProduct = () => {
 	const router = useRouter()
 	const {

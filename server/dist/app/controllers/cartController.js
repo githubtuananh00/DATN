@@ -12,7 +12,7 @@ class CartController {
             .then((user) => res.status(200).json({
             success: true,
             payload: user.cart,
-            message: 'Get all cart successfully',
+            message: process.env.MSG_GET_ALL_CART_SUCCESS,
         }))
             .catch((err) => res.status(500).json({ success: false, err: err.message }));
     }
@@ -20,42 +20,44 @@ class CartController {
         try {
             const user = await User_1.default.findById(req.userId);
             if (!req.body)
-                return res
-                    .status(400)
-                    .json({ success: false, message: 'Product not found' });
+                return res.status(400).json({
+                    success: false,
+                    message: process.env.MSG_PRODUCT_NOT_FOUND,
+                });
             if (!user) {
                 return res.status(400).json({
                     success: false,
-                    message: 'Please login before purchasing',
+                    message: process.env.MSG_LOGIN_BEFORE_PURCHASING,
                 });
             }
             await user.updateOne({
                 cart: req.body,
             });
-            return res
-                .status(200)
-                .json({ success: true, message: 'added to cart successfully' });
+            return res.status(200).json({
+                success: true,
+                message: process.env.MSG_ADD_CART_SUCCESS,
+            });
         }
         catch (error) {
             res.status(500).json({
                 success: false,
-                message: 'Internal Server Error',
+                message: process.env.MSG_INTERNAL_SERVER_ERROR,
             });
         }
     }
     updateCart(req, res) {
         CartModule_1.default.updateOne({ _id: req.params.id }, req.body)
-            .then(() => res.json({
+            .then(() => res.status(200).json({
             success: true,
-            message: 'Update a Cart successfully',
+            message: process.env.MSG_UPDATE_CART_SUCCESS,
         }))
             .catch((err) => res.status(500).json({ success: false, message: err.message }));
     }
     deleteCart(req, res) {
         CartModule_1.default.deleteOne({ _id: req.params.id })
-            .then(() => res.json({
+            .then(() => res.status(200).json({
             success: true,
-            message: 'Delete a Cart successfully',
+            message: process.env.MSG_DELETE_CART_SUCCESS,
         }))
             .catch((err) => res.status(500).json({ success: false, message: err.message }));
     }

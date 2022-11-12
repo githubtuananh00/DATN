@@ -120,7 +120,9 @@ const ProductContextProvider = ({ children }: ContextStateProps) => {
 					products: response.products,
 				},
 			})
-		} catch (error) {}
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	const context: ProductStateDefault = {

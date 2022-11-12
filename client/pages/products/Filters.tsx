@@ -5,6 +5,10 @@ import { useCategory, useProduct } from '../../hooks'
 import { ICategory } from '../../type'
 import { getCategoriesAPI } from '../../api/CategoryAPI'
 
+/**
+ * Page Filter
+ * @returns JSX.Element
+ */
 const Filters = () => {
 	const {
 		category,
@@ -25,7 +29,8 @@ const Filters = () => {
 	useEffect(() => {
 		const getCategories = async () => {
 			const response: ICategory[] =
-				(await getCategoriesAPI()) as ICategory[]
+				(await getCategoriesAPI()) as unknown as ICategory[]
+
 			updateSetCategories(response)
 		}
 		getCategories()

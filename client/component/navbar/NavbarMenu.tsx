@@ -17,6 +17,10 @@ import { useAuth, useCart, useProduct } from '../../hooks'
 import { ChangeEvent } from 'react'
 import { ProductStateDefault } from '../../context/ProductContext'
 
+/**
+ * Navbar
+ * @returns JSX.Element
+ */
 const NavbarMenu = () => {
 	const { search, updateSearch }: ProductStateDefault = useProduct()
 	const onCHangeSearchForm = (event: ChangeEvent<HTMLInputElement>) =>

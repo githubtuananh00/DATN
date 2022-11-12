@@ -11,8 +11,6 @@ router.post('/login', authController.login)
 // Update token
 router.get('/token', verifyToken, authController.token)
 
-// Phan quyen admin
-// router.post('/test', verifyToken, authRole(role.USER), authController.test)
 // Logout
 router.delete('/delete', verifyToken, authController.deleteToken)
 

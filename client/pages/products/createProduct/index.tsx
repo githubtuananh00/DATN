@@ -22,6 +22,7 @@ import { addProductAPI } from '../../../api/ProductAPI'
 import { DestroyFileAPI, UploadedFileAPI } from '../../../api/UploadAPI'
 import AlertMessage, { AlertInfo } from '../../layout/AlertMessage'
 import Upload from '../lib/svg/upload.svg'
+import { FILE_PATH } from '../../../constants'
 
 const CreateProduct = () => {
 	const router = useRouter()
@@ -113,8 +114,8 @@ const CreateProduct = () => {
 			const pathFake: string = event.currentTarget.value
 
 			const pathReal: string = pathFake.replace(
-				'C:\\fakepath',
-				'D:\\BaiTap\\DATN\\img'
+				FILE_PATH.FILE_IMG_FAKE,
+				FILE_PATH.FILE_IMG_PATH
 			)
 
 			const data: IFile = {

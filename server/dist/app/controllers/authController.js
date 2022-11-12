@@ -34,15 +34,19 @@ class AuthController {
         try {
             const user = await User_1.default.findById(req.userId).select('-password');
             if (!user)
-                return res
-                    .status(400)
-                    .json({ success: false, message: 'User not found' });
-            return res.json({ success: true, payload: user });
+                return res.status(400).json({
+                    success: false,
+                    message: process.env.MSG_USER_NOT_FOUND,
+                });
+            return res.status(200).json({ success: true, payload: user });
         }
         catch (error) {
             return res
                 .status(500)
-                .json({ success: false, message: error.message });
+                .json({
+                success: false,
+                message: process.env.MSG_INTERNAL_SERVER_ERROR,
+            });
         }
     }
     async register(req, res) {
@@ -50,25 +54,26 @@ class AuthController {
         if (!username || !password)
             return res.status(400).json({
                 success: false,
-                message: 'Mission username or password',
+                message: process.env.MSG_MISS_USER_OR_PASS,
             });
         try {
             const user = await User_1.default.findOne({ username });
             if (user)
-                return res
-                    .status(400)
-                    .json({ success: false, message: 'User already exists' });
+                return res.status(400).json({
+                    success: false,
+                    message: process.env.MSG_USER_EXISTS,
+                });
             const phone1 = await User_1.default.findOne({ phone });
             if (phone1)
                 return res.status(400).json({
                     success: false,
-                    message: 'Phone number already exists',
+                    message: process.env.MSG_PHONE_EXISTS,
                 });
             const email1 = await User_1.default.findOne({ email });
             if (email1)
                 return res.status(400).json({
                     success: false,
-                    message: 'Email already exists',
+                    message: process.env.MSG_EMAIL_EXISTS,
                 });
             const hashPassword = await (0, argon2_1.hash)(password);
             const newUser = new User_1.default({
@@ -85,13 +90,13 @@ class AuthController {
             await newUser.save();
             return res.status(200).json({
                 success: true,
-                message: 'User created successfully',
+                message: process.env.MSG_REGISTER_SUCCESS,
             });
         }
         catch (error) {
             return res.status(500).json({
                 success: false,
-                message: 'Internal Server Error',
+                message: process.env.MSG_INTERNAL_SERVER_ERROR,
             });
         }
     }
@@ -100,7 +105,7 @@ class AuthController {
         if (!username || !password)
             return res.status(400).json({
                 success: false,
-                message: 'Mission username or password',
+                message: process.env.MSG_MISS_USER_OR_PASS,
                 tokens: null,
             });
         try {
@@ -108,28 +113,28 @@ class AuthController {
             if (!user)
                 return res.status(400).json({
                     success: false,
-                    message: 'Incorrect username or password',
+                    message: process.env.MSG_INCORRECT_USER_PASS,
                     tokens: null,
                 });
             const passwordValid = await (0, argon2_1.verify)(user.password, password);
             if (!passwordValid)
                 return res.status(400).json({
                     success: false,
-                    message: 'Incorrect username or password',
+                    message: process.env.MSG_INCORRECT_USER_PASS,
                     tokens: null,
                 });
             const tokens = generateTokens(user);
             await User_1.default.updateOne({ _id: user._id }, { refreshToken: tokens.refreshToken });
             return res.status(200).json({
                 success: true,
-                message: 'User logged in successfully',
+                message: process.env.MSG_LOGIN_SUCCESS,
                 tokens,
             });
         }
         catch (error) {
             return res.status(500).json({
                 success: false,
-                message: 'Internal Server Error',
+                message: process.env.MSG_INTERNAL_SERVER_ERROR,
                 tokens: null,
             });
         }
@@ -139,23 +144,24 @@ class AuthController {
         try {
             const user = await User_1.default.findOne({ _id: userId });
             if (!user)
-                return res
-                    .status(403)
-                    .json({ success: false, message: 'refreshToken not found' });
+                return res.status(403).json({
+                    success: false,
+                    message: process.env.MSG_REFRESH_TOKEN_NOT_FOUND,
+                });
             const refreshToken = user.refreshToken;
             jsonwebtoken_1.default.verify(refreshToken, process.env.REFRESH_TOKEN);
-            const tokens = generateTokens(user);
-            await User_1.default.updateOne({ _id: user._id }, { refreshToken: tokens.refreshToken });
+            const newTokens = generateTokens(user);
+            await User_1.default.updateOne({ _id: user._id }, { refreshToken: newTokens.refreshToken });
             return res.status(200).json({
                 success: true,
-                message: 'Refresh Token successfully',
-                tokens,
+                message: process.env.MSG_REFRESH_TOKEN_SUCCESS,
+                tokens: newTokens,
             });
         }
         catch (error) {
             return res.status(500).json({
                 success: false,
-                message: 'Internal Server Error',
+                message: process.env.MSG_INTERNAL_SERVER_ERROR,
             });
         }
     }
@@ -165,20 +171,21 @@ class AuthController {
             await User_1.default.updateOne({ _id: userId }, { refreshToken: null });
             return res.status(204).json({
                 success: true,
-                message: 'Logout Successfully',
+                message: process.env.MSG_LOGGED_SUCCESS,
             });
         }
         catch (error) {
-            return res
-                .status(500)
-                .json({ success: false, message: 'Internal Server Error' });
+            return res.status(500).json({
+                success: false,
+                message: process.env.MSG_INTERNAL_SERVER_ERROR,
+            });
         }
     }
 }
 const generateTokens = (payload) => {
     const { _id, role } = payload;
-    const accessToken = (0, jsonwebtoken_1.sign)({ _id, role }, process.env.ACCESS_TOKEN, { expiresIn: '10m' });
-    const refreshToken = (0, jsonwebtoken_1.sign)({ _id, role }, process.env.REFRESH_TOKEN, { expiresIn: '1h' });
+    const accessToken = (0, jsonwebtoken_1.sign)({ _id, role }, process.env.ACCESS_TOKEN, { expiresIn: process.env.TIME_TOKEN });
+    const refreshToken = (0, jsonwebtoken_1.sign)({ _id, role }, process.env.REFRESH_TOKEN, { expiresIn: process.env.TIME_REFRESH_TOKEN });
     return { accessToken, refreshToken };
 };
 exports.default = new AuthController();

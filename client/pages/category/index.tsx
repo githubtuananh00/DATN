@@ -19,6 +19,10 @@ import {
 } from '../../api/CategoryAPI'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 
+/**
+ * Page Category
+ * @returns JSX.Element
+ */
 const Category = () => {
 	const router = useRouter()
 	// context

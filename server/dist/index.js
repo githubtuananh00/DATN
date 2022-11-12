@@ -13,7 +13,7 @@ require('dotenv').config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
-    origin: 'http://localhost:3000',
+    origin: process.env.URL_BACKEND,
     credentials: true,
     optionsSuccessStatus: 200,
 }));
@@ -24,13 +24,9 @@ cloudinary_1.default.v2.config({
 });
 app.use((0, express_fileupload_1.default)());
 const PORT = process.env.PORT || 5000;
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-    req.off;
-});
 (0, routes_1.default)(app);
 (0, db_1.default)();
 app.listen(PORT, () => {
-    return console.log(`Express is listening at http://localhost:${PORT}`);
+    return console.log(`${process.env.MSG_LISTEN}${PORT}`);
 });
 //# sourceMappingURL=index.js.map

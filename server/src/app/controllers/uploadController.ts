@@ -3,28 +3,36 @@ import cloudinary, { UploadApiResponse } from 'cloudinary'
 import fs from 'fs'
 import { IFile, IGetUserAuthInfoRequest } from '../type'
 
+/**
+ * Upload Controller
+ */
 class UploadController {
 	// [POST] /upload
 	uploadFile(req: IGetUserAuthInfoRequest<IFile>, res: Response) {
 		try {
 			if (!req.body)
-				return res
-					.status(400)
-					.json({ success: false, message: 'No files were uploaded' })
+				return res.status(400).json({
+					success: false,
+					message: process.env.MSG_NO_FILES_UPLOADED,
+				})
 			const file: IFile = req.body as IFile
 
 			if (file.size > 1024 * 1024) {
 				removeTmp(file.path)
-				return res
-					.status(400)
-					.json({ success: false, message: 'Size too large' })
+				return res.status(400).json({
+					success: false,
+					message: process.env.MSG_SIZE_TO_LARGE,
+				})
 			}
 
-			if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+			if (
+				file.type !== (process.env.FILE_IMG_JPEG as string) &&
+				file.type !== (process.env.FILE_IMG_PNG as string)
+			) {
 				removeTmp(file.path)
 				return res.status(400).json({
 					success: false,
-					message: 'File format is incorrect',
+					message: process.env.MSG_FILE_FORMAT_INCORRECT,
 				})
 			}
 
@@ -39,7 +47,7 @@ class UploadController {
 						})
 
 					removeTmp(file.path)
-					return res.json({
+					return res.status(200).json({
 						success: true,
 						payload: {
 							url: (result as UploadApiResponse).secure_url,
@@ -49,9 +57,10 @@ class UploadController {
 				}
 			)
 		} catch (error) {
-			return res
-				.status(500)
-				.json({ success: false, message: error.message })
+			return res.status(500).json({
+				success: false,
+				message: process.env.MSG_INTERNAL_SERVER_ERROR,
+			})
 		}
 	}
 
@@ -60,13 +69,17 @@ class UploadController {
 		try {
 			const { public_id }: UploadApiResponse = req.body
 			if (!public_id)
-				return res
-					.status(400)
-					.json({ status: false, message: 'No Image Selected' })
+				return res.status(400).json({
+					status: false,
+					message: process.env.MSG_NO_IMG_SELECTED,
+				})
 			cloudinary.v2.uploader
 				.destroy(public_id)
 				.then(() =>
-					res.json({ success: true, message: 'Deleted Image' })
+					res.status(200).json({
+						success: true,
+						message: process.env.MSG_DELETE_IMG_SUCCESS,
+					})
 				)
 				.catch((err) =>
 					res
@@ -74,13 +87,18 @@ class UploadController {
 						.json({ success: false, message: err.message })
 				)
 		} catch (error) {
-			return res
-				.status(500)
-				.json({ status: false, message: error.message })
+			return res.status(500).json({
+				status: false,
+				message: process.env.MSG_INTERNAL_SERVER_ERROR,
+			})
 		}
 	}
 }
 
+/**
+ * Remove Path File Upload
+ * @param path Path File Upload
+ */
 const removeTmp = (path: string): void => {
 	fs.unlink(path, (err) => {
 		if (err) throw err

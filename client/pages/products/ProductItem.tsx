@@ -14,6 +14,11 @@ export interface productItemProps {
 	product: IProduct
 	result: number
 }
+/**
+ * Page Product items
+ * @param { product, result }: productItemProps 
+ * @returns JSX.Element
+ */
 const ProductItem = ({ product, result }: productItemProps) => {
 	const router = useRouter()
 	const { reloadProduct, updateProduct }: ProductStateDefault = useProduct()

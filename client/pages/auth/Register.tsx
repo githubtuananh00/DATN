@@ -13,6 +13,10 @@ import { useAuth } from '../../hooks'
 import { IResponseRegister, IResponseToken, IUser } from '../../type'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 
+/**
+ * Page Register
+ * @returns JSX.Element
+ */
 const Register = () => {
 	const usernameRef = useRef() as MutableRefObject<HTMLInputElement>
 
@@ -86,7 +90,9 @@ const Register = () => {
 						.data.message
 				)
 			}
-		} catch (error: unknown) {}
+		} catch (error) {
+			console.log(error)
+		}
 	}
 	const setDefault = (message: string) => {
 		setRegisterForm(registerFormDefault)

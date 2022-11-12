@@ -4,6 +4,11 @@ import { ContextStateProps } from '../type'
 import Footer from './footer/Footer'
 import NavbarMenu from './navbar/NavbarMenu'
 
+/**
+ * Layout
+ * @param children ContextStateProps
+ * @returns JSX.Element
+ */
 const Layout = ({ children }: ContextStateProps) => {
 	return (
 		<>

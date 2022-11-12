@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const connectDb = () => {
     mongoose_1.default
-        .connect(`mongodb://localhost:27017/shopbanhang`)
-        .then(() => console.log('Connect successful!'))
-        .catch(() => console.log('Connect failed'));
+        .connect(process.env.PATH_CONFIG_DB)
+        .then(() => console.log(process.env.MSG_DB_SUCCESS))
+        .catch(() => console.log(process.env.MSG_BD_FAILED));
 };
 exports.default = connectDb;
 //# sourceMappingURL=index.js.map

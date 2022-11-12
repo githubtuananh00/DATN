@@ -16,6 +16,11 @@ interface IPayPal {
 	total: string
 	carts: IProductQty[]
 }
+/**
+ * Page Paypal
+ * @param { total, carts }: IPayPal
+ * @returns JSX.Element
+ */
 const PayPal = ({ total, carts }: IPayPal) => {
 	const { updateSetCart } = useCart()
 	const [paidFor, setPaidFor] = useState<boolean>(false)

@@ -7,6 +7,10 @@ import Table from 'react-bootstrap/Table'
 import Link from 'next/link'
 import { getHistoryAPI, getPaymentsAPI } from '../../api/PaymentAPI'
 
+/**
+ * Page Oder History
+ * @returns JSX.Element | null
+ */
 const OrderHistory = () => {
 	const router = useRouter()
 	// context

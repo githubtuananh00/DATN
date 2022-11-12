@@ -6,9 +6,10 @@ const verifyToken = (req, res, next) => {
     const authHeader = req.header('Authorization');
     const accessToken = authHeader && authHeader.split(' ')[1];
     if (!accessToken)
-        return res
-            .status(401)
-            .json({ success: false, message: 'Access token not found' });
+        return res.status(401).json({
+            success: false,
+            message: process.env.MSG_HTTP_TOKEN_NOT_FOUND,
+        });
     try {
         const decoded = (0, jsonwebtoken_1.verify)(accessToken, process.env.ACCESS_TOKEN);
         req.userId = decoded._id;
@@ -18,7 +19,7 @@ const verifyToken = (req, res, next) => {
     catch (error) {
         return res
             .status(403)
-            .json({ success: false, message: 'Invalid token' });
+            .json({ success: false, message: process.env.MSG_INVALID_TOKEN });
     }
 };
 exports.verifyToken = verifyToken;

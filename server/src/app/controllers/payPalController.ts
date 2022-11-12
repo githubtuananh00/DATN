@@ -4,6 +4,9 @@ import { IGetUserAuthInfoRequest } from '../type'
 import { Response } from 'express'
 import User, { IUser } from '../modules/User'
 
+/**
+ * PayPal Controller
+ */
 class PayPalController {
 	// [GET] /payment
 	getPayments(req: IGetUserAuthInfoRequest<null>, res: Response) {
@@ -12,7 +15,7 @@ class PayPalController {
 			.then((payments) =>
 				res.status(200).json({
 					success: true,
-					message: 'Get all payments successfully',
+					message: process.env.MSG_GET_ALL_PAYPAL,
 					payload: payments,
 				})
 			)
@@ -29,7 +32,7 @@ class PayPalController {
 			if (!user)
 				return res.status(400).json({
 					success: false,
-					message: 'Cannot find user',
+					message: process.env.MSG_USER_NOT_FOUND,
 				})
 			const { _id, name, email } = user
 			const newPayment = new Payments({
@@ -51,13 +54,14 @@ class PayPalController {
 			await newPayment.save()
 			return res.status(200).json({
 				success: true,
-				message: 'Created payment successfully',
+				message: process.env.MSG_CREATE_PAYMENT_SUCCESS,
 				payload: newPayment,
 			})
 		} catch (error) {
-			return res
-				.status(500)
-				.json({ success: false, message: error.message })
+			return res.status(500).json({
+				success: false,
+				message: process.env.MSG_INTERNAL_SERVER_ERROR,
+			})
 		}
 	}
 	// [GET] /payment/history
@@ -66,7 +70,7 @@ class PayPalController {
 			.then((payments) =>
 				res.status(200).json({
 					success: true,
-					message: 'Get a payment history successfully',
+					message: process.env.MSG_GET_PAYMENT_HISTORY_SUCCESS,
 					payload: payments,
 				})
 			)
@@ -75,6 +79,13 @@ class PayPalController {
 			)
 	}
 }
+
+/**
+ * UpdateSoldProduct
+ * @param id Id Product
+ * @param quantity Quantity Product
+ * @param oldSold OldSold
+ */
 const updateSoldProduct = async (
 	id: string,
 	quantity: number,

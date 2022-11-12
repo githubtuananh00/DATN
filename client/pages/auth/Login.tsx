@@ -14,6 +14,10 @@ import { useAuth, useCart } from '../../hooks'
 import { IResponseRefreshToken, IResponseToken, IUserLogin } from '../../type'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 
+/**
+ * Page Login
+ * @returns JSX.Element
+ */
 const Login = () => {
 	const router = useRouter()
 
@@ -65,7 +69,9 @@ const Login = () => {
 				})
 				setTimeout(() => setAlert({ type: null, message: '' }), 2000)
 			}
-		} catch (error) {}
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	return (

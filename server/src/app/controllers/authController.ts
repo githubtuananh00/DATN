@@ -4,6 +4,9 @@ import { hash, verify } from 'argon2'
 import jwt, { Secret, sign } from 'jsonwebtoken'
 import { IGenerateTokens, IGetUserAuthInfoRequest } from '../type'
 
+/**
+ * Auth Controller
+ */
 class AuthController {
 	// [GET] /auth
 	async loadUser(
@@ -13,14 +16,18 @@ class AuthController {
 		try {
 			const user = await User.findById(req.userId).select('-password')
 			if (!user)
-				return res
-					.status(400)
-					.json({ success: false, message: 'User not found' })
-			return res.json({ success: true, payload: user })
+				return res.status(400).json({
+					success: false,
+					message: process.env.MSG_USER_NOT_FOUND,
+				})
+			return res.status(200).json({ success: true, payload: user })
 		} catch (error) {
 			return res
 				.status(500)
-				.json({ success: false, message: error.message })
+				.json({
+					success: false,
+					message: process.env.MSG_INTERNAL_SERVER_ERROR,
+				})
 		}
 	}
 
@@ -38,27 +45,27 @@ class AuthController {
 			role,
 		}: IUser = req.body
 
-		// Lôi nay ở FE
 		if (!username || !password)
 			return res.status(400).json({
 				success: false,
-				message: 'Mission username or password',
+				message: process.env.MSG_MISS_USER_OR_PASS,
 			})
 
 		try {
 			// Check for existing user
 			const user: IUser | null = await User.findOne({ username })
 			if (user)
-				return res
-					.status(400)
-					.json({ success: false, message: 'User already exists' })
+				return res.status(400).json({
+					success: false,
+					message: process.env.MSG_USER_EXISTS,
+				})
 
 			// Check for existing phone
 			const phone1: IUser | null = await User.findOne({ phone })
 			if (phone1)
 				return res.status(400).json({
 					success: false,
-					message: 'Phone number already exists',
+					message: process.env.MSG_PHONE_EXISTS,
 				})
 
 			// Check for existing email
@@ -66,7 +73,7 @@ class AuthController {
 			if (email1)
 				return res.status(400).json({
 					success: false,
-					message: 'Email already exists',
+					message: process.env.MSG_EMAIL_EXISTS,
 				})
 
 			// All good
@@ -85,16 +92,14 @@ class AuthController {
 			await newUser.save()
 
 			// Return token
-			// const tokens: IGenerateTokens = generateTokens(newUser)
 			return res.status(200).json({
 				success: true,
-				message: 'User created successfully',
-				// tokens,
+				message: process.env.MSG_REGISTER_SUCCESS,
 			})
 		} catch (error) {
 			return res.status(500).json({
 				success: false,
-				message: 'Internal Server Error',
+				message: process.env.MSG_INTERNAL_SERVER_ERROR,
 			})
 		}
 	}
@@ -106,7 +111,7 @@ class AuthController {
 		if (!username || !password)
 			return res.status(400).json({
 				success: false,
-				message: 'Mission username or password',
+				message: process.env.MSG_MISS_USER_OR_PASS,
 				tokens: null,
 			})
 
@@ -116,7 +121,7 @@ class AuthController {
 			if (!user)
 				return res.status(400).json({
 					success: false,
-					message: 'Incorrect username or password',
+					message: process.env.MSG_INCORRECT_USER_PASS,
 					tokens: null,
 				})
 
@@ -125,12 +130,11 @@ class AuthController {
 			if (!passwordValid)
 				return res.status(400).json({
 					success: false,
-					message: 'Incorrect username or password',
+					message: process.env.MSG_INCORRECT_USER_PASS,
 					tokens: null,
 				})
 
 			// All good
-
 			// Create accessToken, refreshToken
 			const tokens: IGenerateTokens = generateTokens(user)
 
@@ -141,58 +145,54 @@ class AuthController {
 
 			return res.status(200).json({
 				success: true,
-				message: 'User logged in successfully',
+				message: process.env.MSG_LOGIN_SUCCESS,
 				tokens,
 			})
 		} catch (error) {
 			return res.status(500).json({
 				success: false,
-				message: 'Internal Server Error',
+				message: process.env.MSG_INTERNAL_SERVER_ERROR,
 				tokens: null,
 			})
 		}
 	}
 
 	// [POST] /auth/token
-	async token(req: IGetUserAuthInfoRequest<null>, res: Response) {
-		// const refreshToken: string = req.body.refreshToken
+	async token(req: IGetUserAuthInfoRequest<IGenerateTokens>, res: Response) {
 		const userId: string = req.userId
 
-		// if (!refreshToken)
-		// 	return res
-		// 		.status(401)
-		// 		.json({ success: false, message: 'Refresh token not found' })
 		try {
 			const user: IUser | null = await User.findOne({ _id: userId })
 
+			// Check token
 			if (!user)
-				return res
-					.status(403)
-					.json({ success: false, message: 'refreshToken not found' })
+				return res.status(403).json({
+					success: false,
+					message: process.env.MSG_REFRESH_TOKEN_NOT_FOUND,
+				})
+
+			// Get refreshToken form db
 			const refreshToken: string = user.refreshToken
-			// if (refToken !== refreshToken)
-			// 	return res
-			// 		.status(403)
-			// 		.json({ success: false, message: 'refreshToken not found' })
 
 			// Verify token
 			jwt.verify(refreshToken, process.env.REFRESH_TOKEN as Secret)
 			// Create new token, newRefreshToken
-			const tokens: IGenerateTokens = generateTokens(user)
+			const newTokens: IGenerateTokens = generateTokens(user)
 
+			// Update refreshToken
 			await User.updateOne(
 				{ _id: user._id },
-				{ refreshToken: tokens.refreshToken }
+				{ refreshToken: newTokens.refreshToken }
 			)
 			return res.status(200).json({
 				success: true,
-				message: 'Refresh Token successfully',
-				tokens,
+				message: process.env.MSG_REFRESH_TOKEN_SUCCESS,
+				tokens: newTokens,
 			})
 		} catch (error) {
 			return res.status(500).json({
 				success: false,
-				message: 'Internal Server Error',
+				message: process.env.MSG_INTERNAL_SERVER_ERROR,
 			})
 		}
 	}
@@ -204,12 +204,13 @@ class AuthController {
 			await User.updateOne({ _id: userId }, { refreshToken: null })
 			return res.status(204).json({
 				success: true,
-				message: 'Logout Successfully',
+				message: process.env.MSG_LOGGED_SUCCESS,
 			})
 		} catch (error) {
-			return res
-				.status(500)
-				.json({ success: false, message: 'Internal Server Error' })
+			return res.status(500).json({
+				success: false,
+				message: process.env.MSG_INTERNAL_SERVER_ERROR,
+			})
 		}
 	}
 }
@@ -219,13 +220,13 @@ const generateTokens = (payload: IUser): IGenerateTokens => {
 	const accessToken: string = sign(
 		{ _id, role },
 		process.env.ACCESS_TOKEN as Secret,
-		{ expiresIn: '10m' }
+		{ expiresIn: process.env.TIME_TOKEN as string }
 	)
 	// Refresh token
 	const refreshToken: string = sign(
 		{ _id, role },
 		process.env.REFRESH_TOKEN as Secret,
-		{ expiresIn: '1h' }
+		{ expiresIn: process.env.TIME_REFRESH_TOKEN as string }
 	)
 	return { accessToken, refreshToken }
 }

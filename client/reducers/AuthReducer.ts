@@ -18,7 +18,16 @@ type AuthAction = {
 	payload: IPayloadAuth
 }
 
-export const authReducer = (state: AuthState, action: AuthAction) => {
+/**
+ * Auth Reducer
+ * @param state AuthState
+ * @param action AuthAction
+ * @returns  AuthState
+ */
+export const authReducer = (
+	state: AuthState,
+	action: AuthAction
+): AuthState => {
 	switch (action.type) {
 		case SET_AUTH:
 			return {

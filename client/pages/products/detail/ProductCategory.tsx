@@ -5,6 +5,11 @@ interface productItemProps {
 	product: IProduct
 }
 
+/**
+ * Page Product Category
+ * @param { product }: productItemProps 
+ * @returns JSX.Element
+ */
 const ProductCategory = ({ product }: productItemProps) => {
 	return (
 		<Link href={`/products/detail/${product._id}`}>
