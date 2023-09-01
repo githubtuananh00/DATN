@@ -1,15 +1,15 @@
 // import { OnApproveData } from '@paypal/paypal-js'
-import { PayPalButtons } from '@paypal/react-paypal-js'
-import {
-	CreateOrderData,
-	CreateOrderActions,
-} from '@paypal/paypal-js/types/components/buttons'
 import { OrderResponseBody } from '@paypal/paypal-js/types/apis/orders'
+import {
+	CreateOrderActions,
+	CreateOrderData,
+} from '@paypal/paypal-js/types/components/buttons'
+import { PayPalButtons } from '@paypal/react-paypal-js'
 import { useCallback, useState } from 'react'
-import { IPayment, IProductQty } from '../../type'
+import { addCartAPI } from '../../api/CartAPI'
 import { addPayment } from '../../api/PaymentAPI'
 import { useCart } from '../../hooks'
-import { addCartAPI } from '../../api/CartAPI'
+import { IPayment, IProductQty } from '../../type'
 import AlertMessage, { AlertInfo } from '../layout/AlertMessage'
 
 interface IPayPal {
